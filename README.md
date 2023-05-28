@@ -7,7 +7,7 @@ All downloaded versions are saved in ```~/.godot/```
 
 ## 🛠️ Installation
 ```
-git clone <path-to-git>
+git clone https://github.com/ZelvStudio/godot-installer.git
 cd godot-installer
 chmod +x install.sh
 ./install.sh
