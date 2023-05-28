@@ -2,7 +2,8 @@
 
 import sys
 import subprocess
-from os.path import basename, splitext
+from os.path import basename, splitext, expanduser
+from os import makedirs
 
 
 assert(len(sys.argv)==2)
@@ -12,10 +13,12 @@ godot_file = sys.argv[1]
 if godot_file.endswith('.zip'):
     subprocess.run(['unzip', godot_file, '-d', '/tmp'])
     godot_file = '/tmp/' + basename(splitext(godot_file)[0])
-    print(godot_file)
 
 dest = '/usr/bin/godot'
-save_dir = '/home/gael/.godot/'
+save_dir = expanduser('~/.godot/')
+
+makedirs(save_dir,exist_ok=True)
+
 
 print(f'Installing to {dest}')
 subprocess.run(['chmod', '+x', godot_file])
