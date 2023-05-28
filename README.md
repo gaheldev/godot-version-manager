@@ -15,5 +15,5 @@ chmod +x install.sh
 
 ## Usage
 
-* Download the desired godot application (for example on godot's official website: https://godotengine.org/download/linux/)
+* Download the desired [godot application](https://godotengine.org/download/)
 * Run ```godot-install <path/to/the/downloaded/file>```
