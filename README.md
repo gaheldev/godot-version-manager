@@ -5,7 +5,7 @@ Still requires to download Godot's last version manually. \
 All downloaded versions are saved in ```~/.godot/```
 
 
-## Installation
+## 🛠️ Installation
 ```
 git clone <path-to-git> .
 cd godot-installer
@@ -13,7 +13,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## Usage
+## 📝 Usage
 
 * Download the desired [godot application](https://godotengine.org/download/)
 * Run ```godot-install <path/to/the/downloaded/file>```
