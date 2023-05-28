@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import sys
+import subprocess
+from os.path import basename, splitext
+
+
+assert(len(sys.argv)==2)
+
+godot_file = sys.argv[1]
+
+if godot_file.endswith('.zip'):
+    subprocess.run(['unzip', godot_file, '-d', '/tmp'])
+    godot_file = '/tmp/' + basename(splitext(godot_file)[0])
+    print(godot_file)
+
+dest = '/usr/bin/godot'
+save_dir = '/home/gael/.godot/'
+
+print(f'Installing to {dest}')
+subprocess.run(['chmod', '+x', godot_file])
+subprocess.run(['sudo', 'cp', godot_file, dest])
+print(f'Saving a copy to {save_dir}{basename(godot_file)}')
+subprocess.run(['mv', godot_file, save_dir])
+
