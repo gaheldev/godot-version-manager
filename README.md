@@ -1,7 +1,7 @@
 # Godot Installer (sort of)
 
 Creates a desktop shortcut for godot and provide a script to update Godot version. \
-Still requires to download Godot's last version manually. \
+Still requires to download Godot's desired version manually. \
 All downloaded versions are saved in ```~/.godot/```
 
 
