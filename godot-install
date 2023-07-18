@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
 import sys
-import subprocess
 import os
-from os.path import basename, splitext, expanduser
+import subprocess
 import argparse
+
+from os.path import basename, splitext, expanduser
+from collections import namedtuple
+
 
 INSTALL_PATH = '/usr/bin/godot'
 SAVE_DIR = expanduser('~/.godot/')
@@ -47,7 +50,9 @@ def get_current_version() -> str:
 
 
 def get_version(app_path: str) -> str:
-    return subprocess.check_output([app_path, '--version']).decode('utf-8').strip()
+    return subprocess.check_output([app_path, '--version'])\
+                     .decode('utf-8')\
+                     .strip()
 
 
 def managed_apps() -> list[str]:
@@ -68,9 +73,13 @@ def selection_display(version: str) -> str:
 
 
 def display_version_choice() -> list[tuple]:
-    choices = [(i, get_version(app), app) for i, app in enumerate(managed_apps())]
-    to_display = [f'{selection_display(choice[1])}{choice[0]}:\t{choice[1]}'
+    Choice = namedtuple('Choice', ['id','version','path'])
+    choices = [Choice(i, get_version(app), app)
+               for i, app in enumerate(managed_apps())]
+
+    to_display = [f'{selection_display(choice.version)}{choice.id}:\t{choice.version}'
                   for choice in choices]
+
     print('\n'.join(to_display))
     return choices
 
@@ -79,6 +88,7 @@ def display_versions() -> list[str]:
     """List existing Godot applications"""
     to_display = [f'{selection_display(version)}{version}'
                   for version in versions()]
+
     print('\n'.join(to_display))
 
 
