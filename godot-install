@@ -15,6 +15,10 @@ SAVE_DIR = expanduser('~/.godot/')
 os.makedirs(SAVE_DIR,exist_ok=True)
 
 
+
+Choice = namedtuple('Choice', ['id','version','path'])
+
+
 def extract_archive(file: str) -> str:
     """Extracts Godot archive to /tmp and return extracted file path"""
     subprocess.run(['unzip', file, '-d', '/tmp'])
@@ -73,7 +77,6 @@ def selection_display(version: str) -> str:
 
 
 def display_version_choice() -> list[tuple]:
-    Choice = namedtuple('Choice', ['id','version','path'])
     choices = [Choice(i, get_version(app), app)
                for i, app in enumerate(managed_apps())]
 
@@ -91,6 +94,9 @@ def display_versions() -> list[str]:
 
     print('\n'.join(to_display))
 
+def abort():
+    print('Aborting...')
+    exit()
 
 
 
@@ -112,6 +118,10 @@ exclusive_group.add_argument('-u', '--use', action='store_true',
 exclusive_group.add_argument('-a', '--add', metavar=('archive'),
                     help='add Godot app to the managed versions without installing (can be a zip file)')
 
+# Delete Godot version
+exclusive_group.add_argument('-d', '--delete', action='store_true',
+                             help='delete Godot version (remain used by the system if currently in use)')
+
 # Optional listing of available Godot version
 exclusive_group.add_argument('-l', '--list', action='store_true',
                     help=f'list available Godot apps in {SAVE_DIR}')
@@ -131,18 +141,37 @@ if args.use:
     choices = display_version_choice()
     # ask number to use
     chosen_number = int(input('Enter the choosen number: '))
-    if 0 <= chosen_number <= len(choices):
-        chosen_app = choices[chosen_number][2]
-        chosen_version = choices[chosen_number][1]
-        install(chosen_app)
-        print(f'Using {chosen_version}')
-    else:
+    if not 0 <= chosen_number < len(choices):
         print('Incorrect number')
-        print('aborting...')
+        abort()
+
+    chosen_app = choices[chosen_number].path
+    chosen_version = choices[chosen_number].version
+    install(chosen_app)
+    print(f'Using {chosen_version}')
     
 
 if args.add:
     add_archive(args.add)
+
+
+if args.delete:
+    # print versions with an associated number
+    choices = display_version_choice()
+    # ask number to use
+    chosen_number = int(input('Enter the choosen number: '))
+    if not 0 <= chosen_number < len(choices):
+        print('Incorrect number')
+        abort()
+
+    chosen_app = choices[chosen_number].path
+    chosen_version = choices[chosen_number].version
+    match input(f'Are you sure you want to delete {chosen_version}? [y/N]: '):
+        case 'y':
+            os.remove(chosen_app)
+            print(f'Deleted {chosen_version}')
+        case other:
+            abort()
 
 
 if args.install:
