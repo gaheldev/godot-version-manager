@@ -5,24 +5,32 @@ import subprocess
 from os.path import basename, splitext, expanduser
 from os import makedirs
 
+INSTALL_DIR = '/usr/bin/godot'
+SAVE_DIR = expanduser('~/.godot/')
+
+makedirs(SAVE_DIR,exist_ok=True)
+
+
+def extract_archive(file: str) -> str:
+    """ Extracts Godot archive to /tmp and return extracted file path"""
+    subprocess.run(['unzip', file, '-d', '/tmp'])
+    return '/tmp/' + basename(splitext(file)[0])
+
+
+
 
 assert(len(sys.argv)==2)
 
-godot_file = sys.argv[1]
+godot_archive = sys.argv[1]
 
-if godot_file.endswith('.zip'):
-    subprocess.run(['unzip', godot_file, '-d', '/tmp'])
-    godot_file = '/tmp/' + basename(splitext(godot_file)[0])
-
-dest = '/usr/bin/godot'
-save_dir = expanduser('~/.godot/')
-
-makedirs(save_dir,exist_ok=True)
+if godot_archive.endswith('.zip'):
+    godot_file = extract_archive(godot_archive)
 
 
-print(f'Installing to {dest}')
+print(f'Installing to {INSTALL_DIR}')
 subprocess.run(['chmod', '+x', godot_file])
-subprocess.run(['sudo', 'cp', godot_file, dest])
-print(f'Saving a copy to {save_dir}{basename(godot_file)}')
-subprocess.run(['mv', godot_file, save_dir])
+subprocess.run(['sudo', 'cp', godot_file, INSTALL_DIR])
 
+
+print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
+subprocess.run(['mv', godot_file, SAVE_DIR])
