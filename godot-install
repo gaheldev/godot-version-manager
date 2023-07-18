@@ -19,10 +19,18 @@ def extract_archive(file: str) -> str:
 
 
 def add_archive(godot_file: str) -> str:
+    """Add Godot app to the managed versions
+
+    If the godot_file is a zip archive downloaded from Godot website,
+    it is extracted first
+    """
+    # extract the zip archive if necessary
     if godot_file.endswith('.zip'):
         godot_file = extract_archive(godot_file)
+
     # make Godot executable
     subprocess.run(['chmod', '+x', godot_file])
+
     # add to the list of managed versions
     print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
     subprocess.run(['mv', godot_file, SAVE_DIR])
@@ -30,6 +38,7 @@ def add_archive(godot_file: str) -> str:
 
 
 def install(godot_file: str):
+    """Make godot_file the system Godot (from CLI and desktop)"""
     subprocess.run(['sudo', 'cp', godot_file, INSTALL_PATH])
 
 
@@ -42,10 +51,12 @@ def get_version(app_path: str) -> str:
 
 
 def managed_apps() -> list[str]:
+    """Return paths of managed Godot apps"""
     return [os.path.join(SAVE_DIR,app) for app in os.listdir(SAVE_DIR)]
 
 
 def versions() -> list[str]:
+    """Return list of managed Godot versions"""
     return [get_version(app) for app in managed_apps()]
 
 
