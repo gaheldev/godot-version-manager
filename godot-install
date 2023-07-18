@@ -2,35 +2,71 @@
 
 import sys
 import subprocess
+import os
 from os.path import basename, splitext, expanduser
-from os import makedirs
+import argparse
 
 INSTALL_DIR = '/usr/bin/godot'
 SAVE_DIR = expanduser('~/.godot/')
 
-makedirs(SAVE_DIR,exist_ok=True)
+os.makedirs(SAVE_DIR,exist_ok=True)
 
 
 def extract_archive(file: str) -> str:
-    """ Extracts Godot archive to /tmp and return extracted file path"""
+    """Extracts Godot archive to /tmp and return extracted file path"""
     subprocess.run(['unzip', file, '-d', '/tmp'])
     return '/tmp/' + basename(splitext(file)[0])
 
+def get_current_version() -> str:
+    return get_version('godot')
+
+def get_version(app_path: str) -> str:
+    return subprocess.check_output([app_path, '--version']).decode('utf-8').strip()
 
 
+def list_versions() -> list[str]:
+    """List existing Godot applications"""
+    saved_versions = os.listdir(SAVE_DIR)
+    displayed_list = []
+    for app in saved_versions:
+        app_version = get_version(os.path.join(SAVE_DIR,app))
+        if app_version == get_current_version():
+            app_version = f'-> {app_version}'
+        else:
+            app_version = f'   {app_version}'
+        displayed_list.append(app_version)
+    print('\n'.join(displayed_list))
 
-assert(len(sys.argv)==2)
 
-godot_archive = sys.argv[1]
+# Instantiate the parser
+parser = argparse.ArgumentParser(description='Install Godot and manage versions')
 
-if godot_archive.endswith('.zip'):
-    godot_file = extract_archive(godot_archive)
+# Make arguments mutually exclusive
+exclusive_group = parser.add_mutually_exclusive_group()
 
+# Optional archive file
+exclusive_group.add_argument('-i', '--install', metavar=('archive'),
+                    help='install Godot app (can be a zip file)')
 
-print(f'Installing to {INSTALL_DIR}')
-subprocess.run(['chmod', '+x', godot_file])
-subprocess.run(['sudo', 'cp', godot_file, INSTALL_DIR])
+# Optional listing of available Godot version
+exclusive_group.add_argument('-l', '--list', action='store_true',
+                    help=f'list available Godot apps in {SAVE_DIR}')
 
+# Parse arguments
+args = parser.parse_args()
 
-print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
-subprocess.run(['mv', godot_file, SAVE_DIR])
+if args.list:
+    list_versions()
+    exit()
+
+if args.install:
+    godot_file = args.install
+    if godot_file.endswith('.zip'):
+        godot_file = extract_archive(godot_file)
+
+    print(f'Installing to {INSTALL_DIR}')
+    subprocess.run(['chmod', '+x', godot_file])
+    subprocess.run(['sudo', 'cp', godot_file, INSTALL_DIR])
+
+    print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
+    subprocess.run(['mv', godot_file, SAVE_DIR])
