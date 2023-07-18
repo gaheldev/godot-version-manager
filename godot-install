@@ -77,6 +77,10 @@ def selection_display(version: str) -> str:
 
 
 def display_version_choice() -> list[tuple]:
+    """Display a list of managed Godot versions with an associated number
+
+    Return a Choice(id,version,app_path) named tuple
+    """
     choices = [Choice(i, get_version(app), app)
                for i, app in enumerate(managed_apps())]
 
