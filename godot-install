@@ -6,7 +6,7 @@ import os
 from os.path import basename, splitext, expanduser
 import argparse
 
-INSTALL_DIR = '/usr/bin/godot'
+INSTALL_PATH = '/usr/bin/godot'
 SAVE_DIR = expanduser('~/.godot/')
 
 os.makedirs(SAVE_DIR,exist_ok=True)
@@ -29,6 +29,10 @@ def add_archive(godot_file: str) -> str:
     return os.path.join(SAVE_DIR,basename(godot_file))
 
 
+def install(godot_file: str):
+    subprocess.run(['sudo', 'cp', godot_file, INSTALL_PATH])
+
+
 def get_current_version() -> str:
     return get_version('godot')
 
@@ -37,18 +41,34 @@ def get_version(app_path: str) -> str:
     return subprocess.check_output([app_path, '--version']).decode('utf-8').strip()
 
 
-def list_versions() -> list[str]:
+def managed_apps() -> list[str]:
+    return [os.path.join(SAVE_DIR,app) for app in os.listdir(SAVE_DIR)]
+
+
+def versions() -> list[str]:
+    return [get_version(app) for app in managed_apps()]
+
+
+def selection_display(version: str) -> str:
+    if version == get_current_version():
+        return '-> '
+    else:
+        return '   '
+
+
+def display_version_choice() -> list[tuple]:
+    choices = [(i, get_version(app), app) for i, app in enumerate(managed_apps())]
+    to_display = [f'{selection_display(choice[1])}{choice[0]}:\t{choice[1]}'
+                  for choice in choices]
+    print('\n'.join(to_display))
+    return choices
+
+
+def display_versions() -> list[str]:
     """List existing Godot applications"""
-    saved_versions = os.listdir(SAVE_DIR)
-    displayed_list = []
-    for app in saved_versions:
-        app_version = get_version(os.path.join(SAVE_DIR,app))
-        if app_version == get_current_version():
-            app_version = f'-> {app_version}'
-        else:
-            app_version = f'   {app_version}'
-        displayed_list.append(app_version)
-    print('\n'.join(displayed_list))
+    to_display = [f'{selection_display(version)}{version}'
+                  for version in versions()]
+    print('\n'.join(to_display))
 
 
 
@@ -62,6 +82,10 @@ exclusive_group = parser.add_mutually_exclusive_group()
 # Install archive file
 exclusive_group.add_argument('-i', '--install', metavar=('archive'),
                     help='install Godot app (can be a zip file)')
+
+# Change Godot version
+exclusive_group.add_argument('-u', '--use', action='store_true',
+                    help='pick the Godot version to use')
 
 # Add archive file without installing
 exclusive_group.add_argument('-a', '--add', metavar=('archive'),
@@ -78,14 +102,30 @@ args = parser.parse_args()
 
 
 if args.list:
-    list_versions()
-    exit()
+    display_versions()
+
+
+if args.use:
+    # print versions with an associated number
+    choices = display_version_choice()
+    # ask number to use
+    chosen_number = int(input('Enter the choosen number: '))
+    if 0 <= chosen_number <= len(choices):
+        chosen_app = choices[chosen_number][2]
+        chosen_version = choices[chosen_number][1]
+        install(chosen_app)
+        print(f'Using {chosen_version}')
+    else:
+        print('Incorrect number')
+        print('aborting...')
+    
 
 if args.add:
     add_archive(args.add)
 
+
 if args.install:
     godot_file = add_archive(args.install)
 
-    print(f'Installing to {INSTALL_DIR}')
-    subprocess.run(['sudo', 'cp', godot_file, INSTALL_DIR])
+    print(f'Installing to {INSTALL_PATH}')
+    install(godot_file)
