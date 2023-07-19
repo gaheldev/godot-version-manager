@@ -76,7 +76,7 @@ def selection_display(version: str) -> str:
         return '   '
 
 
-def display_version_choice() -> list[tuple]:
+def display_version_choice() -> list[Choice]:
     """Display a list of managed Godot versions with an associated number
 
     Return a Choice(id,version,app_path) named tuple
@@ -122,7 +122,7 @@ def pick_version() -> tuple:
     return chosen_app, chosen_version
 
 
-def display_versions() -> list[str]:
+def display_versions():
     """List existing Godot applications"""
     to_display = [f'{selection_display(version)}{version}'
                   for version in versions()]
