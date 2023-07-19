@@ -91,6 +91,20 @@ def display_version_choice() -> list[tuple]:
     return choices
 
 
+def pick_version() -> tuple:
+    # print versions with an associated number
+    choices = display_version_choice()
+    # ask which number to use
+    chosen_number = int(input('Enter the choosen number: '))
+    if not 0 <= chosen_number < len(choices):
+        print('Incorrect number')
+        abort()
+
+    chosen_app = choices[chosen_number].path
+    chosen_version = choices[chosen_number].version
+    return chosen_app, chosen_version
+
+
 def display_versions() -> list[str]:
     """List existing Godot applications"""
     to_display = [f'{selection_display(version)}{version}'
@@ -143,32 +157,16 @@ args = parser.parse_args()
 if args.list:
     display_versions()
 
-if args.start:
-    # print versions with an associated number
-    choices = display_version_choice()
-    # ask number to use
-    chosen_number = int(input('Enter the choosen number: '))
-    if not 0 <= chosen_number < len(choices):
-        print('Incorrect number')
-        abort()
 
-    chosen_app = choices[chosen_number].path
-    chosen_version = choices[chosen_number].version
+if args.start:
+    chosen_app, chosen_version = pick_version()
     print(f'Launching {chosen_version}')
     p = sp.Popen(chosen_app, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
     exit()
 
-if args.use:
-    # print versions with an associated number
-    choices = display_version_choice()
-    # ask number to use
-    chosen_number = int(input('Enter the choosen number: '))
-    if not 0 <= chosen_number < len(choices):
-        print('Incorrect number')
-        abort()
 
-    chosen_app = choices[chosen_number].path
-    chosen_version = choices[chosen_number].version
+if args.use:
+    chosen_app, chosen_version = pick_version()
     install(chosen_app)
     print(f'Using {chosen_version}')
     
@@ -178,16 +176,7 @@ if args.add:
 
 
 if args.delete:
-    # print versions with an associated number
-    choices = display_version_choice()
-    # ask number to use
-    chosen_number = int(input('Enter the choosen number: '))
-    if not 0 <= chosen_number < len(choices):
-        print('Incorrect number')
-        abort()
-
-    chosen_app = choices[chosen_number].path
-    chosen_version = choices[chosen_number].version
+    chosen_app, chosen_version = pick_version()
     match input(f'Are you sure you want to delete {chosen_version}? [y/N]: '):
         case 'y':
             os.remove(chosen_app)
