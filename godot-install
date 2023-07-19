@@ -105,26 +105,26 @@ def abort():
 
 
 # Instantiate the parser
-parser = argparse.ArgumentParser(description='Install Godot and manage versions')
+parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
 
 # Make arguments mutually exclusive
 exclusive_group = parser.add_mutually_exclusive_group()
 
 # Install archive file
 exclusive_group.add_argument('-i', '--install', metavar=('ARCHIVE'),
-                    help='install Godot app (can be a zip file)')
+                    help='install Godot system wise from binary or zip archive')
 
 # Change Godot version
 exclusive_group.add_argument('-u', '--use', action='store_true',
-                    help='pick the Godot version to use')
+                    help='pick the Godot version to use system wise')
 
 # Add archive file without installing
 exclusive_group.add_argument('-a', '--add', metavar=('ARCHIVE'),
-                    help='add Godot app to the managed versions without installing (can be a zip file)')
+                    help='add managed version from binary or zip archive without installing')
 
 # Delete Godot version
 exclusive_group.add_argument('-d', '--delete', action='store_true',
-                             help='delete Godot version (remain used by the system if currently in use)')
+                             help='delete Godot version (remain installed system wise if currently in use)')
 
 # Optional listing of available Godot version
 exclusive_group.add_argument('-l', '--list', action='store_true',
