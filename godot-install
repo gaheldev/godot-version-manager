@@ -2,7 +2,7 @@
 
 import sys
 import os
-import subprocess
+import subprocess as sp
 import argparse
 
 from os.path import basename, splitext, expanduser
@@ -21,7 +21,7 @@ Choice = namedtuple('Choice', ['id','version','path'])
 
 def extract_archive(file: str) -> str:
     """Extracts Godot archive to /tmp and return extracted file path"""
-    subprocess.run(['unzip', file, '-d', '/tmp'])
+    sp.run(['unzip', file, '-d', '/tmp'])
     return '/tmp/' + basename(splitext(file)[0])
 
 
@@ -36,17 +36,17 @@ def add_archive(godot_file: str) -> str:
         godot_file = extract_archive(godot_file)
 
     # make Godot executable
-    subprocess.run(['chmod', '+x', godot_file])
+    sp.run(['chmod', '+x', godot_file])
 
     # add to the list of managed versions
     print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
-    subprocess.run(['mv', godot_file, SAVE_DIR])
+    sp.run(['mv', godot_file, SAVE_DIR])
     return os.path.join(SAVE_DIR,basename(godot_file))
 
 
 def install(godot_file: str):
     """Make godot_file the system Godot (from CLI and desktop)"""
-    subprocess.run(['sudo', 'cp', godot_file, INSTALL_PATH])
+    sp.run(['sudo', 'cp', godot_file, INSTALL_PATH])
 
 
 def get_current_version() -> str:
@@ -54,9 +54,9 @@ def get_current_version() -> str:
 
 
 def get_version(app_path: str) -> str:
-    return subprocess.check_output([app_path, '--version'])\
-                     .decode('utf-8')\
-                     .strip()
+    return sp.check_output([app_path, '--version'])\
+             .decode('utf-8')\
+             .strip()
 
 
 def managed_apps() -> list[str]:
@@ -111,7 +111,7 @@ parser = argparse.ArgumentParser(description='Install Godot and manage versions'
 exclusive_group = parser.add_mutually_exclusive_group()
 
 # Install archive file
-exclusive_group.add_argument('-i', '--install', metavar=('archive'),
+exclusive_group.add_argument('-i', '--install', metavar=('ARCHIVE'),
                     help='install Godot app (can be a zip file)')
 
 # Change Godot version
@@ -119,7 +119,7 @@ exclusive_group.add_argument('-u', '--use', action='store_true',
                     help='pick the Godot version to use')
 
 # Add archive file without installing
-exclusive_group.add_argument('-a', '--add', metavar=('archive'),
+exclusive_group.add_argument('-a', '--add', metavar=('ARCHIVE'),
                     help='add Godot app to the managed versions without installing (can be a zip file)')
 
 # Delete Godot version
@@ -128,7 +128,11 @@ exclusive_group.add_argument('-d', '--delete', action='store_true',
 
 # Optional listing of available Godot version
 exclusive_group.add_argument('-l', '--list', action='store_true',
-                    help=f'list available Godot apps in {SAVE_DIR}')
+                    help=f'list available Godot versions')
+
+# Launch Godot from a list of available versions
+exclusive_group.add_argument('-s', '--start', action='store_true',
+                    help='launch Godot from the list of available versions')
 
 # Parse arguments
 args = parser.parse_args()
@@ -139,6 +143,20 @@ args = parser.parse_args()
 if args.list:
     display_versions()
 
+if args.start:
+    # print versions with an associated number
+    choices = display_version_choice()
+    # ask number to use
+    chosen_number = int(input('Enter the choosen number: '))
+    if not 0 <= chosen_number < len(choices):
+        print('Incorrect number')
+        abort()
+
+    chosen_app = choices[chosen_number].path
+    chosen_version = choices[chosen_number].version
+    print(f'Launching {chosen_version}')
+    p = sp.Popen(chosen_app, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+    exit()
 
 if args.use:
     # print versions with an associated number
