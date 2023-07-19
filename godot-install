@@ -155,6 +155,11 @@ exclusive_group.add_argument('-s', '--start', action='store_true',
 # Parse arguments
 args = parser.parse_args()
 
+# Display help message when no args are passed.
+if len(sys.argv)==1:
+    parser.print_help()
+    exit()
+
 
 
 
