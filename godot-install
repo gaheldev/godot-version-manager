@@ -92,6 +92,10 @@ def display_version_choice() -> list[tuple]:
 
 
 def pick_version() -> tuple:
+    """Pick a Godot version from the list of managed versions
+
+    Return the path to the corresponding Godot binary and the chosen version
+    """
     # print versions with an associated number
     choices = display_version_choice()
     # ask which number to use
