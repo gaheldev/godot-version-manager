@@ -162,7 +162,6 @@ if args.start:
     chosen_app, chosen_version = pick_version()
     print(f'Launching {chosen_version}')
     p = sp.Popen(chosen_app, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-    exit()
 
 
 if args.use:
