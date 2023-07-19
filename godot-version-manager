@@ -98,12 +98,25 @@ def pick_version() -> tuple:
     """
     # print versions with an associated number
     choices = display_version_choice()
+
     # ask which number to use
-    chosen_number = int(input('Enter the choosen number: '))
+    try:
+        usr_input = input('Enter the choosen number: ')
+    except KeyboardInterrupt:
+        print() # print on new line
+        exit()
+
+    try:
+        chosen_number = int(usr_input)
+    except ValueError:
+        print('Incorrect input')
+        abort()
+
     if not 0 <= chosen_number < len(choices):
         print('Incorrect number')
         abort()
 
+    # return the chosen Godot version and its corresponding app path
     chosen_app = choices[chosen_number].path
     chosen_version = choices[chosen_number].version
     return chosen_app, chosen_version
