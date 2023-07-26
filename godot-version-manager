@@ -54,7 +54,8 @@ def get_current_version() -> str:
 
 
 def get_version(app_path: str) -> str:
-    return sp.check_output([app_path, '--version'])\
+    # check=True to check for exit error
+    return sp.run([app_path, '--version'], check=False, stdout=sp.PIPE).stdout\
              .decode('utf-8')\
              .strip()
 
