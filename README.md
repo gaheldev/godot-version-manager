@@ -1,4 +1,4 @@
-# Godot Version Manager (sort of)
+# Godot Version Manager for Linux 🐧
 
 Creates a desktop shortcut for godot and provides a script to update Godot version. \
 Still requires to download Godot's desired version manually. \
