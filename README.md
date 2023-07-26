@@ -15,6 +15,8 @@ chmod +x install.sh
 
 ## 📝 Usage
 
-* Download the desired [godot application](https://godotengine.org/download/)
-* Run ```godot-version-manager -i <path/to/the/downloaded/file>``` to install the archive
-* Run ```godot-version-manager -h``` for more informations
+Install a new version by downloading the desired [godot application](https://godotengine.org/download/) and running ```godot-version-manager -i <path/to/the/downloaded/file>``` on the zip archive or binary.
+
+Change the currently used Godot version to one of the managed version by running ```godot-version-manager -u```
+
+Run ```godot-version-manager -h``` for more informations
