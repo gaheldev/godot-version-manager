@@ -62,7 +62,8 @@ def get_version(app_path: str) -> str:
 
 def managed_apps() -> list[str]:
     """Return paths of managed Godot apps"""
-    return [os.path.join(SAVE_DIR,app) for app in os.listdir(SAVE_DIR)]
+    managed_paths = [os.path.join(SAVE_DIR,app) for app in os.listdir(SAVE_DIR)]
+    return sorted(managed_paths, reverse=True)
 
 
 def versions() -> list[str]:
