@@ -49,6 +49,13 @@ def install(godot_file: str):
     sp.run(['sudo', 'cp', godot_file, INSTALL_PATH])
 
 
+def local_install(godot_file: str):
+    """Make godot_file the local Godot version in working directory"""
+    version = get_version(godot_file)
+    with open('.gvm', 'w') as version_file:
+        version_file.write(version)
+
+
 def get_current_version() -> str:
     return get_version('godot')
 
@@ -76,6 +83,18 @@ def selection_display(version: str) -> str:
         return '-> '
     else:
         return '   '
+
+
+def get_app_from_version(version: str) -> str:
+    """Return app path from version
+
+    TODO: refactor so version are stored in an object
+    """
+    apps = [app for app in managed_apps()]
+    for app in apps:
+        if get_version(app) == version:
+            return app
+    raise LookupError(f'{version} is not installed')
 
 
 def display_version_choice() -> list[Choice]:
@@ -151,6 +170,10 @@ exclusive_group.add_argument('-i', '--install', metavar=('ARCHIVE'),
 exclusive_group.add_argument('-u', '--use', action='store_true',
                     help='pick the Godot version to use system wise')
 
+# Set up local Godot version
+exclusive_group.add_argument('-U', '--use-local', action='store_true',
+                    help='pick the Godot version to use in the current folder')
+
 # Add archive file without installing
 exclusive_group.add_argument('-a', '--add', metavar=('ARCHIVE'),
                     help='add managed version from binary or zip archive without installing')
@@ -166,6 +189,10 @@ exclusive_group.add_argument('-l', '--list', action='store_true',
 # Launch Godot from a list of available versions
 exclusive_group.add_argument('-s', '--start', action='store_true',
                     help='launch Godot from the list of available versions')
+
+# Launch local Godot version from current working directory .gvm file
+exclusive_group.add_argument('-S', '--start-local', action='store_true',
+                    help='launch local Godot version')
 
 # Parse arguments
 args = parser.parse_args()
@@ -188,11 +215,25 @@ if args.start:
     p = sp.Popen(chosen_app, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
 
+if args.start_local:
+    with open('.gvm') as version_file:
+        local_version = version_file.read()
+    app = get_app_from_version(local_version)
+    print(f'Launching {local_version}')
+    p = sp.Popen([app, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+
+
 if args.use:
     chosen_app, chosen_version = pick_version()
     install(chosen_app)
     print(f'Using {chosen_version}')
-    
+
+
+if args.use_local:
+    chosen_app, chosen_version = pick_version()
+    local_install(chosen_app)
+    print(f'Using {chosen_version} in current folder')
+
 
 if args.add:
     add_archive(args.add)
