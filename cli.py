@@ -1,5 +1,6 @@
 import sys
 import argparse
+from collections import namedtuple
 
 import manager
 from helpers import abort
@@ -66,13 +67,14 @@ def selection_display(version: str) -> str:
 
 
 
-def display_version_choice() -> list[manager.Choice]:
+Choice = namedtuple('Choice', 'id version')
+
+def _display_version_choice(app_manager: manager.AppManager) -> list[Choice]:
     """Display a list of managed Godot versions with an associated number
 
-    Return a Choice(id,version,app_path) named tuple
+       Return a Choice(id,version) named tuple
     """
-    choices = [manager.Choice(i, manager.get_version(app), app)
-               for i, app in enumerate(manager.managed_apps())]
+    choices = [Choice(i, version) for i, version in enumerate(app_manager.versions)]
 
     to_display = [f'{selection_display(choice.version)}{choice.id}:\t{choice.version}'
                   for choice in choices]
@@ -82,13 +84,13 @@ def display_version_choice() -> list[manager.Choice]:
 
 
 
-def pick_version() -> tuple:
+def pick_version(app_manager: manager.AppManager) -> manager.GodotApp:
     """Pick a Godot version from the list of managed versions
 
     Return the path to the corresponding Godot binary and the chosen version
     """
     # print versions with an associated number
-    choices = display_version_choice()
+    choices = _display_version_choice(app_manager)
 
     # ask which number to use
     try:
@@ -107,17 +109,14 @@ def pick_version() -> tuple:
         print('Incorrect number')
         abort()
 
-    # return the chosen Godot version and its corresponding app path
-    chosen_app = choices[chosen_number].path
-    chosen_version = choices[chosen_number].version
-    return chosen_app, chosen_version
+    return app_manager.get_app_from_version(choices[chosen_number].version)
 
 
 
-def display_versions():
+def display_versions(app_manager: manager.AppManager):
     """List existing Godot applications"""
     to_display = [f'{selection_display(version)}{version}'
-                  for version in manager.versions()]
+                  for version in app_manager.versions]
 
     print('\n'.join(to_display))
 
