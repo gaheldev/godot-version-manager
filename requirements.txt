@@ -1,0 +1,11 @@
+beautifulsoup4==4.12.2
+bs4==0.0.1
+certifi==2023.7.22
+charset-normalizer==3.2.0
+greenlet==2.0.2
+idna==3.4
+msgpack==1.0.6
+requests==2.31.0
+soupsieve==2.5
+urllib3==2.0.5
+wget==3.2

@@ -10,6 +10,7 @@ from helpers import abort
 
 # Instantiate the parser
 parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
+subparsers = parser.add_subparsers(dest='subparser_name')
 
 # Make arguments mutually exclusive
 exclusive_group = parser.add_mutually_exclusive_group()
@@ -45,6 +46,12 @@ exclusive_group.add_argument('-s', '--start', action='store_true',
 # Launch local Godot version from current working directory .gvm file
 exclusive_group.add_argument('-S', '--start-local', action='store_true',
                     help='launch local Godot version')
+
+# Download godot version
+parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
+parser_dl.add_argument('version', help='Godot version to download (e.g. 3.4, 4.1.1, ...)')
+parser_dl.add_argument('--system', default='linux', metavar=('SYSTEM'), help='system build ( linux | windows )')
+parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system architecture ( 32 | 64 )')
 
 
 def parse_args():

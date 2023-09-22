@@ -57,3 +57,8 @@ if args.delete:
 
 if args.install:
     app_manager.install(args.install)
+
+
+if args.subparser_name == 'download':
+    import downloader as d
+    d.download_app(args.version, args.system, args.arch)
