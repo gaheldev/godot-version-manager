@@ -1,5 +1,11 @@
+# virtualenv
 .env
 .env.leave
 .venv/
+
+# pyinstaller build files
+build/
+dist/
+*.spec
 
 __pycache__/
