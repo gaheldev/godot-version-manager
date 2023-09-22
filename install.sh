@@ -1,3 +1,4 @@
+pip install -r requirements.txt
 pyinstaller -F main.py -n godot-version-manager
 sudo cp dist/godot-version-manager /usr/local/bin/
 sudo cp godot.png /usr/share/pixmaps/
