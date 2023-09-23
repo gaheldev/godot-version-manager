@@ -2,10 +2,11 @@
 # PYTHON_ARGCOMPLETE_OK
 
 import cli
-from manager import AppManager
+from manager import AppManager, GodotApp, SAVE_DIR
 from helpers import abort, gvmfile_in_cwd
 from sys import exit
 from downloader import download_app
+import os
 
 
 
@@ -47,8 +48,8 @@ if args.subparser_name == 'add':
 
 
 if args.subparser_name == 'remove':
-    if args.app:
-        chosen_app = os.path.join(app_manager.SAVE_DIR, args.app)
+    if args.APP:
+        chosen_app = GodotApp(os.path.join(SAVE_DIR, args.APP))
     else:
         chosen_app = cli.pick_version(app_manager)
 
