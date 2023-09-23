@@ -1,5 +1,6 @@
 import sys
 import argparse
+import argcomplete
 from collections import namedtuple
 
 import manager
@@ -65,6 +66,7 @@ parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system ar
 
 
 def parse_args():
+    argcomplete.autocomplete(main_parser)
     return main_parser.parse_args()
 
 def print_help():

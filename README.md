@@ -14,10 +14,17 @@ All downloaded versions are saved in ```~/.godot/```
 
 This has been developped with `python3.11`, it does not work with older versions of Python 3. If necessary, install it from your package manager as well as `pip` for Python 3.
 
+The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
+
+```bash
+# on Ubuntu
+sudo apt install python3-argcomplete
+sudo activate-global-python-argcomplete
+```
 
 #### Clone git repo
 
-```
+```bash
 git clone https://github.com/gaheldev/godot-version-manager.git
 cd godot-version-manager
 ```
@@ -27,7 +34,7 @@ cd godot-version-manager
 We use virtualenv to create an environment with controlled python package versions. 
 
 
-```
+```bash
 pip install virtualenv
 virtualenv venv
 source venv/bin/activate
@@ -38,7 +45,7 @@ Run `deactivate` to deactivate the virtualenv.
 
 #### Install godot-version-manager on your system
 
-```
+```bash
 chmod +x install.sh
 ./install.sh
 ```
@@ -51,7 +58,7 @@ chmod +x install.sh
 ### Update Godot
 
 Download the desired [godot application](https://godotengine.org/download/) and run
-```
+```bash
 godot-version-manager -i <path/to/the/downloaded/file>
 ```
 
@@ -60,7 +67,7 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 ### Use an already installed Godot version
 
-```
+```bash
 godot-version-manager -u
 ```
 
