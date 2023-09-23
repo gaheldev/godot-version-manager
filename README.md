@@ -59,7 +59,7 @@ chmod +x install.sh
 
 Download the desired [godot application](https://godotengine.org/download/) and run
 ```bash
-godot-version-manager install <path/to/the/downloaded/file>
+godot-version-manager install --from-file <path/to/the/downloaded/file>
 ```
 
 Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.
