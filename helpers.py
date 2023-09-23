@@ -1,5 +1,6 @@
 import subprocess as sp
 from os.path import basename, splitext, isfile, join
+from sys import exit
 
 
 def extract_archive(file: str) -> str:

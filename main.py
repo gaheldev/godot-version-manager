@@ -4,6 +4,7 @@
 import cli
 from manager import AppManager
 from helpers import abort, gvmfile_in_cwd
+from sys import exit
 from downloader import download_app
 
 
