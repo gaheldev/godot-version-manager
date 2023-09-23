@@ -9,8 +9,8 @@ from helpers import abort
 
 
 # Instantiate the parser
-parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
-subparsers = parser.add_subparsers(dest='subparser_name')
+main_parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
+subparsers = main_parser.add_subparsers(dest='subparser_name')
 
 
 
@@ -42,6 +42,9 @@ parser_del = subparsers.add_parser('remove', help='delete Godot version (remain 
 # Optional listing of available Godot version
 parser_list = subparsers.add_parser('list', help=f'list available Godot versions')
 
+main_parser.add_argument('-l', '--list', action='store_true',
+                         help=f'list available Godot versions')
+
 
 # Start Godot
 parser_run = subparsers.add_parser('run', help='launch godot (defaults to --local if .gvm file exists in current working directory)')
@@ -62,10 +65,10 @@ parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system ar
 
 
 def parse_args():
-    return parser.parse_args()
+    return main_parser.parse_args()
 
 def print_help():
-    parser.print_help()
+    main_parser.print_help()
 
 def has_arguments() -> bool:
     return len(sys.argv)!=1

@@ -20,8 +20,9 @@ if not cli.has_arguments():
 app_manager = AppManager()
 
 
-if args.subparser_name == 'list':
+if args.list or args.subparser_name == 'list':
     cli.display_versions(app_manager)
+    exit()
 
 
 if args.subparser_name == 'run':
