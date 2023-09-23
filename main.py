@@ -52,7 +52,10 @@ if args.subparser_name == 'remove':
 
 
 if args.subparser_name == 'install':
-    app_manager.install(args.file)
+    if args.file:
+        app_manager.install(args.file)
+    else:
+        cli.print_help()
 
 
 if args.subparser_name == 'download':
