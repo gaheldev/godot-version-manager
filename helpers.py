@@ -3,10 +3,10 @@ from os.path import basename, splitext, isfile, join
 from sys import exit
 
 
-def extract_archive(file: str) -> str:
+def extract_archive(file: str, to_dir: str) -> str:
     """Extracts Godot archive to /tmp and return extracted file path"""
-    sp.run(['unzip', file, '-d', '/tmp'])
-    return '/tmp/' + basename(splitext(file)[0])
+    sp.run(['unzip', file, '-d', to_dir])
+    return join(to_dir, basename(splitext(file)[0]))
 
 
 def abort():

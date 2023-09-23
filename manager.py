@@ -11,6 +11,7 @@ from downloader import download_app
 
 INSTALL_PATH = '/usr/bin/godot'
 SAVE_DIR = expanduser('~/.godot/')
+TMP = '/tmp/'
 
 os.makedirs(SAVE_DIR,exist_ok=True)
 
@@ -94,14 +95,14 @@ class AppManager:
         return [os.path.join(SAVE_DIR, path) for path in os.listdir(SAVE_DIR)]
 
 
-    def add(self, godot_file: str):
+    def add(self, godot_file: str) -> GodotApp:
         # TODO: 
         #       - support multiple kind of arguments (version, version number ...)
         #       - check app is already managed
-        self._add_archive(godot_file)
+        return self._add_archive(godot_file)
 
 
-    def _add_archive(self, godot_file: str):
+    def _add_archive(self, godot_file: str) -> GodotApp:
         """Add Godot app to the managed versions
 
         If the godot_file is a zip archive downloaded from Godot website,
@@ -109,21 +110,25 @@ class AppManager:
         """
         # extract the zip archive if necessary
         if godot_file.endswith('.zip'):
-            godot_file = extract_archive(godot_file)
-
-        if not is_valid_app(godot_file):
-            print(f'{godot_file} is not valid')
-            return
+            godot_file = extract_archive(godot_file, TMP)
 
         # make Godot executable
         sp.run(['chmod', '+x', godot_file])
 
+        if not is_valid_app(godot_file):
+            os.remove(godot_file)
+            print(f'{godot_file} is not valid')
+            abort()
+
         # add to the list of managed versions
-        print(f'Saving a copy to {SAVE_DIR}{basename(godot_file)}')
+        # TODO: remove calls to bash
+        file_path = os.path.join(SAVE_DIR,basename(godot_file))
+        print(f'Saving a copy to {file_path}')
         sp.run(['mv', godot_file, SAVE_DIR])
 
-        new_app = GodotApp(os.path.join(SAVE_DIR,basename(godot_file)))
+        new_app = GodotApp(file_path)
         self.apps.append(new_app)
+        return new_app
 
 
     @property
@@ -150,8 +155,7 @@ class AppManager:
            app: path or GodotApp 
         """
         if type(app) is str:
-            self.add(app)
-            GodotApp(app).install(project)
+            self.add(app).install(project)
         elif type(app) is GodotApp:
             app.install(project)
 
