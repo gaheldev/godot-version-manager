@@ -17,7 +17,7 @@ subparsers = parser.add_subparsers(dest='subparser_name')
 
 # Install archive file
 parser_install = subparsers.add_parser('install', help='install system wise from binary or zip archive')
-parser_install.add_argument('file', help='Godot binary or zip archive')
+parser_install.add_argument('FILE', help='Godot binary or zip archive')
 
 
 # Change Godot version
@@ -32,7 +32,7 @@ parser_use.add_argument('--local', action='store_true',
 
 # Add archive file without installing
 parser_add = subparsers.add_parser('add', help='add managed version from binary or zip archive without installing')
-parser_add.add_argument('file', help='Godot binary or zip archive')
+parser_add.add_argument('FILE', help='Godot binary or zip archive')
 
 
 # Delete Godot version
@@ -55,7 +55,7 @@ parser_run.add_argument('--local', action='store_true',
 
 # Download godot version
 parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
-parser_dl.add_argument('version', help='Godot version to download (e.g. 3.4, 4.1.1, ...)')
+parser_dl.add_argument('VERSION', help='Godot version to download (e.g. 3.4, 4.1.1, ...)')
 parser_dl.add_argument('--system', default='linux', metavar=('SYSTEM'), help='system build ( linux | windows )')
 parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system architecture ( 32 | 64 )')
 
