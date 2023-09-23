@@ -3,6 +3,7 @@
 import cli
 from manager import AppManager
 from helpers import abort, gvmfile_in_cwd
+from downloader import download_app
 
 
 
@@ -59,5 +60,4 @@ if args.subparser_name == 'install':
 
 
 if args.subparser_name == 'download':
-    import downloader as d
-    d.download_app(args.version, args.system, args.arch)
+    download_app(args.version, args.system, args.arch)
