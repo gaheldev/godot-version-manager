@@ -47,7 +47,11 @@ if args.subparser_name == 'add':
 
 
 if args.subparser_name == 'remove':
-    chosen_app = cli.pick_version(app_manager)
+    if args.app:
+        chosen_app = os.path.join(app_manager.SAVE_DIR, args.app)
+    else:
+        chosen_app = cli.pick_version(app_manager)
+
     match input(f'Are you sure you want to remove {chosen_app.version}? [y/N]: '):
         case 'y':
             app_manager.remove(chosen_app)

@@ -44,6 +44,10 @@ parser_add.add_argument('FILE', help='Godot binary or zip archive')
 # Delete Godot version
 parser_del = subparsers.add_parser('remove', help='delete Godot version (remain installed system wise if currently in use)')
 
+parser_del.add_argument('APP', help='name of the installed Godot app to remove')\
+          .completer = argcomplete.ChoicesCompleter(manager.get_installed_apps())
+
+
 
 # Optional listing of available Godot version
 parser_list = subparsers.add_parser('list', help=f'list available Godot versions')

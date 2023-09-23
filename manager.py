@@ -29,6 +29,8 @@ def get_version(app_path: str) -> str:
              .decode('utf-8')\
              .strip()
 
+def get_installed_apps() -> list[str]:
+    return os.listdir(SAVE_DIR)
 
 
 def is_valid_app(app_path: str) -> bool:
