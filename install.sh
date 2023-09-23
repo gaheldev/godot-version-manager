@@ -2,8 +2,8 @@ pip install -r requirements.txt
 pyinstaller -F main.py -n godot-version-manager
 
 sudo cp dist/godot-version-manager /usr/local/bin/
-# eval "$(register-python-argcomplete /usr/local/bin/godot-version-manager)"
-# eval "$(register-python-argcomplete main.py)" # also register main.py for easier debugging
+register-python-argcomplete godot-version-manager > godot-version-manager.completion
+sudo cp godot-version-manager.completion /etc/bash_completion.d/godot-version-manager
 
 sudo cp godot.png /usr/share/pixmaps/
 sudo cp godot.desktop /usr/share/applications/

@@ -8,4 +8,7 @@ build/
 dist/
 *.spec
 
+# bash completion file
+*.completion
+
 __pycache__/
