@@ -12,46 +12,53 @@ from helpers import abort
 parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
 subparsers = parser.add_subparsers(dest='subparser_name')
 
-# Make arguments mutually exclusive
-exclusive_group = parser.add_mutually_exclusive_group()
+
+
 
 # Install archive file
-exclusive_group.add_argument('-i', '--install', metavar=('ARCHIVE'),
-                    help='install Godot system wise from binary or zip archive')
+parser_install = subparsers.add_parser('install', help='install system wise from binary or zip archive')
+parser_install.add_argument('file', help='Godot binary or zip archive')
+
 
 # Change Godot version
-exclusive_group.add_argument('-u', '--use', action='store_true',
-                    help='pick the Godot version to use system wise')
+parser_use = subparsers.add_parser('use', help='pick the Godot version to use system wise or locally')
 
-# Set up local Godot version
-exclusive_group.add_argument('-U', '--use-local', action='store_true',
-                    help='pick the Godot version to use in the current folder')
+parser_use.add_argument('--system', action='store_true',
+                        help='pick the Godot version to use system wise')
+
+parser_use.add_argument('--local', action='store_true',
+                        help='pick the Godot version to use in the current folder')
+
 
 # Add archive file without installing
-exclusive_group.add_argument('-a', '--add', metavar=('ARCHIVE'),
-                    help='add managed version from binary or zip archive without installing')
+parser_add = subparsers.add_parser('add', help='add managed version from binary or zip archive without installing')
+parser_add.add_argument('file', help='Godot binary or zip archive')
+
 
 # Delete Godot version
-exclusive_group.add_argument('-d', '--delete', action='store_true',
-                             help='delete Godot version (remain installed system wise if currently in use)')
+parser_del = subparsers.add_parser('remove', help='delete Godot version (remain installed system wise if currently in use)')
+
 
 # Optional listing of available Godot version
-exclusive_group.add_argument('-l', '--list', action='store_true',
-                    help=f'list available Godot versions')
+parser_list = subparsers.add_parser('list', help=f'list available Godot versions')
 
-# Launch Godot from a list of available versions
-exclusive_group.add_argument('-s', '--start', action='store_true',
-                    help='launch Godot from the list of available versions')
 
-# Launch local Godot version from current working directory .gvm file
-exclusive_group.add_argument('-S', '--start-local', action='store_true',
-                    help='launch local Godot version')
+# Start Godot
+parser_run = subparsers.add_parser('run', help='launch godot (defaults to --local if .gvm file exists in current working directory)')
+
+parser_run.add_argument('--system', action='store_true',
+                        help='run system Godot version')
+
+parser_run.add_argument('--local', action='store_true',
+                        help='launch local Godot version from current working directory .gvm file')
+
 
 # Download godot version
 parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
 parser_dl.add_argument('version', help='Godot version to download (e.g. 3.4, 4.1.1, ...)')
 parser_dl.add_argument('--system', default='linux', metavar=('SYSTEM'), help='system build ( linux | windows )')
 parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system architecture ( 32 | 64 )')
+
 
 
 def parse_args():

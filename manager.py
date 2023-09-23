@@ -65,7 +65,7 @@ class GodotApp:
 
     def run(self):
         print(f'Launching {self.version}')
-        sp.Popen(self.path, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+        sp.Popen([self.path, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
     def __gt__(self, other):
         return self.version > other.version
@@ -161,11 +161,15 @@ class AppManager:
         exit()
 
 
+    def run_system_version(self):
+        system_app = self.get_app_from_version(get_current_version())
+        system_app.run()
+
+
     def run_project_version(self):
         with open('.gvm') as version_file:
             local_version = version_file.read()
         project_app = self.get_app_from_version(local_version)
-        print(f'Launching {local_version}')
-        sp.Popen([project_app.path, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+        project_app.run()
 
 

@@ -1,5 +1,5 @@
 import subprocess as sp
-from os.path import basename, splitext
+from os.path import basename, splitext, isfile, join
 
 
 def extract_archive(file: str) -> str:
@@ -11,3 +11,7 @@ def extract_archive(file: str) -> str:
 def abort():
     print('Aborting...')
     exit()
+
+
+def gvmfile_in_cwd() -> bool:
+    return isfile(join('.', '.gvm'))
