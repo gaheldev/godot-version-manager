@@ -5,6 +5,7 @@ from os.path import basename, expanduser
 from dataclasses import dataclass, field
 
 from helpers import extract_archive
+from downloader import download_app
 
 
 
@@ -153,6 +154,11 @@ class AppManager:
             GodotApp(app).install(project)
         elif type(app) is GodotApp:
             app.install(project)
+
+
+    def install_from_repo(self, version: str, system: str, arch: str):
+        archive = download_app(version, system, arch)
+        self.install(archive)
 
 
     def remove(self, app: GodotApp):

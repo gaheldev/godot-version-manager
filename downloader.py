@@ -96,7 +96,7 @@ def app_name_matches(name: str, system, architecture):
     return True
 
 
-def download_app(version_number: str, system='linux', architecture='64'):
+def download_app(version_number: str, system='linux', architecture='64') -> str:
     app_links = get_app_links(version_number)
     matching_links = []
     for link in app_links:
@@ -112,6 +112,7 @@ def download_app(version_number: str, system='linux', architecture='64'):
     download_path = os.path.join(TMP,os.path.basename(link))
     print(f'Downloading {link}')
     wget.download(link, out=download_path)
+    return download_path
 
 
 
