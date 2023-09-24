@@ -7,6 +7,31 @@ All downloaded versions are saved in ```~/.godot/```
 
 
 
+## ✨ Features
+
+* [x] download from repo
+    * [x] use as system version (godot from cli) + desktop shortcut -> only one 
+    * [ ] create desktop shortcut -> as many as user wants?
+    * [x] use for current project
+    * [x] just download
+* [x]  Add to managed apps from archive / binary
+* [ ] manage desktop shortcut
+    * [x] use / remove as system version (godot from cli) + desktop shortcut -> only one 
+    * [ ] make / remove desktop shortcut -> as many as user wants?
+* [x] remove version
+* [x] per project version
+    * [x] make current version the default for a project
+    * [ ] change current version for a project
+    * [x] run project version
+* [x] list installed versions
+* [x] run any installed version 
+* [ ] Upgrade
+    * [ ] current system/project version to latest minor
+        -> keep major verison, stable, mono, rc, alpha, beta   
+
+
+
+
 
 ## 🛠️ Installation
 
@@ -74,26 +99,4 @@ godot-version-manager use
 ### Advanced usage
 
 Run ```godot-version-manager -h``` for more informations
-
-## ✨ Features
-
-* [x] download from repo
-    * [x] use as system version (godot from cli) + desktop shortcut -> only one 
-    * [ ] create desktop shortcut -> as many as user wants?
-    * [x] use for current project
-    * [x] just download
-* [x]  Add to managed apps from archive / binary
-* [ ] manage desktop shortcut
-    * [x] use / remove as system version (godot from cli) + desktop shortcut -> only one 
-    * [ ] make / remove desktop shortcut -> as many as user wants?
-* [x] remove version
-* [x] per project version
-    * [x] make current version the default for a project
-    * [ ] change current version for a project
-    * [x] run project version
-* [x] list installed versions
-* [x] run any installed version 
-* [ ] Upgrade
-    * [ ] current system/project version to latest minor
-        -> keep major verison, stable, mono, rc, alpha, beta   
 
