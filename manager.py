@@ -3,6 +3,7 @@ import subprocess as sp
 
 from os.path import basename, expanduser
 from dataclasses import dataclass, field
+from sys import exit
 
 from helpers import extract_archive
 from downloader import download_app
