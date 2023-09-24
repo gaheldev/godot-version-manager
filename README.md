@@ -39,6 +39,7 @@ All downloaded versions are saved in ```~/.godot/```
 
 This has been developped with `python3.11`, it does not work with older versions of Python 3. If necessary, install it from your package manager as well as `pip` for Python 3.
 
+<!--- Seems unnecessary 
 The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
 
 ```
@@ -46,6 +47,7 @@ The package uses `argcomplete` to autocomplete arguments. Install it on your sys
 sudo apt install python3-argcomplete
 sudo activate-global-python-argcomplete
 ```
+--->
 
 #### Clone git repo
 
