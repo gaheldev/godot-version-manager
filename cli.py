@@ -74,7 +74,7 @@ parser_del = subparsers.add_parser('remove',
                                    help='delete Godot version (remain installed system wise if currently in use)')
 
 parser_del.add_argument('version', metavar='VERSION',
-                        nargs='?',
+                        nargs='*',
                         help='version of the installed Godot app to remove')\
           .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
 

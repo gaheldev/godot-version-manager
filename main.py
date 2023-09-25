@@ -52,13 +52,14 @@ if args.subparser_name == 'add':
 
 if args.subparser_name == 'remove':
     if not args.version:
-        chosen_app = cli.pick_version(app_manager)
+        chosen_apps = [cli.pick_version(app_manager)] # TODO: select multiple versions in version picker
     else:
-        chosen_app = app_manager.get_app_from_version(args.version)
+        chosen_apps = [app_manager.get_app_from_version(version) for version in args.version]
 
-    match input(f'Are you sure you want to remove {chosen_app.version}? [y/N]: '):
+    match input(f'Are you sure you want to remove {", ".join(app.version for app in chosen_apps)}? [y/N]: '):
         case 'y':
-            app_manager.remove(chosen_app)
+            for app in chosen_apps:
+                app_manager.remove(app)
         case other:
             abort()
 
