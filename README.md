@@ -21,7 +21,7 @@ All downloaded versions are saved in ```~/.godot/```
 * [x] remove version
 * [x] per project version
     * [x] make current version the default for a project
-    * [ ] change current version for a project
+    * [x] change current version for a project
     * [x] run project version
 * [x] list installed versions
 * [x] run any installed version 
