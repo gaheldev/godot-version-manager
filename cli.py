@@ -91,6 +91,11 @@ main_parser.add_argument('-l', '--list', action='store_true',
 parser_run = subparsers.add_parser('run',
                                    help='launch godot (defaults to --local if .gvm file exists in current working directory)')
 
+parser_run.add_argument('version', metavar='VERSION',
+                        nargs='?',
+                        help='Godot version to run (e.g. 3.4, 4.1.1, ...)')\
+          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
+
 parser_run.add_argument('--system', action='store_true',
                         help='run system Godot version')
 

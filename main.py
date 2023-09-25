@@ -29,6 +29,10 @@ if args.list or args.subparser_name == 'list':
 
 
 if args.subparser_name == 'run':
+    if args.version:
+        app_manager.get_app_from_version(args.version).run()
+        exit()
+
     if args.system:
         app_manager.run_system_version()
     elif gvmfile_in_cwd() or args.local:
