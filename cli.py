@@ -33,14 +33,17 @@ parser_use.add_argument('--local', action='store_true',
 
 
 # Add archive file without installing
-parser_add = subparsers.add_parser('add', help='add managed version from binary or zip archive without installing')
+parser_add = subparsers.add_parser('add',
+                                   help='add managed version from binary or zip archive without installing')
 parser_add.add_argument('FILE', help='Godot binary or zip archive')
 
 
 # Delete Godot version
-parser_del = subparsers.add_parser('remove', help='delete Godot version (remain installed system wise if currently in use)')
+parser_del = subparsers.add_parser('remove',
+                                   help='delete Godot version (remain installed system wise if currently in use)')
 
-parser_del.add_argument('APP', help='name of the installed Godot app to remove')\
+parser_del.add_argument('app', metavar='APP',
+                        help='name of the installed Godot app to remove')\
           .completer = argcomplete.ChoicesCompleter(manager.get_installed_apps())
 
 
@@ -53,7 +56,8 @@ main_parser.add_argument('-l', '--list', action='store_true',
 
 
 # Start Godot
-parser_run = subparsers.add_parser('run', help='launch godot (defaults to --local if .gvm file exists in current working directory)')
+parser_run = subparsers.add_parser('run',
+                                   help='launch godot (defaults to --local if .gvm file exists in current working directory)')
 
 parser_run.add_argument('--system', action='store_true',
                         help='run system Godot version')
