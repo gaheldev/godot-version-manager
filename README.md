@@ -84,9 +84,9 @@ chmod +x install.sh
 
 ### Update Godot
 
-Download the desired [godot application](https://godotengine.org/download/) and run
 ```
-godot-version-manager install --from-file <path/to/the/downloaded/file>
+godot-version-manager download VERSION
+godot-version-manager use VERSION
 ```
 
 Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.
@@ -94,9 +94,19 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 ### Use an already installed Godot version
 
+Use as system's default
 ```
-godot-version-manager use
+godot-version-manager use VERSION
 ```
+
+Use as current working directory's version
+```
+godot-version-manager use --local VERSION
+```
+
+### Run Godot
+
+`godot-version-manager run` runs the current working directory's version if it exists, otherwise runs system's default
 
 ### Advanced usage
 

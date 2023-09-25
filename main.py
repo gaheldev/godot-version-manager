@@ -63,16 +63,6 @@ if args.subparser_name == 'remove':
             abort()
 
 
-if args.subparser_name == 'install':
-    if args.from_file:
-        app_manager.install(args.from_file)
-    elif args.from_repo:
-        dl = download_app(args.from_repo)
-        app_manager.install(dl)
-    else:
-        cli.print_help()
-
-
 if args.subparser_name == 'download':
     system = platform()
     add_to_manage = True

@@ -17,15 +17,6 @@ subparsers = main_parser.add_subparsers(dest='subparser_name')
 
 
 
-# Install archive file
-parser_install = subparsers.add_parser('install', help='install system wise from binary or zip archive')
-
-parser_install.add_argument('--from-file', metavar='FILE', help='Godot binary or zip archive')
-
-parser_install.add_argument('--from-repo', metavar='VERSION', help='install from online Godot repository')\
-              .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
-
-
 # Change Godot version
 parser_use = subparsers.add_parser('use', help='pick the Godot version to use system wise or locally')
 
