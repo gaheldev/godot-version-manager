@@ -85,7 +85,6 @@ parser_dl.add_argument('--arch',
 # parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
 parser_dl.add_argument('--pre-release',
-                       default='', metavar='PRERELEASE',
                        help='alpha, beta or rc release')
 
 

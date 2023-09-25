@@ -44,6 +44,9 @@ def is_supported_version_number(s: str) -> bool:
 def is_version_dir(dir_name: str) -> bool:
     return is_supported_version_number(dir_name.rstrip('/'))
 
+def is_prerelease_dir(dir_name: str) -> bool:
+    return ('rc' in dir_name) or ('alpha' in dir_name) or ('beta' in dir_name)
+
 def is_app(href: str) -> bool:
     return href.endswith('.zip')
 
@@ -56,6 +59,19 @@ def get_version_numbers():
     root_dirs = [tag.get('href') for tag in root_dirs_tags]
     version_numbers = [dir.rstrip('/') for dir in root_dirs if is_version_dir(dir)]
     return version_numbers
+
+
+def get_prerelease_names(version: str) -> list[str]:
+    repo = os.path.join(ARCHIVE_REPO, version)
+    page = requests.get(repo)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    # get all hyperlinks from table
+    links_tags = soup.select('table')[0].tbody.find_all('a')
+    links = [tag.get('href') for tag in links_tags]
+    prereleases = [href.rstrip('/') for href in links
+                   if is_prerelease_dir(href)]
+    return prereleases
+
 
 
 def app_name_matches(name: str, system, architecture):

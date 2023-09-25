@@ -71,6 +71,12 @@ if args.subparser_name == 'install':
 
 
 if args.subparser_name == 'download':
+    if args.pre_release:
+        print(args.pre_release)
+        exit()
+
+
+    downloader.get_prerelease_names('4.0')
     dl = download_app(args.version,
                       system=args.system,
                       architecture=args.arch,
