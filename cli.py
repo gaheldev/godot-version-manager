@@ -82,7 +82,7 @@ parser_dl.add_argument('--arch',
                        default='64', metavar=('ARCH'),
                        help='system architecture ( 32 | 64 )')
 
-parser_dl.add_argument('--mono', action='store_true', help='mono build')
+# parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
 release = parser_dl.add_mutually_exclusive_group(required=False)
 release.add_argument('--stable', action='store_true', help='stable release')
