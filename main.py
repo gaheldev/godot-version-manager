@@ -51,10 +51,10 @@ if args.subparser_name == 'add':
 
 
 if args.subparser_name == 'remove':
-    if args.app:
-        chosen_app = GodotApp(os.path.join(SAVE_DIR, args.app))
-    else:
+    if not args.version:
         chosen_app = cli.pick_version(app_manager)
+    else:
+        chosen_app = app_manager.get_app_from_version(args.version)
 
     match input(f'Are you sure you want to remove {chosen_app.version}? [y/N]: '):
         case 'y':
