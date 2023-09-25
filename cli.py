@@ -84,11 +84,9 @@ parser_dl.add_argument('--arch',
 
 # parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
-release = parser_dl.add_mutually_exclusive_group(required=False)
-release.add_argument('--stable', action='store_true', help='stable release')
-release.add_argument('--rc', metavar='NUMBER', help='release candidate')
-release.add_argument('--alpha', metavar='NUMBER', help='alpha release')
-release.add_argument('--beta', metavar='NUMBER', help='beta release')
+parser_dl.add_argument('--pre-release',
+                       default='', metavar='PRERELEASE',
+                       help='alpha, beta or rc release')
 
 
 

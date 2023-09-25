@@ -71,5 +71,8 @@ if args.subparser_name == 'install':
 
 
 if args.subparser_name == 'download':
-    dl = download_app(args.version, args.system, args.arch)
+    dl = download_app(args.version,
+                      system=args.system,
+                      architecture=args.arch,
+                      prerelease=args.pre_release)
     app_manager.add(dl)

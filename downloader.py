@@ -96,8 +96,12 @@ def app_name_matches(name: str, system, architecture):
     return True
 
 
-def download_app(version_number: str, system='linux', architecture='64', mono=False) -> str:
-    app_links = get_app_links(version_number, mono=mono)
+def download_app(version_number: str,
+                 system='linux',
+                 architecture='64',
+                 mono=False,
+                 prerelease='') -> str:
+    app_links = get_app_links(version_number, mono=mono, prerelease=prerelease)
     matching_links = []
     for link in app_links:
         if app_name_matches(link, system, architecture):
@@ -116,8 +120,10 @@ def download_app(version_number: str, system='linux', architecture='64', mono=Fa
 
 
 
-def get_app_links(version_number: str, mono=False) -> list[str]:
+def get_app_links(version_number: str, mono=False, prerelease='') -> list[str]:
     repo = os.path.join(ARCHIVE_REPO, version_number)
+    if prerelease != '':
+        repo = os.path.join(repo, prerelease)
     if mono:
         repo = os.path.join(repo, 'mono')
 
