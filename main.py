@@ -71,4 +71,4 @@ if args.subparser_name == 'install':
 
 
 if args.subparser_name == 'download':
-    download_app(args.version, args.system, args.arch)
+    download_app(args.version, args.system, args.arch, args.mono)
