@@ -91,8 +91,9 @@ def app_name_matches(name: str, system, architecture):
             if architecture not in name:
                 return False
 
-        case 'macos':
-            raise NotImplementedError(f'unsupported system: {system}')
+        case 'osx':
+            if ('osx' not in name) and ('macos' not in name):
+                return False
 
         case 'web':
             raise NotImplementedError(f'unsupported system: {system}')
@@ -132,6 +133,7 @@ def download_app(version_number: str,
     download_path = os.path.join(TMP,os.path.basename(link))
     print(f'Downloading {link}')
     wget.download(link, out=download_path)
+    print()
     return download_path
 
 

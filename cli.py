@@ -74,9 +74,9 @@ parser_dl.add_argument('version', metavar='VERSION',
          .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
 
 parser_dl.add_argument('--system',
-                       default='linux', choices=['linux', 'windows'],
+                       default='', choices=['linux', 'windows', 'osx'],
                        metavar=('SYSTEM'),
-                       help='system build ( linux | windows )')
+                       help='system build ( linux | windows | osx)')
 
 parser_dl.add_argument('--arch',
                        default='64', metavar=('ARCH'),

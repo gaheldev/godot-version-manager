@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
+import os
+from sys import exit
+
 import cli
 from manager import AppManager, GodotApp, SAVE_DIR
-from helpers import abort, gvmfile_in_cwd
-from sys import exit
+from helpers import abort, gvmfile_in_cwd, platform
 from downloader import download_app
-import os
-
 
 
 
@@ -71,8 +71,18 @@ if args.subparser_name == 'install':
 
 
 if args.subparser_name == 'download':
+    system = platform()
+    add_to_manage = True
+
+    if args.system:
+        if system != args.system:
+            add_to_manage = False
+        system = args.system
+
     dl = download_app(args.version,
-                      system=args.system,
+                      system=system,
                       architecture=args.arch,
                       prerelease=args.pre_release)
-    app_manager.add(dl)
+
+    if add_to_manage:
+        app_manager.add(dl)
