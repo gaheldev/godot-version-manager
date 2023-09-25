@@ -68,9 +68,27 @@ parser_run.add_argument('--local', action='store_true',
 
 # Download godot version
 parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
-parser_dl.add_argument('VERSION', help='Godot version to download (e.g. 3.4, 4.1.1, ...)')
-parser_dl.add_argument('--system', default='linux', metavar=('SYSTEM'), help='system build ( linux | windows )')
-parser_dl.add_argument('--arch', default='64', metavar=('ARCH'), help='system architecture ( 32 | 64 )')
+
+parser_dl.add_argument('version', metavar='VERSION',
+                       help='Godot version to download (e.g. 3.4, 4.1.1, ...)')\
+         .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
+
+parser_dl.add_argument('--system',
+                       default='linux', choices=['linux', 'windows'],
+                       metavar=('SYSTEM'),
+                       help='system build ( linux | windows )')
+
+parser_dl.add_argument('--arch',
+                       default='64', metavar=('ARCH'),
+                       help='system architecture ( 32 | 64 )')
+
+parser_dl.add_argument('--mono', action='store_true', help='mono build')
+
+release = parser_dl.add_mutually_exclusive_group(required=False)
+release.add_argument('--stable', action='store_true', help='stable release')
+release.add_argument('--rc', metavar='NUMBER', help='release candidate')
+release.add_argument('--alpha', metavar='NUMBER', help='alpha release')
+release.add_argument('--beta', metavar='NUMBER', help='beta release')
 
 
 
