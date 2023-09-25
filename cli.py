@@ -84,8 +84,13 @@ parser_dl.add_argument('--arch',
 
 # parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
+def c_pre_releases(prefix, parsed_args, **kwargs):
+    return downloader.get_prerelease_names(parsed_args.version)
+
 parser_dl.add_argument('--pre-release',
-                       help='alpha, beta or rc release')
+                       default='', metavar=('RELEASE'),
+                       help='alpha, beta or rc release')\
+         .completer = c_pre_releases
 
 
 
