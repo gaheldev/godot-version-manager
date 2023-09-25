@@ -29,7 +29,7 @@ parser_install.add_argument('--from-repo', metavar='VERSION', help='install from
 # Change Godot version
 parser_use = subparsers.add_parser('use', help='pick the Godot version to use system wise or locally')
 
-parser_use.add_argument('--system', action='store_true',
+parser_use.add_argument('--system-default', action='store_true',
                         help='pick the Godot version to use system wise')
 
 parser_use.add_argument('--local', action='store_true',
