@@ -2,6 +2,7 @@ import sys
 import argparse
 import argcomplete
 from collections import namedtuple
+import os
 
 import manager
 import downloader
@@ -35,7 +36,37 @@ parser_use.add_argument('--local', action='store_true',
 # Add archive file without installing
 parser_add = subparsers.add_parser('add',
                                    help='add managed version from binary or zip archive without installing')
-parser_add.add_argument('FILE', help='Godot binary or zip archive')
+
+class FilteredFilesCompleter():
+    def __init__(self, predicate):
+        """
+        Create the completer
+
+        A predicate accepts as its only argument a candidate path and either
+        accepts it or rejects it.
+        """
+        assert predicate, "Expected a callable predicate"
+        self.predicate = predicate
+
+    def __call__(self, prefix, **kwargs):
+        target_dir = os.path.dirname(prefix)
+        try:
+            names = os.listdir(target_dir or ".")
+        except Exception:
+            return  # empty iterator
+        incomplete_part = os.path.basename(prefix)
+        # Iterate on target_dir entries and filter on given predicate
+        for name in names:
+            if not name.startswith(incomplete_part):
+                continue
+            candidate = os.path.join(target_dir, name)
+            if not self.predicate(candidate):
+                continue
+            yield candidate + "/" if os.path.isdir(candidate) else candidate
+
+
+parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archive')\
+          .completer = FilteredFilesCompleter(lambda f: os.path.basename(f).startswith('Godot_'))
 
 
 # Delete Godot version
