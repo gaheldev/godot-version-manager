@@ -33,6 +33,8 @@ def get_version(app_path: str) -> str:
 def get_installed_apps() -> list[str]:
     return os.listdir(SAVE_DIR)
 
+def get_installed_versions() -> list[str]:
+    return [get_version(os.path.join(SAVE_DIR, app)) for app in get_installed_apps()]
 
 def is_valid_app(app_path: str) -> bool:
     try:

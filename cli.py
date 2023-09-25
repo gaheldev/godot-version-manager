@@ -29,6 +29,11 @@ parser_install.add_argument('--from-repo', metavar='VERSION', help='install from
 # Change Godot version
 parser_use = subparsers.add_parser('use', help='pick the Godot version to use system wise or locally')
 
+parser_use.add_argument('version', metavar='VERSION',
+                        nargs='?',
+                        help='version of the installed Godot to use')\
+          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
+
 parser_use.add_argument('--system-default', action='store_true',
                         help='pick the Godot version to use system wise')
 

@@ -39,7 +39,10 @@ if args.subparser_name == 'run':
 
 
 if args.subparser_name == 'use':
-    chosen_app = cli.pick_version(app_manager)
+    if not args.version:
+        chosen_app = cli.pick_version(app_manager)
+    else:
+        chosen_app = app_manager.get_app_from_version(args.version)
     app_manager.install(chosen_app, project=args.local)
 
 
