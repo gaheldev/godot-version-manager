@@ -60,6 +60,11 @@ if args.subparser_name == 'remove':
     else:
         chosen_apps = [app_manager.get_app_from_version(version) for version in args.version]
 
+    if args.force:
+        for app in chosen_apps:
+            app_manager.remove(app)
+        exit()
+
     match input(f'Are you sure you want to remove {", ".join(app.version for app in chosen_apps)}? [y/N]: '):
         case 'y':
             for app in chosen_apps:
