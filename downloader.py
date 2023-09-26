@@ -3,6 +3,7 @@ import wget
 from bs4 import BeautifulSoup
 import re
 import os
+from typing import Generator
 
 
 # Only support godot 3 and 4 stable for now (not mono, rc or beta)
@@ -51,26 +52,27 @@ def is_app(href: str) -> bool:
     return href.endswith('.zip')
 
 
-def get_version_numbers():
+def get_version_numbers() -> Generator[str, None, None]:
     page = requests.get(ARCHIVE_REPO)
     soup = BeautifulSoup(page.content, 'html.parser')
     # get all hyperlinks from table which are root directories in ARCHIVE_REPO
     root_dirs_tags = soup.select('table')[0].tbody.find_all('a')
-    root_dirs = [tag.get('href') for tag in root_dirs_tags]
-    version_numbers = [dir.rstrip('/') for dir in root_dirs if is_version_dir(dir)]
-    return version_numbers
+    for tag in root_dirs_tags:
+        root_dir = tag.get('href')
+        if is_version_dir(root_dir):
+            yield root_dir.rstrip('/')
 
 
-def get_prerelease_names(version: str) -> list[str]:
+def get_prerelease_names(version: str) -> Generator[str, None, None]:
     repo = os.path.join(ARCHIVE_REPO, version)
     page = requests.get(repo)
     soup = BeautifulSoup(page.content, 'html.parser')
     # get all hyperlinks from table
     links_tags = soup.select('table')[0].tbody.find_all('a')
-    links = [tag.get('href') for tag in links_tags]
-    prereleases = [href.rstrip('/') for href in links
-                   if is_prerelease_dir(href)]
-    return prereleases
+    for tag in links_tags:
+        link = tag.get('href')
+        if is_prerelease_dir(link):
+            yield link.rstrip('/')
 
 
 
