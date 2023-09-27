@@ -135,9 +135,9 @@ parser_dl.add_argument('--pre-release',
 
 
 
-def parse_args():
+def parse_args(*args,**kwargs):
     argcomplete.autocomplete(main_parser)
-    return main_parser.parse_args()
+    return main_parser.parse_args(*args,**kwargs)
 
 def print_help():
     main_parser.print_help()
