@@ -6,15 +6,17 @@ from dataclasses import dataclass, field
 from sys import exit
 from typing import Generator
 
-from helpers import extract_archive
+from helpers import extract_archive, persist_to_file
 from downloader import download_app
 
 
 
 INSTALL_PATH = '/usr/bin/godot'
+CACHE_DIR = expanduser('~/.godot-version-manager/')
 SAVE_DIR = expanduser('~/.godot/')
 TMP = '/tmp/'
 
+os.makedirs(CACHE_DIR,exist_ok=True)
 os.makedirs(SAVE_DIR,exist_ok=True)
 
 
@@ -24,21 +26,24 @@ def get_current_version() -> str:
     return get_version(INSTALL_PATH)
 
 
-
+@persist_to_file(CACHE_DIR + 'cache.dat')
 def get_version(app_path: str) -> str:
     # check=True to check for exit error
     return sp.run([app_path, '--version'], check=False, stdout=sp.PIPE).stdout\
              .decode('utf-8')\
              .strip()
 
+
 def get_installed_apps() -> Generator[str, None, None]:
     with os.scandir(SAVE_DIR) as it:
         for file in it:
             yield file.name
 
+
 def get_installed_versions() -> Generator[str, None, None]:
     for app in get_installed_apps():
         yield get_version(os.path.join(SAVE_DIR, app))
+
 
 def is_valid_app(app_path: str) -> bool:
     try:
