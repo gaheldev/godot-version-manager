@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
-import os
 from sys import exit
 
 import cli
-from manager import AppManager, GodotApp, SAVE_DIR
+from manager import AppManager
 from helpers import abort, gvmfile_in_cwd, platform
 from downloader import download_app
 
