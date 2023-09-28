@@ -1,154 +1,12 @@
-import sys
-import argparse
-import argcomplete
 from collections import namedtuple
-import os
 
 import manager
-import downloader
 from helpers import abort
 
 
 
 
-# Instantiate the parser
-main_parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
-subparsers = main_parser.add_subparsers(dest='subparser_name')
-
-
-
-
-# Change Godot version
-parser_use = subparsers.add_parser('use', help='pick the Godot version to use system wise or locally')
-
-parser_use.add_argument('version', metavar='VERSION',
-                        nargs='?',
-                        help='version of the installed Godot to use')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
-
-parser_use.add_argument('--system-default', action='store_true',
-                        help='pick the Godot version to use system wise')
-
-parser_use.add_argument('--local', action='store_true',
-                        help='pick the Godot version to use in the current folder')
-
-
-# Add archive file without installing
-parser_add = subparsers.add_parser('add',
-                                   help='add managed version from binary or zip archive without installing')
-
-class FilteredFilesCompleter():
-    def __init__(self, predicate):
-        """
-        Create the completer
-
-        A predicate accepts as its only argument a candidate path and either
-        accepts it or rejects it.
-        """
-        assert predicate, "Expected a callable predicate"
-        self.predicate = predicate
-
-    def __call__(self, prefix, **kwargs):
-        target_dir = os.path.dirname(prefix)
-        try:
-            names = os.listdir(target_dir or ".")
-        except Exception:
-            return  # empty iterator
-        incomplete_part = os.path.basename(prefix)
-        # Iterate on target_dir entries and filter on given predicate
-        for name in names:
-            if not name.startswith(incomplete_part):
-                continue
-            candidate = os.path.join(target_dir, name)
-            if not self.predicate(candidate):
-                continue
-            yield candidate + "/" if os.path.isdir(candidate) else candidate
-
-
-parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archive')\
-          .completer = FilteredFilesCompleter(lambda f: os.path.basename(f).startswith('Godot_'))
-
-
-# Delete Godot version
-parser_del = subparsers.add_parser('remove',
-                                   help='delete Godot version (remain installed system wise if currently in use)')
-
-parser_del.add_argument('-f', '--force',
-                        action='store_true',
-                        help='remove version without asking for confirmation')
-
-parser_del.add_argument('version', metavar='VERSION',
-                        nargs='*',
-                        help='version of the installed Godot app to remove')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
-
-
-
-# Optional listing of available Godot version
-parser_list = subparsers.add_parser('list', help=f'list available Godot versions')
-
-main_parser.add_argument('-l', '--list', action='store_true',
-                         help=f'list available Godot versions')
-
-
-# Start Godot
-parser_run = subparsers.add_parser('run',
-                                   help='launch godot (defaults to --local if .gvm file exists in current working directory)')
-
-parser_run.add_argument('version', metavar='VERSION',
-                        nargs='?',
-                        help='Godot version to run (e.g. 3.4, 4.1.1, ...)')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
-
-parser_run.add_argument('--system', action='store_true',
-                        help='run system Godot version')
-
-parser_run.add_argument('--local', action='store_true',
-                        help='launch local Godot version from current working directory .gvm file')
-
-
-# Download godot version
-parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
-
-parser_dl.add_argument('version', metavar='VERSION',
-                       help='Godot version to download (e.g. 3.4, 4.1.1, ...)')\
-         .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
-
-parser_dl.add_argument('--system',
-                       default='', choices=['linux', 'windows', 'osx'],
-                       metavar=('SYSTEM'),
-                       help='system build ( linux | windows | osx)')
-
-parser_dl.add_argument('--arch',
-                       default='64', metavar=('ARCH'),
-                       help='system architecture ( 32 | 64 )')
-
-# parser_dl.add_argument('--mono', action='store_true', help='mono build')
-
-def c_pre_releases(prefix, parsed_args, **kwargs):
-    return downloader.get_prerelease_names(parsed_args.version)
-
-parser_dl.add_argument('--pre-release',
-                       default='', metavar=('RELEASE'),
-                       help='alpha, beta or rc release')\
-         .completer = c_pre_releases
-
-
-
-def parse_args(*args,**kwargs):
-    argcomplete.autocomplete(main_parser)
-    return main_parser.parse_args(*args,**kwargs)
-
-def print_help():
-    main_parser.print_help()
-
-def has_arguments() -> bool:
-    return len(sys.argv)!=1
-
-
-
-
-def selection_display(version: str) -> str:
+def _selection_display(version: str) -> str:
     if version == manager.get_current_version():
         return '-> '
     else:
@@ -165,7 +23,7 @@ def _display_version_choice(app_manager: manager.AppManager) -> list[Choice]:
     """
     choices = [Choice(i, version) for i, version in enumerate(app_manager.versions)]
 
-    to_display = [f'{selection_display(choice.version)}{choice.id}:\t{choice.version}'
+    to_display = [f'{_selection_display(choice.version)}{choice.id}:\t{choice.version}'
                   for choice in choices]
 
     print('\n'.join(to_display))
@@ -204,7 +62,7 @@ def pick_version(app_manager: manager.AppManager) -> manager.GodotApp:
 
 def display_versions(app_manager: manager.AppManager):
     """List existing Godot applications"""
-    to_display = [f'{selection_display(version)}{version}'
+    to_display = [f'{_selection_display(version)}{version}'
                   for version in app_manager.versions]
 
     print('\n'.join(to_display))

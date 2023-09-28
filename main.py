@@ -4,6 +4,7 @@
 from sys import exit
 
 import cli
+import parser
 from manager import AppManager
 from helpers import abort, gvmfile_in_cwd, platform
 from downloader import download_app
@@ -11,11 +12,11 @@ from downloader import download_app
 
 
 # Parse arguments
-args = cli.parse_args()
+args = parser.parse_args()
 
 # Display help message when no args are passed.
-if not cli.has_arguments():
-    cli.print_help()
+if not parser.has_arguments():
+    parser.print_help()
     exit()
 
 
