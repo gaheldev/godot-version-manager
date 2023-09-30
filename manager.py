@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from sys import exit
 from typing import Generator
 
-from helpers import extract_archive, persist_to_file
+from helpers import extract_archive, persist_to_file, abort
 from downloader import download_app
 
 
