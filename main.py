@@ -36,7 +36,16 @@ if args.subparser_name == 'run':
     if args.system:
         app_manager.run_system_version()
     elif gvmfile_in_cwd() or args.local:
-        app_manager.run_project_version()
+        try:
+            app_manager.run_project_version()
+        except LookupError:
+            project_version = app_manager.project_version
+            if project_version is not None:
+                app_manager.add_version(app_manager.project_version)
+                app_manager.run_project_version()
+            else:
+                raise Exception('Project version {project_version} unrecognized')
+
     else:
         chosen_app = cli.pick_version(app_manager)
         chosen_app.run()

@@ -1,8 +1,10 @@
 import subprocess as sp
 from os.path import basename, splitext, isfile, join
 from sys import exit
-from platform import system
+from platform import system, machine
 import json
+import re
+from typing import Tuple
 
 
 
@@ -30,6 +32,30 @@ def platform() -> str:
     if name == 'darwin':
         name = 'osx'
     return name
+
+
+
+def architecture() -> str:
+    if '32' in machine():
+        return '32'
+    else:
+        return '64'
+
+
+
+def parse_version(version: str) -> Tuple[str, str, bool]:
+    nb = re.compile(r'^[1-4](\.\d)+')
+    version_number = nb.match(version)[0]
+
+    pre = re.compile(r'.*(?P<prerelease>alpha\d?|beta\d?|rc\d?).*')
+    m = pre.match(version)
+    pre_release = m.group('prerelease') if m is not None else ''
+
+    mono = False
+    if 'mono' in version:
+        mono = True
+
+    return version_number, pre_release, mono
 
 
 

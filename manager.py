@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from sys import exit
 from typing import Generator
 
-from helpers import extract_archive, persist_to_file, abort
+from helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
 from downloader import download_app
 
 
@@ -155,6 +155,14 @@ class AppManager:
         return [app.version for app in self.apps]
 
 
+    @property
+    def project_version(self) -> str | None:
+        local_version = None
+        with open('.gvm') as version_file:
+            local_version = version_file.read()
+        return local_version
+
+
     def get_app_from_version(self, version: str) -> GodotApp:
         for app in self.apps:
             if app.version == version:
@@ -174,9 +182,14 @@ class AppManager:
             app.install(project)
 
 
-    def install_from_repo(self, version: str, system: str, arch: str):
-        archive = download_app(version, system, arch)
-        self.install(archive)
+    def add_version(self, version: str):
+        version_number, pre_release, mono = parse_version(version)
+        archive = download_app(version_number,
+                               prerelease=pre_release,
+                               system=platform(),
+                               mono=mono,
+                               architecture=architecture())
+        self.add(archive)
 
 
     def remove(self, app: GodotApp):
@@ -191,9 +204,8 @@ class AppManager:
 
 
     def run_project_version(self):
-        with open('.gvm') as version_file:
-            local_version = version_file.read()
-        project_app = self.get_app_from_version(local_version)
-        project_app.run()
+        if self.project_version is not None:
+            project_app = self.get_app_from_version(self.project_version)
+            project_app.run()
 
 
