@@ -6,5 +6,3 @@ register-python-argcomplete godot-version-manager > godot-version-manager.comple
 sudo cp godot-version-manager.completion /usr/share/bash-completion/completions/godot-version-manager
 
 sudo cp godot.png /usr/share/pixmaps/
-sudo cp godot.desktop /usr/share/applications/
-xdg-desktop-menu install --novendor /usr/share/applications/godot.desktop

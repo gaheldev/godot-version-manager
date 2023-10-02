@@ -8,10 +8,11 @@ from typing import Generator
 
 from helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
 from downloader import download_app
+import desktop
 
 
 
-INSTALL_PATH = '/usr/bin/godot'
+INSTALL_PATH = expanduser('~/.local/bin/godot')
 CACHE_DIR = expanduser('~/.godot-version-manager/')
 SAVE_DIR = expanduser('~/.godot/')
 TMP = '/tmp/'
@@ -76,7 +77,8 @@ class GodotApp:
             print(f'Using {self.version} in project folder {os.getcwd()}')
         else:
             # install as system app
-            sp.run(['sudo', 'cp', self.path, INSTALL_PATH])
+            sp.run(['cp', self.path, INSTALL_PATH])
+            desktop.create_shortcut(INSTALL_PATH)
             print(f'Using {self.version} ({INSTALL_PATH})')
 
     def run(self):
@@ -199,7 +201,11 @@ class AppManager:
 
 
     def run_system_version(self):
-        system_app = self.get_app_from_version(get_current_version())
+        current_version = get_current_version()
+        if current_version == '':
+            print('System version is not defined')
+            abort()
+        system_app = self.get_app_from_version(current_version)
         system_app.run()
 
 
