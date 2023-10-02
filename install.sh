@@ -6,3 +6,4 @@ register-python-argcomplete godot-version-manager > godot-version-manager.comple
 sudo cp godot-version-manager.completion /usr/share/bash-completion/completions/godot-version-manager
 
 sudo cp godot.png /usr/share/pixmaps/
+rm ~/.godot-version-manager/cache.dat 2> /dev/null || true

@@ -22,17 +22,21 @@ os.makedirs(SAVE_DIR,exist_ok=True)
 
 
 
-
-def get_current_version() -> str:
-    return get_version(INSTALL_PATH)
-
-
-@persist_to_file(CACHE_DIR + 'cache.dat')
-def get_version(app_path: str) -> str:
+def _version(app_path: str):
     # check=True to check for exit error
     return sp.run([app_path, '--version'], check=False, stdout=sp.PIPE).stdout\
              .decode('utf-8')\
              .strip()
+
+def get_current_version() -> str:
+    if not os.path.isfile(INSTALL_PATH):
+        return ''
+    return _version(INSTALL_PATH)
+
+
+@persist_to_file(CACHE_DIR + 'cache.dat')
+def get_version(app_path: str) -> str:
+    return _version(app_path)
 
 
 def get_installed_apps() -> Generator[str, None, None]:
