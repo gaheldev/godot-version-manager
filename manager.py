@@ -129,9 +129,6 @@ class AppManager:
         if godot_file.endswith('.zip'):
             godot_file = extract_archive(godot_file, TMP_DIR)
 
-        # make Godot executable
-        sp.run(['chmod', '+x', godot_file])
-
         if not is_valid_app(godot_file):
             os.remove(godot_file)
             print(f'{godot_file} is not valid')
