@@ -1,12 +1,8 @@
 import subprocess as sp
-from os.path import expanduser
 
 from helpers import platform
+from paths import DESKTOP_PATH
 
-
-
-
-LINUX_DESKTOP_PATH=expanduser('~/.local/share/applications/godot.desktop')
 
 
 
@@ -16,7 +12,7 @@ def create_shortcut(path: str, version=''):
 
     match platform():
         case 'linux':
-            with open(LINUX_DESKTOP_PATH, 'w') as f:
+            with open(DESKTOP_PATH, 'w') as f:
                 linux_desktop = f"""[Desktop Entry]
 Version=1.0
 Type=Application
@@ -29,7 +25,7 @@ Icon=godot
 Categories=Development;"""
 
                 f.write(linux_desktop)
-                sp.run(['xdg-desktop-menu', 'install', '--novendor', f'{LINUX_DESKTOP_PATH}'])
+                sp.run(['xdg-desktop-menu', 'install', '--novendor', f'{DESKTOP_PATH}'])
                 
 
 

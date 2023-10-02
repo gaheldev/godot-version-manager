@@ -5,6 +5,8 @@ import re
 import os
 from typing import Generator
 
+from paths import TMP_DIR
+
 
 # Only support godot 3 and 4 stable for now (not mono, rc or beta)
 #
@@ -33,7 +35,6 @@ from typing import Generator
 #       [ ] v4: {platform} -> win32.exe | win64.exe
 
 ARCHIVE_REPO = 'https://downloads.tuxfamily.org/godotengine/'
-TMP = '/tmp'
 
 
 # matches 3.x, 4.x, 3.x.x.x ...
@@ -132,7 +133,7 @@ def download_app(version_number: str,
         raise LookupError('Too many correponding apps, probable parsing error')
 
     link = matching_links[0]
-    download_path = os.path.join(TMP,os.path.basename(link))
+    download_path = os.path.join(TMP_DIR, os.path.basename(link))
     print(f'Downloading {link}')
     wget.download(link, out=download_path)
     print()

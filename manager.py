@@ -1,21 +1,18 @@
 import os
 import subprocess as sp
 
-from os.path import basename, expanduser
+from os.path import basename
 from dataclasses import dataclass, field
 from sys import exit
 from typing import Generator
 
 from helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
+from paths import INSTALL_PATH, CACHE_DIR, SAVE_DIR, TMP_DIR
 from downloader import download_app
 import desktop
 
 
 
-INSTALL_PATH = expanduser('~/.local/bin/godot')
-CACHE_DIR = expanduser('~/.godot-version-manager/')
-SAVE_DIR = expanduser('~/.godot/')
-TMP = '/tmp/'
 
 os.makedirs(CACHE_DIR,exist_ok=True)
 os.makedirs(SAVE_DIR,exist_ok=True)
@@ -130,7 +127,7 @@ class AppManager:
         """
         # extract the zip archive if necessary
         if godot_file.endswith('.zip'):
-            godot_file = extract_archive(godot_file, TMP)
+            godot_file = extract_archive(godot_file, TMP_DIR)
 
         # make Godot executable
         sp.run(['chmod', '+x', godot_file])
