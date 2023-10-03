@@ -47,7 +47,10 @@ def is_version_dir(dir_name: str) -> bool:
     return is_supported_version_number(dir_name.rstrip('/'))
 
 def is_prerelease_dir(dir_name: str) -> bool:
-    return ('rc' in dir_name) or ('alpha' in dir_name) or ('beta' in dir_name)
+    return ('rc' in dir_name)\
+           or ('alpha' in dir_name)\
+           or ('beta' in dir_name)\
+           or ('dev' in dir_name)
 
 def is_app(href: str) -> bool:
     return href.endswith('.zip')

@@ -98,7 +98,7 @@ parser_dl.add_argument('--arch',
 
 parser_dl.add_argument('--pre-release',
                        default='', metavar=('RELEASE'),
-                       help='alpha, beta or rc release')\
+                       help='alpha, beta, rc or dev release')\
          .completer = c_pre_releases
 
 
