@@ -44,7 +44,7 @@ if args.subparser_name == 'run':
                 app_manager.add_version(app_manager.project_version)
                 app_manager.run_project_version()
             else:
-                raise Exception('Project version {project_version} unrecognized')
+                raise Exception(f'Project version {project_version} unrecognized')
 
     else:
         chosen_app = cli.pick_version(app_manager)
