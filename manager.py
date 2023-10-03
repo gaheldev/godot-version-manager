@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess as sp
 
 from os.path import basename
@@ -78,7 +79,7 @@ class GodotApp:
             print(f'Using {self.version} in project folder {os.getcwd()}')
         else:
             # install as system app
-            sp.run(['cp', self.path, INSTALL_PATH])
+            shutil.copyfile(self.path, INSTALL_PATH)
             desktop.create_shortcut(INSTALL_PATH)
             print(f'Using {self.version} ({INSTALL_PATH})')
 
@@ -129,16 +130,18 @@ class AppManager:
         if godot_file.endswith('.zip'):
             godot_file = extract_archive(godot_file, TMP_DIR)
 
+        # make sure the file is executable
+        os.chmod(godot_file, os.stat(godot_file).st_mode | 0o111)
+
         if not is_valid_app(godot_file):
             os.remove(godot_file)
             print(f'{godot_file} is not valid')
             abort()
 
         # add to the list of managed versions
-        # TODO: remove calls to bash
         file_path = os.path.join(SAVE_DIR,basename(godot_file))
         print(f'Saving a copy to {file_path}')
-        sp.run(['mv', godot_file, SAVE_DIR])
+        os.rename(godot_file, file_path)
 
         new_app = GodotApp(file_path)
         self.apps.append(new_app)
