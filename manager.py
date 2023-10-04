@@ -99,7 +99,7 @@ class GodotApp:
             if self.mono:
                 raise NotImplementedError('Defining as default system is unsupported for mono builds')
             # install as system app
-            shutil.copyfile(self.path, INSTALL_PATH)
+            shutil.copy(self.path, INSTALL_PATH)
             desktop.create_shortcut(INSTALL_PATH)
             print(f'Using {self.version} ({INSTALL_PATH})')
 
