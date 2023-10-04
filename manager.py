@@ -40,12 +40,12 @@ def get_version(app_path: str) -> str:
 def get_installed_apps() -> Generator[str, None, None]:
     with os.scandir(SAVE_DIR) as it:
         for file in it:
-            yield file.name
+            yield file.path
 
 
 def get_installed_versions() -> Generator[str, None, None]:
     for app in get_installed_apps():
-        yield get_version(os.path.join(SAVE_DIR, app))
+        yield get_version(app)
 
 
 def is_valid_app(app_path: str) -> bool:
