@@ -8,7 +8,7 @@ from typing import Generator
 from paths import TMP_DIR
 
 
-# Only support godot 3 and 4 stable, alpha, beta, rc and dev for now (not mono)
+# Supports godot 3 and 4 stable, alpha, beta, rc and dev for standard and mono builds
 #
 # Tree of the repo:
 #   3.x/

@@ -94,6 +94,7 @@ if args.subparser_name == 'download':
     dl = download_app(args.version,
                       system=system,
                       architecture=args.arch,
+                      mono=args.mono,
                       prerelease=args.pre_release)
 
     if add_to_manage:
