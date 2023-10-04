@@ -32,7 +32,7 @@ def get_current_version() -> str:
     return _version(INSTALL_PATH)
 
 
-@persist_to_file(CACHE_DIR + 'cache.dat')
+@persist_to_file(os.path.join(CACHE_DIR, 'cache.dat'))
 def get_version(app_path: str) -> str:
     if os.path.isdir(app_path) and 'mono' in app_path:
         return _version(_get_mono_app(app_path))
