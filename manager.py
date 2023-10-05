@@ -196,8 +196,8 @@ class AppManager:
 
 
     @property
-    def project_version(self) -> str | None:
-        local_version = None
+    def project_version(self) -> str:
+        local_version = ''
         with open('.gvm') as version_file:
             local_version = version_file.read()
         return local_version
@@ -248,7 +248,7 @@ class AppManager:
 
 
     def run_project_version(self):
-        if self.project_version is not None:
+        if self.project_version:
             project_app = self.get_app_from_version(self.project_version)
             project_app.run()
 

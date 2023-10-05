@@ -1,29 +1,29 @@
 from collections import namedtuple
 
-import manager
 from helpers import abort
 
 
 
 
-def _selection_display(version: str) -> str:
-    if version == manager.get_current_version():
+def _selection_display(item: str, default_item: str) -> str:
+    if default_item == item:
         return '-> '
     else:
         return '   '
 
 
 
-Choice = namedtuple('Choice', 'id version')
+Choice = namedtuple('Choice', 'id display')
 
-def _display_version_choice(app_manager: manager.AppManager) -> list[Choice]:
-    """Display a list of managed Godot versions with an associated number
+def _display_choice(default_item, displays: list[str]) -> list[Choice]:
+    """Display a list of choices with an associated number
 
-       Return a Choice(id,version) named tuple
+       Return a Choice(id,display) named tuple
     """
-    choices = [Choice(i, version) for i, version in enumerate(app_manager.versions)]
+    choices = [Choice(id,display)
+               for id, display in enumerate(displays)]
 
-    to_display = [f'{_selection_display(choice.version)}{choice.id}:\t{choice.version}'
+    to_display = [f'{_selection_display(choice.display, default_item)}{choice.id}:\t{choice.display}'
                   for choice in choices]
 
     print('\n'.join(to_display))
@@ -31,13 +31,13 @@ def _display_version_choice(app_manager: manager.AppManager) -> list[Choice]:
 
 
 
-def pick_version(app_manager: manager.AppManager) -> manager.GodotApp:
-    """Pick a Godot version from the list of managed versions
+def pick(default_item, items: list[str]) -> str:
+    """ Pick from a list of displayed strings
 
-    Return the path to the corresponding Godot binary and the chosen version
+        Return the selected choice
     """
     # print versions with an associated number
-    choices = _display_version_choice(app_manager)
+    choices = _display_choice(default_item,items)
 
     # ask which number to use
     try:
@@ -46,7 +46,11 @@ def pick_version(app_manager: manager.AppManager) -> manager.GodotApp:
         print() # print on new line
         exit()
 
+    if not usr_input:
+        return default_item
+
     try:
+        # TODO: check no input which means default
         chosen_number = int(usr_input)
     except ValueError:
         print('Incorrect input')
@@ -56,14 +60,15 @@ def pick_version(app_manager: manager.AppManager) -> manager.GodotApp:
         print('Incorrect number')
         abort()
 
-    return app_manager.get_app_from_version(choices[chosen_number].version)
+    return choices[chosen_number].display
 
 
 
-def display_versions(app_manager: manager.AppManager):
+# TODO: move to manager
+def display_versions(current_version: str, versions: list[str]):
     """List existing Godot applications"""
-    to_display = [f'{_selection_display(version)}{version}'
-                  for version in app_manager.versions]
+    to_display = [f'{_selection_display(version, current_version)}{version}'
+                  for version in versions]
 
     print('\n'.join(to_display))
 

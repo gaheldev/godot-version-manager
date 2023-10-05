@@ -5,9 +5,15 @@ from sys import exit
 
 import cli
 import parser
+import manager
 from manager import AppManager
 from helpers import abort, gvmfile_in_cwd, platform
 from downloader import download_app
+
+
+def pick_version():
+    # TODO: select multiple versions in version picker
+    return cli.pick(manager.get_current_version(), app_manager.versions)
 
 
 
@@ -24,7 +30,7 @@ app_manager = AppManager()
 
 
 if args.list or args.subparser_name == 'list':
-    cli.display_versions(app_manager)
+    cli.display_versions(manager.get_current_version(), app_manager.versions)
     exit()
 
 
@@ -40,22 +46,21 @@ if args.subparser_name == 'run':
             app_manager.run_project_version()
         except LookupError:
             project_version = app_manager.project_version
-            if project_version is not None:
-                app_manager.add_version(app_manager.project_version)
+            if project_version:
+                app_manager.add_version(project_version)
                 app_manager.run_project_version()
             else:
                 raise Exception(f'Project version {project_version} unrecognized')
 
     else:
-        chosen_app = cli.pick_version(app_manager)
-        chosen_app.run()
+        # TODO
+        version = pick_version()
+        app_manager.get_app_from_version(version).run()
 
 
 if args.subparser_name == 'use':
-    if not args.version:
-        chosen_app = cli.pick_version(app_manager)
-    else:
-        chosen_app = app_manager.get_app_from_version(args.version)
+    version = args.version if args.version else pick_version()
+    chosen_app = app_manager.get_app_from_version(version)
     app_manager.install(chosen_app, project=args.local)
 
 
@@ -64,10 +69,9 @@ if args.subparser_name == 'add':
 
 
 if args.subparser_name == 'remove':
-    if not args.version:
-        chosen_apps = [cli.pick_version(app_manager)] # TODO: select multiple versions in version picker
-    else:
-        chosen_apps = [app_manager.get_app_from_version(version) for version in args.version]
+    versions = args.version if args.version else [pick_version()]
+
+    chosen_apps = [app_manager.get_app_from_version(version) for version in versions]
 
     if args.force:
         for app in chosen_apps:
