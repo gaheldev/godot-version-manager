@@ -99,7 +99,7 @@ parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
 parser_dl.add_argument('--release',
                        default='stable', metavar=('RELEASE'),
-                       help='stable, alpha, beta, rc or dev release')\
+                       help='stable (default), alpha, beta, rc or dev release')\
          .completer = c_releases
 
 

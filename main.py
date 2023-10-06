@@ -108,7 +108,8 @@ if args.subparser_name == 'download':
         versions = list(dl.get_version_numbers())
         version = cli.pick(versions, versions[-1])
 
-        releases = list(dl.get_release_names(version))
+    releases = list(dl.get_release_names(version))
+    if (not args.version) or (release not in releases):
         default_release = 'stable' if 'stable' in releases else releases[-1]
         release = cli.pick(releases, default_release)
 
