@@ -113,13 +113,13 @@ if args.subparser_name == 'download':
         default_release = 'stable' if 'stable' in releases else releases[-1]
         release = cli.pick(releases, default_release)
 
-    dl = dl.download_app(version,
-                         system=system,
-                         architecture=arch,
-                         mono=args.mono,
-                         release=release)
+    dl_file = dl.download_app(version,
+                              system=system,
+                              architecture=arch,
+                              mono=args.mono,
+                              release=release)
 
     if add_to_manage:
-        app_manager.add(dl)
+        app_manager.add(dl_file)
     else:
-        print(f"Downloaded {dl} but didn't add it to managed apps because it doesn't fit your system")
+        print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
