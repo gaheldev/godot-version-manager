@@ -32,6 +32,6 @@ class FilteredFilesCompleter():
 
 
 
-def c_pre_releases(prefix, parsed_args, **kwargs):
-    return downloader.get_prerelease_names(parsed_args.version)
+def c_releases(prefix, parsed_args, **kwargs):
+    return downloader.get_release_names(parsed_args.version)
 

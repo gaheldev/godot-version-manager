@@ -5,7 +5,7 @@ from helpers import abort
 
 
 
-def _selection_display(item: str, default_item: str) -> str:
+def _selection_display(item: str, default_item:str='') -> str:
     if default_item == item:
         return '-> '
     else:
@@ -15,7 +15,7 @@ def _selection_display(item: str, default_item: str) -> str:
 
 Choice = namedtuple('Choice', 'id display')
 
-def _display_choice(default_item, displays: list[str]) -> list[Choice]:
+def _display_choice(displays: list[str], default_item:str='') -> list[Choice]:
     """Display a list of choices with an associated number
 
        Return a Choice(id,display) named tuple
@@ -31,13 +31,13 @@ def _display_choice(default_item, displays: list[str]) -> list[Choice]:
 
 
 
-def pick(default_item, items: list[str]) -> str:
+def pick(items: list[str], default_item:str='') -> str:
     """ Pick from a list of displayed strings
 
         Return the selected choice
     """
     # print versions with an associated number
-    choices = _display_choice(default_item,items)
+    choices = _display_choice(items, default_item)
 
     # ask which number to use
     try:
@@ -64,8 +64,8 @@ def pick(default_item, items: list[str]) -> str:
 
 
 
-# TODO: move to manager
-def display_versions(current_version: str, versions: list[str]):
+# TODO: move to manager?
+def display_versions(versions: list[str], current_version:str=''):
     """List existing Godot applications"""
     to_display = [f'{_selection_display(version, current_version)}{version}'
                   for version in versions]

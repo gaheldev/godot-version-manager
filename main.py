@@ -7,13 +7,13 @@ import cli
 import parser
 import manager
 from manager import AppManager
-from helpers import abort, gvmfile_in_cwd, platform
-from downloader import download_app
+from helpers import abort, gvmfile_in_cwd, platform, architecture
+import downloader as dl
 
 
 def pick_version():
     # TODO: select multiple versions in version picker
-    return cli.pick(manager.get_current_version(), app_manager.versions)
+    return cli.pick(app_manager.versions, manager.get_current_version())
 
 
 
@@ -30,7 +30,7 @@ app_manager = AppManager()
 
 
 if args.list or args.subparser_name == 'list':
-    cli.display_versions(manager.get_current_version(), app_manager.versions)
+    cli.display_versions(app_manager.versions, manager.get_current_version())
     exit()
 
 
@@ -88,6 +88,8 @@ if args.subparser_name == 'remove':
 
 if args.subparser_name == 'download':
     system = platform()
+    arch = architecture()
+    release = args.release
     add_to_manage = True
 
     if args.system:
@@ -95,11 +97,28 @@ if args.subparser_name == 'download':
             add_to_manage = False
         system = args.system
 
-    dl = download_app(args.version,
-                      system=system,
-                      architecture=args.arch,
-                      mono=args.mono,
-                      prerelease=args.pre_release)
+    if args.arch:
+        if arch != args.arch:
+            add_to_manage = False
+        arch = args.arch
+
+    if args.version:
+        version = args.version
+    else:
+        versions = list(dl.get_version_numbers())
+        version = cli.pick(versions, versions[-1])
+
+        releases = list(dl.get_release_names(version))
+        default_release = 'stable' if 'stable' in releases else releases[-1]
+        release = cli.pick(releases, default_release)
+
+    dl = dl.download_app(version,
+                         system=system,
+                         architecture=arch,
+                         mono=args.mono,
+                         release=release)
 
     if add_to_manage:
         app_manager.add(dl)
+    else:
+        print(f"Downloaded {dl} but didn't add it to managed apps because it doesn't fit your system")

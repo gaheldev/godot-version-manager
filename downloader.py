@@ -68,16 +68,26 @@ def get_version_numbers() -> Generator[str, None, None]:
 
 
 def get_prerelease_names(version: str) -> Generator[str, None, None]:
+    for link in get_release_names(version):
+        if not 'stable' in link:
+            yield link
+
+def get_release_names(version: str) -> Generator[str, None, None]:
     repo = os.path.join(ARCHIVE_REPO, version)
     page = requests.get(repo)
     soup = BeautifulSoup(page.content, 'html.parser')
     # get all hyperlinks from table
     links_tags = soup.select('table')[0].tbody.find_all('a')
+
+    yielded_stable = False
     for tag in links_tags:
         link = tag.get('href')
         if is_prerelease_dir(link):
             yield link.rstrip('/')
-
+        if not yielded_stable:
+            if 'stable' in link:
+                yield 'stable'
+                yielded_stable = True
 
 
 def app_name_matches(name: str, system, architecture):
@@ -123,8 +133,8 @@ def download_app(version_number: str,
                  system='linux',
                  architecture='64',
                  mono=False,
-                 prerelease='') -> str:
-    app_links = get_app_links(version_number, mono=mono, prerelease=prerelease)
+                 release='stable') -> str:
+    app_links = get_app_links(version_number, mono=mono, release=release)
     matching_links = []
     for link in app_links:
         if app_name_matches(link, system, architecture):
@@ -144,10 +154,10 @@ def download_app(version_number: str,
 
 
 
-def get_app_links(version_number: str, mono=False, prerelease='') -> list[str]:
+def get_app_links(version_number: str, mono=False, release='stable') -> list[str]:
     repo = os.path.join(ARCHIVE_REPO, version_number)
-    if prerelease != '':
-        repo = os.path.join(repo, prerelease)
+    if release != 'stable':
+        repo = os.path.join(repo, release)
     if mono:
         repo = os.path.join(repo, 'mono')
 

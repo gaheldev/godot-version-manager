@@ -5,7 +5,7 @@ import os
 
 import downloader
 import manager
-from completers import FilteredFilesCompleter, c_pre_releases
+from completers import FilteredFilesCompleter, c_releases
 
 
 
@@ -82,6 +82,7 @@ parser_run.add_argument('--local', action='store_true',
 parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
 
 parser_dl.add_argument('version', metavar='VERSION',
+                       nargs='?',
                        help='Godot version to download (e.g. 3.4, 4.1.1, ...)')\
          .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
 
@@ -90,16 +91,16 @@ parser_dl.add_argument('--system',
                        metavar=('SYSTEM'),
                        help='system build ( linux | windows | osx)')
 
-parser_dl.add_argument('--arch',
-                       default='64', metavar=('ARCH'),
+parser_dl.add_argument('--arch', metavar=('ARCH'),
+                       default='', choices=['32', '64'],
                        help='system architecture ( 32 | 64 )')
 
 parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
-parser_dl.add_argument('--pre-release',
-                       default='', metavar=('RELEASE'),
-                       help='alpha, beta, rc or dev release')\
-         .completer = c_pre_releases
+parser_dl.add_argument('--release',
+                       default='stable', metavar=('RELEASE'),
+                       help='stable, alpha, beta, rc or dev release')\
+         .completer = c_releases
 
 
 
