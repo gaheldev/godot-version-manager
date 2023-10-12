@@ -7,8 +7,8 @@ match platform():
     case 'linux':
         INSTALL_PATH = expanduser('~/.local/bin/godot')
         DESKTOP_PATH = expanduser('~/.local/share/applications/godot.desktop')
-        CACHE_DIR = expanduser('~/.godot-version-manager/')
-        SAVE_DIR = expanduser('~/.godot/')
+        APP_DIR = expanduser('~/.local/share/godot-version-manager/apps/')
+        CACHE_DIR = expanduser('~/.cache/godot-version-manager/')
         TMP_DIR = '/tmp/'
 
     case _ as platform_name:

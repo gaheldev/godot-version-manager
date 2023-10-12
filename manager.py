@@ -8,7 +8,7 @@ from sys import exit
 from typing import Generator
 
 from helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
-from paths import INSTALL_PATH, CACHE_DIR, SAVE_DIR, TMP_DIR
+from paths import INSTALL_PATH, CACHE_DIR, APP_DIR, TMP_DIR
 from downloader import download_app
 import desktop
 
@@ -16,7 +16,7 @@ import desktop
 
 
 os.makedirs(CACHE_DIR,exist_ok=True)
-os.makedirs(SAVE_DIR,exist_ok=True)
+os.makedirs(APP_DIR,exist_ok=True)
 
 
 
@@ -32,7 +32,7 @@ def get_current_version() -> str:
     return _version(INSTALL_PATH)
 
 
-@persist_to_file(os.path.join(CACHE_DIR, 'cache.dat'))
+@persist_to_file(os.path.join(CACHE_DIR, 'versions.dat'))
 def get_version(app_path: str) -> str:
     if os.path.isdir(app_path) and 'mono' in app_path:
         return _version(_get_mono_app(app_path))
@@ -40,7 +40,7 @@ def get_version(app_path: str) -> str:
 
 
 def get_installed_apps() -> Generator[str, None, None]:
-    with os.scandir(SAVE_DIR) as it:
+    with os.scandir(APP_DIR) as it:
         for file in it:
             if file.is_file:
                 yield file.path
@@ -138,7 +138,7 @@ class AppManager:
 
 
     def list_save_dir(self) -> list[str]:
-        return [os.path.join(SAVE_DIR, path) for path in os.listdir(SAVE_DIR)]
+        return [os.path.join(APP_DIR, path) for path in os.listdir(APP_DIR)]
 
 
     def add(self, godot_path: str) -> GodotApp:
@@ -176,7 +176,7 @@ class AppManager:
             abort()
 
         # add to the list of managed versions
-        output_path = os.path.join(SAVE_DIR, basename(godot_path))
+        output_path = os.path.join(APP_DIR, basename(godot_path))
         print(f'Saving a copy to {output_path}')
         os.rename(godot_path, output_path)
 
