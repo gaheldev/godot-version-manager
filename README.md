@@ -164,10 +164,13 @@ We use virtualenv to create an environment with controlled python package versio
 ```
 pip install virtualenv
 virtualenv venv
+# for linux
 source venv/bin/activate
+# for windows
+.\venv\Scripts\activate.ps1
 ```
 
-Make sure to run `source venv/bin/activate` before working on the project. <br>
+Make sure to run `source venv/bin/activate` (`.\venv\Scripts\activate.ps1` on Windows) before working on the project. <br>
 Run `deactivate` to deactivate the virtualenv.
 
 #### Install gdvm on your system
