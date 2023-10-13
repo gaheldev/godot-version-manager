@@ -11,5 +11,5 @@ match platform():
         SAVE_DIR = expanduser('~/.godot/')
         TMP_DIR = '/tmp/'
 
-    case _:
-        raise NotImplemented(f'Unsupported platform: {_}')
+    case _ as platform_name:
+        raise NotImplementedError(f'Unsupported platform: {platform_name}')
