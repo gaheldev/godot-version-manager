@@ -85,8 +85,8 @@ chmod +x install.sh
 ### Update Godot
 
 ```
-godot-version-manager download VERSION
-godot-version-manager use VERSION
+gvm download VERSION
+gvm use VERSION
 ```
 
 Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.
@@ -96,19 +96,19 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 Use as system's default
 ```
-godot-version-manager use VERSION
+gvm use VERSION
 ```
 
 Use as current working directory's version
 ```
-godot-version-manager use --local VERSION
+gvm use --local VERSION
 ```
 
 ### Run Godot
 
-`godot-version-manager run` runs the current working directory's version if it exists, otherwise runs system's default
+`gvm run` runs the current working directory's version if it exists, otherwise runs system's default
 
 ### Advanced usage
 
-Run ```godot-version-manager -h``` for more informations
+Run ```gvm -h``` for more informations
 
