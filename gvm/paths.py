@@ -1,5 +1,5 @@
 from os.path import expanduser
-from helpers import platform
+from .helpers import platform
 
 
 

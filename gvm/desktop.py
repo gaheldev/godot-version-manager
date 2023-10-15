@@ -1,7 +1,7 @@
 import subprocess as sp
 
-from helpers import platform
-from paths import DESKTOP_PATH
+from .helpers import platform
+from .paths import DESKTOP_PATH
 
 
 

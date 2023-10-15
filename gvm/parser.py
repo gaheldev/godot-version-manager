@@ -3,9 +3,9 @@ import argparse
 import argcomplete
 import os
 
-import downloader
-import manager
-from completers import FilteredFilesCompleter, c_releases
+from . import downloader
+from . import manager
+from .completers import FilteredFilesCompleter, c_releases
 
 
 

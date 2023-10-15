@@ -5,7 +5,7 @@ import re
 import os
 from typing import Generator
 
-from paths import TMP_DIR
+from .paths import TMP_DIR
 
 
 # Supports godot 3 and 4 stable, alpha, beta, rc and dev for standard and mono builds
