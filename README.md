@@ -120,10 +120,6 @@ Run ```gvm -h``` for more informations
 
 Tests are located in the `tests/` folder of the project. Running `pytest` in the project's folder will run all test files named 'test_*.py' or '*_test.py'.
 
-Run the test suite before any commit by creating the file `.git/hooks/pre-commit` with the following content:
+Create a pre-commit hook to run the test suite before any commit by running `./pre-commit-hook.sh` (⚠️t his will delete any pre-commit hook you already created ⚠️)
 
-```
-#!/bin/bash
-
-pytest
-```
+If you already have a pre-commit hook set up, just add the line `pytest` to `.git/hooks/pre-commit`
