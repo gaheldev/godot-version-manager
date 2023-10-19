@@ -16,8 +16,8 @@ match platform():
     case 'windows':
         INSTALL_PATH = expanduser('~/AppData/Roaming/Python/Python311/Scripts')
         DESKTOP_PATH = expanduser('~/Desktop')
-        CACHE_DIR = expanduser('~/.godot-version-manager/')
-        SAVE_DIR = expanduser('~/.godot/')
+        APP_DIR = expanduser('~/AppData/Roaming/Local/godot-version-manager/apps/')
+        CACHE_DIR = expanduser('~/AppData/Roaming/Local/godot-version-manager/cache/')
         TMP_DIR = expanduser('~/AppData/Local/Temp')
 
     case _ as platform_name:
