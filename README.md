@@ -119,3 +119,11 @@ Run ```gvm -h``` for more informations
 ### Tests
 
 Tests are located in the `tests/` folder of the project. Running `pytest` in the project's folder will run all test files named 'test_*.py' or '*_test.py'.
+
+Run the test suite before any commit by creating the file `.git/hooks/pre-commit` with the following content:
+
+```
+#!/bin/bash
+
+pytest
+```
