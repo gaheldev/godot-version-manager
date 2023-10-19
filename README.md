@@ -112,3 +112,10 @@ gvm use --local VERSION
 
 Run ```gvm -h``` for more informations
 
+
+
+## Development
+
+### Tests
+
+Tests are located in the `tests/` folder of the project. Running `pytest` in the project's folder will run all test files named 'test_*.py' or '*_test.py'.
