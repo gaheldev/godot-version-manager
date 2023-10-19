@@ -1,4 +1,4 @@
-from . import downloader
+from .downloader import downloader
 import os
 
 

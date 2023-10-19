@@ -1,4 +1,4 @@
-from gvm import downloader as dl
+from gvm.downloader import downloader as dl
 
 
 

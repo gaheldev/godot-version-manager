@@ -9,7 +9,7 @@ from . import parser
 from . import manager
 from .manager import AppManager
 from .helpers import abort, gvmfile_in_cwd, platform, architecture
-from . import downloader as dl
+from .downloader import downloader as dl
 
 
 def main():

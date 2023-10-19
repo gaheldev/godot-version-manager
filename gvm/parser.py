@@ -3,7 +3,7 @@ import argparse
 import argcomplete
 import os
 
-from . import downloader
+from .downloader import downloader
 from . import manager
 from .completers import FilteredFilesCompleter, c_releases
 

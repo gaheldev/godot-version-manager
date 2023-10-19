@@ -9,7 +9,7 @@ from typing import Generator
 
 from .helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
 from .paths import INSTALL_PATH, CACHE_DIR, APP_DIR, TMP_DIR
-from .downloader import download_app
+from .downloader.downloader import download_app
 from . import desktop
 
 
