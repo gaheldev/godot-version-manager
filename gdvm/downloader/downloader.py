@@ -1,6 +1,7 @@
 from typing import Generator
 
-from . import tuxfamily as remote
+# from . import tuxfamily as remote
+from . import github as remote
 from ..paths import TMP_DIR
 
 

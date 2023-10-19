@@ -1,4 +1,4 @@
-from os.path import expanduser
+from os.path import expanduser, join
 from .helpers import platform
 
 
@@ -9,6 +9,8 @@ match platform():
         DESKTOP_PATH = expanduser('~/.local/share/applications/godot.desktop')
         APP_DIR = expanduser('~/.local/share/gdvm/apps/')
         CACHE_DIR = expanduser('~/.cache/gdvm/')
+        VERSIONS_PATH = join(CACHE_DIR, 'available_versions.yml')
+        LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
         TMP_DIR = '/tmp/'
 
     case _ as platform_name:
