@@ -1,39 +1,36 @@
-# Godot Version Manager for Linux 🐧
+# Godot Version Manager
 
-Creates a desktop shortcut for godot and provides a script to update Godot version. \
-Still requires to download Godot's desired version manually. \
-All downloaded versions are saved in ```~/.godot/```
+Use `gvm` from the command line to manage the Godot version of your different projects.
 
-
-
-
-## ✨ Features
-
-* [x] download from repo
-    * [x] use as system version (godot from cli) + desktop shortcut -> only one 
-    * [ ] create desktop shortcut -> as many as user wants?
-    * [x] use for current project
-    * [x] just download
-* [x]  Add to managed apps from archive / binary
-* [ ] manage desktop shortcut
-    * [x] use / remove as system version (godot from cli) + desktop shortcut -> only one 
-    * [ ] make / remove desktop shortcut -> as many as user wants?
-* [x] remove version
-* [x] per project version
-    * [x] make current version the default for a project
-    * [x] change current version for a project
-    * [x] run project version
-* [x] list installed versions
-* [x] run any installed version 
-* [ ] Upgrade
-    * [ ] current system/project version to latest minor
-        -> keep major verison, stable, mono, rc, alpha, beta   
+⚠️ This is currently under development, breaking changes will happen ⚠️
 
 
 
 
 
-## 🛠️ Installation
+# ✨ Features
+
+* [x] **download** any release of Godot > 3.0 to the managed versions
+* [x] **use** a Godot version per project, trackable by `git`
+* [x] **run** the project's version and download it automatically if necessary
+* [x] **list**, **remove**, **run** managed versions
+* [x] **use** a default system version with desktop shortcut (`godot` in terminal)
+* [ ] create desktop shortcuts for multiple versions
+* [ ] Notify about new available versions
+* [x] **add** a Godot binary or archive to managed versions
+
+
+**supported systems:**
+* [x] linux 🐧
+* [ ] windows 🪟 (incomming)
+* [ ] macos 🍎 (shouldn't be hard)
+* [ ] android
+
+
+
+
+
+# 🛠️ Installation
 
 #### Requirements
 
@@ -80,7 +77,7 @@ chmod +x install.sh
 
 
 
-## 📝 Usage
+# 📝 Usage
 
 ### Update Godot
 
@@ -114,7 +111,9 @@ Run ```gvm -h``` for more informations
 
 
 
-## Development
+
+
+# ⌨️ Development
 
 ### Tests
 
