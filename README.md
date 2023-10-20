@@ -2,13 +2,12 @@
 
 Use `gvm` from the command line to manage the Godot version of your different projects.
 
-<br></br>
+<br/>
 
 > [!WARNING]
-> This is currently under development, breaking changes will happen
+> currently under development, breaking changes will happen
 
-
-
+<br/>
 
 
 # ✨ Features
@@ -36,9 +35,8 @@ Use `gvm` from the command line to manage the Godot version of your different pr
 
 # 🛠️ Installation
 
-#### Requirements
-
-This has been developped with `python3.11`, it does not work with older versions of Python 3. If necessary, install it from your package manager as well as `pip` for Python 3.
+>[!IMPORTANT]
+> `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
 
 <!--- Seems unnecessary 
 The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
@@ -50,14 +48,14 @@ sudo activate-global-python-argcomplete
 ```
 --->
 
-#### Clone git repo
+## Clone git repo
 
 ```
 git clone https://github.com/gaheldev/godot-version-manager.git
 cd godot-version-manager
 ```
 
-#### Set up virtualenv (recommended)
+## Set up virtualenv (recommended)
 
 We use virtualenv to create an environment with controlled python package versions. 
 
@@ -71,7 +69,7 @@ source venv/bin/activate
 Make sure to run `source venv/bin/activate` before working on the project. <br>
 Run `deactivate` to deactivate the virtualenv.
 
-#### Install godot-version-manager on your system
+## Install godot-version-manager on your system
 
 ```
 chmod +x install.sh
@@ -84,50 +82,62 @@ chmod +x install.sh
 
 # 📝 Usage
 
-### Update Godot
+## Use Godot version in current working directory
 
 ```
-gvm download VERSION
-gvm use VERSION
-```
-
-Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.
-<br> <br/>
-
-### Use an already installed Godot version
-
-Use as system's default
-```
-gvm use VERSION
-```
-
-Use as current working directory's version
-```
+gvm download VERSION_NUMBER --release RELEASE
 gvm use --local VERSION
 ```
 
-### Run Godot
+Gvm supports autocompletion of all arguments including all possible version and release names.  
+Alternatively you can use the interactive version of the commands:
+```
+gvm download
+gvm use --local
+```
 
-`gvm run` runs the current working directory's version if it exists, otherwise runs system's default
 
-### Advanced usage
+## Use an already managed version as system's default
+```
+gvm use --system VERSION
+```
+or for the interactive version:
+```
+gvm use --system
+```
 
-Run ```gvm -h``` for more informations
+Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.  
+<br/>
 
-<br></br>
+
+## Run Godot
+
+* `gvm run` runs the current working directory's project with project's version if it has been previously defined, otherwise asks to select the version to run.
+  
+* `gvm run VERSION` to run a specific version
+  
+* `gvm run --system` to run the system's default
+<br/>
+
+## Advanced usage
+
+>[!NOTE]
+> Run ```gvm -h``` for more informations  
+
+<br/>
 
 
 
 
 # ⌨️ Development
 
-### Tests
+## Tests
 
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
 Run `pytest` in the project's root directory to run all tests. 
 
-#### Automatically run tests before any commit
+### Automatically run tests before any commit
 
 > [!WARNING]
 > this will delete any pre-commit hook you already created
