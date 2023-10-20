@@ -64,7 +64,7 @@ main_parser.add_argument('-l', '--list', action='store_true',
 
 # Start Godot
 parser_run = subparsers.add_parser('run',
-                                   help='launch godot (defaults to --local if .gvm file exists in current working directory)')
+                                   help='launch godot (defaults to --local if .godotversion file exists in current working directory)')
 
 parser_run.add_argument('version', metavar='VERSION',
                         nargs='?',
@@ -75,7 +75,7 @@ parser_run.add_argument('--system', action='store_true',
                         help='run system Godot version')
 
 parser_run.add_argument('--local', action='store_true',
-                        help='launch local Godot version from current working directory .gvm file')
+                        help='launch local Godot version from current working directory .godotversion file')
 
 
 # Download godot version

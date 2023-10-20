@@ -92,7 +92,7 @@ class GodotApp:
         """Make app the system Godot (from CLI and desktop)"""
         if project:
             # define as app for the current directory
-            with open('.gvm', 'w') as version_file:
+            with open('.godotversion', 'w') as version_file:
                 version_file.write(self.version)
             print(f'Using {self.version} in project folder {os.getcwd()}')
         else:
@@ -198,7 +198,7 @@ class AppManager:
     @property
     def project_version(self) -> str:
         local_version = ''
-        with open('.gvm') as version_file:
+        with open('.godotversion') as version_file:
             local_version = version_file.read()
         return local_version
 

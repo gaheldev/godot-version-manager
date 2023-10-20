@@ -8,7 +8,7 @@ from . import cli
 from . import parser
 from . import manager
 from .manager import AppManager
-from .helpers import abort, gvmfile_in_cwd, platform, architecture
+from .helpers import abort, godotversion_in_cwd, platform, architecture
 from .downloader import downloader as dl
 
 
@@ -43,7 +43,7 @@ def main():
 
         if args.system:
             app_manager.run_system_version()
-        elif gvmfile_in_cwd() or args.local:
+        elif godotversion_in_cwd() or args.local:
             try:
                 app_manager.run_project_version()
             except LookupError:

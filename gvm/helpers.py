@@ -26,6 +26,11 @@ def gvmfile_in_cwd() -> bool:
     return isfile(join('.', '.gvm'))
 
 
+def godotversion_in_cwd() -> bool:
+    if gvmfile_in_cwd():
+        raise Exception('.gvm files are deprecated, please rename it .godotversion')
+    return isfile(join('.', '.godotversion'))
+
 
 def platform() -> str:
     name = system().lower()
