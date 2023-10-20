@@ -2,7 +2,10 @@
 
 Use `gvm` from the command line to manage the Godot version of your different projects.
 
-⚠️ This is currently under development, breaking changes will happen ⚠️
+<br></br>
+
+> [!WARNING]
+> This is currently under development, breaking changes will happen
 
 
 
@@ -22,10 +25,11 @@ Use `gvm` from the command line to manage the Godot version of your different pr
 
 **supported systems:**
 * [x] linux 🐧
-* [ ] windows 🪟 (incomming)
+* [ ] windows 🪟 (incoming)
 * [ ] macos 🍎 (shouldn't be hard)
 * [ ] android
 
+<br></br>
 
 
 
@@ -74,6 +78,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
+<br></br>
 
 
 
@@ -109,6 +114,7 @@ gvm use --local VERSION
 
 Run ```gvm -h``` for more informations
 
+<br></br>
 
 
 
@@ -123,7 +129,8 @@ Run `pytest` in the project's root directory to run all tests.
 
 #### Automatically run tests before any commit
 
- ⚠️ this will delete any pre-commit hook you already created ⚠️
+> [!WARNING]
+> this will delete any pre-commit hook you already created
 ```
 chmod +x pre-commit-hook.sh
 ./pre-commit-hook.sh
