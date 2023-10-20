@@ -158,8 +158,7 @@ cd godot-version-manager
 
 #### Set up virtualenv (recommended)
 
-We use virtualenv to create an environment with controlled python package versions. 
-
+We use virtualenv to create an environment with controlled python package versions.
 
 ```
 pip install virtualenv
@@ -167,10 +166,10 @@ virtualenv venv
 # for linux
 source venv/bin/activate
 # for windows
-.\venv\Scripts\activate.ps1
+.\venv\Scripts\activate
 ```
 
-Make sure to run `source venv/bin/activate` (`.\venv\Scripts\activate.ps1` on Windows) before working on the project. <br>
+Make sure to run `source venv/bin/activate` (`.\venv\Scripts\activate` on Windows) before working on the project. <br>
 Run `deactivate` to deactivate the virtualenv.
 
 #### Install gdvm on your system
