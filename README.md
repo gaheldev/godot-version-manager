@@ -99,10 +99,13 @@ gvm download
 gvm use --local
 ```
 
+>[!NOTE]
+> The local version is written to `.godotversion` in the current working directory. 
+> Track it with git ;) 
 
 ## Use an already managed version as system's default
 ```
-gvm use --system VERSION
+gvm use --system-default VERSION
 ```
 or for the interactive version:
 ```

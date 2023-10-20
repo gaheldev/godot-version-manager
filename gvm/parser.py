@@ -11,7 +11,7 @@ from .completers import FilteredFilesCompleter, c_releases
 
 
 # Instantiate the parser
-main_parser = argparse.ArgumentParser(description='Install Godot system wise and manage versions')
+main_parser = argparse.ArgumentParser(description='Manage Godot versions')
 subparsers = main_parser.add_subparsers(dest='subparser_name')
 
 
@@ -22,7 +22,7 @@ parser_use = subparsers.add_parser('use', help='pick the Godot version to use sy
 
 parser_use.add_argument('version', metavar='VERSION',
                         nargs='?',
-                        help='version of the installed Godot to use')\
+                        help='version of Godot to use from managed versions')\
           .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
 
 parser_use.add_argument('--system-default', action='store_true',
@@ -34,7 +34,7 @@ parser_use.add_argument('--local', action='store_true',
 
 # Add archive file without installing
 parser_add = subparsers.add_parser('add',
-                                   help='add managed version from binary or zip archive without installing')
+                                   help='add Godot binary or zip archive to managed versions')
 
 parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archive')\
           .completer = FilteredFilesCompleter(lambda f: os.path.basename(f).startswith('Godot_'))
@@ -42,7 +42,7 @@ parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archiv
 
 # Delete Godot version
 parser_del = subparsers.add_parser('remove',
-                                   help='delete Godot version (remain installed system wise if currently in use)')
+                                   help='delete Godot version from managed versions (remain installed system wise if currently in use)')
 
 parser_del.add_argument('-f', '--force',
                         action='store_true',
@@ -50,16 +50,16 @@ parser_del.add_argument('-f', '--force',
 
 parser_del.add_argument('version', metavar='VERSION',
                         nargs='*',
-                        help='version of the installed Godot app to remove')\
+                        help='version(s) of the installed Godot app to remove')\
           .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
 
 
 
 # Optional listing of available Godot version
-parser_list = subparsers.add_parser('list', help=f'list available Godot versions')
+parser_list = subparsers.add_parser('list', help=f'list managed Godot versions')
 
 main_parser.add_argument('-l', '--list', action='store_true',
-                         help=f'list available Godot versions')
+                         help=f'list managed Godot versions')
 
 
 # Start Godot
@@ -79,7 +79,7 @@ parser_run.add_argument('--local', action='store_true',
 
 
 # Download godot version
-parser_dl = subparsers.add_parser('download', help='download a Godot version to /tmp')
+parser_dl = subparsers.add_parser('download', help='download a Godot version (add to managed if compatible with system)')
 
 parser_dl.add_argument('version', metavar='VERSION',
                        nargs='?',
