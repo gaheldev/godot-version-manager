@@ -84,6 +84,7 @@ chmod +x install.sh
 
 >[!NOTE]
 > Run ```gvm -h``` for advanced usage
+<br/>
 
 ## Use Godot version in current working directory
 
@@ -102,6 +103,7 @@ gvm use --local
 >[!NOTE]
 > The local version is written to `.godotversion` in the current working directory. 
 > Track it with git ;) 
+<br/>
 
 ## Use an already managed version as system's default
 ```
