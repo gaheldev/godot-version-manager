@@ -37,6 +37,7 @@ Use `gvm` from the command line to manage the Godot version of your different pr
 
 >[!IMPORTANT]
 > `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
+<br/>
 
 <!--- Seems unnecessary 
 The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
