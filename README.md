@@ -82,6 +82,9 @@ chmod +x install.sh
 
 # 📝 Usage
 
+>[!NOTE]
+> Run ```gvm -h``` for advanced usage
+
 ## Use Godot version in current working directory
 
 ```
@@ -117,12 +120,6 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 * `gvm run VERSION` to run a specific version
   
 * `gvm run --system` to run the system's default
-<br/>
-
-## Advanced usage
-
->[!NOTE]
-> Run ```gvm -h``` for more informations  
 
 <br/>
 
