@@ -1,6 +1,6 @@
 # Godot Version Manager
 
-Use `gvm` from the command line to manage the Godot version of your different projects.
+Use `gdvm` from the command line to manage the Godot version of your different projects.
 
 <br/>
 
@@ -84,21 +84,21 @@ chmod +x install.sh
 # 📝 Usage
 
 >[!NOTE]
-> Run ```gvm -h``` for advanced usage
+> Run ```gdvm -h``` for advanced usage
 <br/>
 
 ## Use Godot version in current working directory
 
 ```
-gvm download VERSION_NUMBER --release RELEASE
-gvm use --local VERSION
+gdvm download VERSION_NUMBER --release RELEASE
+gdvm use --local VERSION
 ```
 
 Gvm supports autocompletion of all arguments including all possible version and release names.  
 Alternatively you can use the interactive version of the commands:
 ```
-gvm download
-gvm use --local
+gdvm download
+gdvm use --local
 ```
 
 >[!NOTE]
@@ -108,11 +108,11 @@ gvm use --local
 
 ## Use an already managed version as system's default
 ```
-gvm use --system-default VERSION
+gdvm use --system-default VERSION
 ```
 or for the interactive version:
 ```
-gvm use --system
+gdvm use --system
 ```
 
 Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.  
@@ -121,11 +121,11 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 ## Run Godot
 
-* `gvm run` runs the current working directory's project with project's version if it has been previously defined, otherwise asks to select the version to run.
+* `gdvm run` runs the current working directory's project with project's version if it has been previously defined, otherwise asks to select the version to run.
   
-* `gvm run VERSION` to run a specific version
+* `gdvm run VERSION` to run a specific version
   
-* `gvm run --system` to run the system's default
+* `gdvm run --system` to run the system's default
 
 <br><br/>
 

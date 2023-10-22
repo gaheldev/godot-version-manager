@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
-import gvm.__main__
+import gdvm.__main__
 
 

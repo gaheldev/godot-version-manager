@@ -1,4 +1,4 @@
-from gvm.downloader import tuxfamily as tf
+from gdvm.downloader import tuxfamily as tf
 
 
 
