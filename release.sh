@@ -7,6 +7,7 @@ cp gdvm.completion ${dir}/
 cp godot.png ${dir}/
 cp install.sh ${dir}/
 
+# TODO: simplify
 (
 cd ${dir}/..
 archive="gdvm_${system}.zip"
