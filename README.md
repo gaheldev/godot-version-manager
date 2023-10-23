@@ -73,7 +73,7 @@ Run `deactivate` to deactivate the virtualenv.
 ## Install godot-version-manager on your system
 
 ```
-chmod +x install.sh
+./build.sh
 ./install.sh
 ```
 
