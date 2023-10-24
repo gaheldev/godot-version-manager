@@ -29,35 +29,35 @@ jobs:
         name: release_url
         path: release_url.txt
 
-    build:
-        name: Build packages
-        needs: createrelease
-        runs-on: ${{ matrix.os }}
-        strategy:
-          matrix:
-            include:
-              - os: ubuntu-20.04
-                TARGET: linux
-                CMD_BUILD: >
-                    ./build.sh
-                    ./release.sh
-                OUT_FILE_NAME: release/gdvm_linux.zip
-                ASSET_MIME: release/zip
-    # TEMPLATE FOR INSPIRATION :P
-    #          - os: macos-latest
-    #           TARGET: macos
-    #            CMD_BUILD: >
-    #                pyinstaller -F -w -n clipster -i resources/clipster.icns cli.py &&
-    #                cd dist/ &&
-    #                zip -r9 clipster clipster.app/                
-    #            OUT_FILE_NAME: clipster.zip
-    #            ASSET_MIME: application/zip
-    #          - os: windows-latest
-    #           TARGET: windows
-    #            CMD_BUILD: pyinstaller -F -w -n clipster -i resources/clipster.ico cli.py
-    #            OUT_FILE_NAME: clipster.exe
-    #            ASSET_MIME: application/vnd.microsoft.portable-executable
-        steps:
+  build:
+    name: Build packages
+    needs: createrelease
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            TARGET: linux
+            CMD_BUILD: >
+              ./build.sh
+              ./release.sh
+            OUT_FILE_NAME: release/gdvm_linux.zip
+            ASSET_MIME: release/zip
+# TEMPLATE FOR INSPIRATION :P
+#          - os: macos-latest
+#           TARGET: macos
+#            CMD_BUILD: >
+#              pyinstaller -F -w -n clipster -i resources/clipster.icns cli.py &&
+#              cd dist/ &&
+#              zip -r9 clipster clipster.app/
+#            OUT_FILE_NAME: clipster.zip
+#            ASSET_MIME: application/zip
+#          - os: windows-latest
+#           TARGET: windows
+#            CMD_BUILD: pyinstaller -F -w -n clipster -i resources/clipster.ico cli.py
+#            OUT_FILE_NAME: clipster.exe
+#            ASSET_MIME: application/vnd.microsoft.portable-executable
+      steps:
         - uses: actions/checkout@v4.1.1
         - name: Set up Python 3.11
           uses: actions/setup-python@v4.7.1
@@ -84,8 +84,8 @@ jobs:
           uses: actions/upload-release-asset@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-        asset_path: ./dist/${{ matrix.OUT_FILE_NAME}}
-        asset_name: ${{ matrix.OUT_FILE_NAME}}
-        asset_content_type: ${{ matrix.ASSET_MIME}}
+    with:
+      upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+      asset_path: ./dist/${{ matrix.OUT_FILE_NAME}}
+      asset_name: ${{ matrix.OUT_FILE_NAME}}
+      asset_content_type: ${{ matrix.ASSET_MIME}}
