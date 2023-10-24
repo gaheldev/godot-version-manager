@@ -8,6 +8,7 @@ cp dist/gdvm ${dir}/dist/
 cp gdvm.completion ${dir}/
 cp godot.png ${dir}/
 cp install.sh ${dir}/
+cp LICENSE ${dir}/
 
 
 # TODO: simplify
