@@ -9,10 +9,11 @@ Manage the Godot version of your different projects from the command line.
 <br/>
 
 <div align="center">
-  <a href="https://github.com/gaheldev/godot-version-manager/actions/workflows/release.yml">
-		<img src="https://github.com/gaheldev/godot-version-manager/actions/workflows/release.yml/badge.svg?event=release"/>
-	</a>
+<a href=https://github.com/gaheldev/godot-version-manager/releases/latest alt="Latest release">
+	<img src=https://img.shields.io/github/v/release/gaheldev/godot-version-manager>
+</a>
 </div>
+
 
 <br/>
 
