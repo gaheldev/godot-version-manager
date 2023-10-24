@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1.13.0
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -58,9 +58,9 @@ jobs:
 #            OUT_FILE_NAME: clipster.exe
 #            ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4.7.1
+        uses: actions/setup-python@v4
         with:
           python-version: 3.11
       - name: Install dependencies
