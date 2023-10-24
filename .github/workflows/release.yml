@@ -44,11 +44,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Build with pyinstaller for ${{matrix.TARGET}}
+      - name: Build with pyinstaller for ${{ matrix.TARGET }}
         run: ${{matrix.CMD_BUILD}}
-      - name: Create release for ${{matric.TARGET}}
+      - name: Create release for ${{ matrix.TARGET }}
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ matrix.OUT_FILE_NAME}}
+            ${{matrix.OUT_FILE_NAME}}
           draft: true
