@@ -48,7 +48,7 @@ Download the [latest release](https://github.com/gaheldev/godot-version-manager/
 Install `gdvm` by running the install script from the extracted directory:
 
 ```
-cd gdvm_linux
+cd gdvm
 ./install.sh
 ```
 
