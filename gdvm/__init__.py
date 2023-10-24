@@ -63,7 +63,7 @@ def main():
     if args.subparser_name == 'use':
         version = args.version if args.version else pick_version()
         chosen_app = app_manager.get_app_from_version(version)
-        app_manager.install(chosen_app, project=args.local)
+        app_manager.install(chosen_app, project=args.local) # defaults to local
 
 
     if args.subparser_name == 'add':

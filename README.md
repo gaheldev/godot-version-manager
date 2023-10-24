@@ -1,6 +1,6 @@
 # Godot Version Manager
 
-Use `gdvm` from the command line to manage the Godot version of your different projects.
+Manage the Godot version of your different projects from the command line.
 
 <br/>
 
@@ -35,47 +35,16 @@ Use `gdvm` from the command line to manage the Godot version of your different p
 
 # 🛠️ Installation
 
->[!IMPORTANT]
-> `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
-<br/>
-
-<!--- Seems unnecessary 
-The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
+Download the [latest release](https://github.com/gaheldev/godot-version-manager/releases/latest) and extract it.  
+Install `gdvm` by running the install script from the extracted directory:
 
 ```
-# on Ubuntu
-sudo apt install python3-argcomplete
-sudo activate-global-python-argcomplete
-```
---->
-
-## Clone git repo
-
-```
-git clone https://github.com/gaheldev/godot-version-manager.git
-cd godot-version-manager
-```
-
-## Set up virtualenv (recommended)
-
-We use virtualenv to create an environment with controlled python package versions. 
-
-
-```
-pip install virtualenv
-virtualenv venv
-source venv/bin/activate
-```
-
-Make sure to run `source venv/bin/activate` before working on the project. <br>
-Run `deactivate` to deactivate the virtualenv.
-
-## Install godot-version-manager on your system
-
-```
-./build.sh
+cd gdvm_linux
 ./install.sh
 ```
+
+>[!NOTE]
+> If you encounter a glibc error follow the [install instructions for developers](#set-up-the-development-environment)
 
 <br></br>
 
@@ -112,7 +81,7 @@ gdvm use --system-default VERSION
 ```
 or for the interactive version:
 ```
-gdvm use --system
+gdvm use --system-default
 ```
 
 Both running ```godot``` in the terminal or opening Godot's desktop application will point to the new installed version.  
@@ -134,13 +103,58 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 # ⌨️ Development
 
+## Set up the development environment
+
+>[!IMPORTANT]
+> `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
+<br/>
+
+<!--- Seems unnecessary 
+The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
+
+```
+# on Ubuntu
+sudo apt install python3-argcomplete
+sudo activate-global-python-argcomplete
+```
+--->
+
+#### Clone git repo
+
+```
+git clone https://github.com/gaheldev/godot-version-manager.git
+cd godot-version-manager
+```
+
+#### Set up virtualenv (recommended)
+
+We use virtualenv to create an environment with controlled python package versions. 
+
+
+```
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
+```
+
+Make sure to run `source venv/bin/activate` before working on the project. <br>
+Run `deactivate` to deactivate the virtualenv.
+
+#### Install godot-version-manager on your system
+
+```
+./build.sh
+./install.sh
+```
+
+
 ## Tests
 
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
 Run `pytest` in the project's root directory to run all tests. 
 
-### Automatically run tests before any commit
+#### Automatically run tests before any commit
 
 > [!WARNING]
 > this will delete any pre-commit hook you already created
