@@ -15,7 +15,7 @@ jobs:
         include:
           - os: ubuntu-20.04
             TARGET: linux
-            CMD_BUILD: >
+            CMD_BUILD: |
               ./build.sh
               ./release.sh
             OUT_FILE_NAME: release/gdvm_linux.zip
