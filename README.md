@@ -50,13 +50,13 @@ cd gdvm_linux
 
 
 
-# 📝 Usage
+# 📝 Basic usage
 
 >[!NOTE]
 > Run ```gdvm -h``` for advanced usage
 <br/>
 
-## Use Godot version in current working directory
+## Set a Godot version to use for current working directory
 
 ```
 gdvm download VERSION_NUMBER --release RELEASE
@@ -75,7 +75,7 @@ gdvm use --local
 > Track it with git ;) 
 <br/>
 
-## Use an already managed version as system's default
+## Set a managed version as system's default
 ```
 gdvm use --system-default VERSION
 ```
