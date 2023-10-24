@@ -19,7 +19,6 @@ jobs:
               ./build.sh
               ./release.sh
             OUT_FILE_NAME: release/gdvm_linux.zip
-            ASSET_MIME: release/zip
 # TEMPLATE FOR INSPIRATION :P
 #          - os: macos-latest
 #           TARGET: macos
@@ -28,12 +27,10 @@ jobs:
 #              cd dist/ &&
 #              zip -r9 clipster clipster.app/
 #            OUT_FILE_NAME: clipster.zip
-#            ASSET_MIME: application/zip
 #          - os: windows-latest
 #           TARGET: windows
 #            CMD_BUILD: pyinstaller -F -w -n clipster -i resources/clipster.ico cli.py
 #            OUT_FILE_NAME: clipster.exe
-#            ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.11
