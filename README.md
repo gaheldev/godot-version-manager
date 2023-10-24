@@ -1,37 +1,45 @@
-# Godot Version Manager
+<h1 align='center'>
+Godot Version Manager
+</h1>
 
+<p align='center'>
 Manage the Godot version of your different projects from the command line.
+</p>
+
+<br/>
+
+<div align="center">
+  <a href="https://github.com/gaheldev/godot-version-manager/actions/workflows/release.yml">
+		<img src="https://github.com/gaheldev/godot-version-manager/actions/workflows/release.yml/badge.svg?event=release"/>
+	</a>
+</div>
+
+<br/>
+
+
+
+# ✨ Features
+
+* download any release of Godot > 3.0 from the command line
+* set a Godot version per project
+* set a system's default version for Godot, with desktop shortcut
+
+<br/>
+
+* [x] linux 🐧
+* [ ] windows 🪟 (incoming)
+* [ ] macos 🍎 (shouldn't be hard)
+* [ ] android
 
 <br/>
 
 > [!WARNING]
 > currently under development, breaking changes will happen
 
-<br/>
-
-
-# ✨ Features
-
-* [x] **download** any release of Godot > 3.0 to the managed versions
-* [x] **use** a Godot version per project, trackable by `git`
-* [x] **run** the project's version and download it automatically if necessary
-* [x] **list**, **remove**, **run** managed versions
-* [x] **use** a default system version with desktop shortcut (`godot` in terminal)
-* [ ] create desktop shortcuts for multiple versions
-* [ ] Notify about new available versions
-* [x] **add** a Godot binary or archive to managed versions
-
-
-**supported systems:**
-* [x] linux 🐧
-* [ ] windows 🪟 (incoming)
-* [ ] macos 🍎 (shouldn't be hard)
-* [ ] android
-
 <br></br>
 
 
-
+---
 
 # 🛠️ Installation
 
@@ -48,7 +56,7 @@ cd gdvm_linux
 
 <br></br>
 
-
+---
 
 # 📝 Basic usage
 
@@ -99,7 +107,7 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 <br><br/>
 
 
-
+---
 
 # ⌨️ Development
 
@@ -140,7 +148,7 @@ source venv/bin/activate
 Make sure to run `source venv/bin/activate` before working on the project. <br>
 Run `deactivate` to deactivate the virtualenv.
 
-#### Install godot-version-manager on your system
+#### Install gdvm on your system
 
 ```
 ./build.sh
