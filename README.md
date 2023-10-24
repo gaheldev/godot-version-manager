@@ -34,7 +34,7 @@ Manage the Godot version of your different projects from the command line.
 <br/>
 
 > [!WARNING]
-> currently under development, breaking changes will happen
+> currently under development, breaking changes may happen
 
 <br></br>
 
