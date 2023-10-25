@@ -161,7 +161,7 @@ Run `deactivate` to deactivate the virtualenv.
 
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
-Run `pytest` in the project's root directory to run all tests. 
+Run `pytest -v` in the project's root directory to run all tests. 
 
 #### Automatically run tests before any commit
 
@@ -172,4 +172,4 @@ chmod +x pre-commit-hook.sh
 ./pre-commit-hook.sh
 ```
 
-If you already have a pre-commit hook set up, just add the line `pytest` to `.git/hooks/pre-commit`
+If you already have a pre-commit hook set up, just add the line `pytest -v` to `.git/hooks/pre-commit`
