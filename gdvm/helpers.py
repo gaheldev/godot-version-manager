@@ -10,7 +10,10 @@ from typing import Tuple
 
 
 def extract_archive(file: str, to_dir: str) -> str:
-    """Extracts Godot archive to /tmp and return extracted file path"""
+    """ Extracts Godot archive to /tmp and return extracted file path
+
+        Warning: ! loses execute permissions of files
+    """
     shutil.unpack_archive(file, to_dir)
     return join(to_dir, basename(splitext(file)[0]))
 

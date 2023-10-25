@@ -164,11 +164,12 @@ class AppManager:
             godot_exe = godot_path
         elif os.path.isdir(godot_path):
             godot_exe = _get_mono_app(godot_path)
-            # make sure the file is executable
-            os.chmod(godot_exe, os.stat(godot_exe).st_mode | 0o111)
         else:
             print(f'{godot_path} is not valid')
             abort()
+
+        # make sure the file is executable
+        os.chmod(godot_exe, os.stat(godot_exe).st_mode | 0o111)
 
         if not is_valid_app(godot_exe):
             os.remove(godot_path)
