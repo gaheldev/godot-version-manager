@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fake_version='3.42.7.stable.official.666aa6aa'
+
+case "$1" in
+	'-v' | '--version')
+		echo $fake_version
+		;;
+	*)
+		;;
+esac
