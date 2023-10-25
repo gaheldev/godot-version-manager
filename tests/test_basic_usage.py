@@ -1,4 +1,5 @@
 from gdvm import manager as m
+
 import os
 
 
@@ -23,9 +24,9 @@ def test_add_from_zip():
         assert app.mono == False
 
 
-# TODO
 def test_list():
-    pass
+    assert ('3.42.7.stable.official.666aa6aa' in app_manager.versions) == True
+    assert ('not_a_version' in app_manager.versions) == False
 
 
 # TODO
@@ -36,4 +37,4 @@ def test_use_local():
 def test_remove():
     if isinstance(app, m.GodotApp):
         app.remove()
-    assert os.path.isfile(app.path) == False
+        assert os.path.isfile(app.path) == False
