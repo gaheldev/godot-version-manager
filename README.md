@@ -3,7 +3,7 @@ Godot Version Manager
 </h1>
 
 <p align='center'>
-Manage the Godot version of your different projects from the command line.
+A command line tool to download and manage Godot versions per project
 </p>
 
 <br/>
@@ -22,8 +22,8 @@ Manage the Godot version of your different projects from the command line.
 # ✨ Features
 
 * download any release of Godot > 3.0 from the command line
-* set a Godot version per project
-* set a system's default version for Godot, with desktop shortcut
+* use a Godot version per project and track it with git
+* set a system's default version of Godot, with desktop shortcut
 
 <br/>
 
@@ -35,7 +35,7 @@ Manage the Godot version of your different projects from the command line.
 <br/>
 
 > [!WARNING]
-> currently under development, breaking changes may happen
+> currently under development, breaking changes may happen  
 > don't hesitate to report any issue :)
 
 <br></br>
@@ -74,7 +74,7 @@ gdvm use --local VERSION
 ```
 
 Gvm supports autocompletion of all arguments including all possible version and release names.  
-Alternatively you can use the interactive version of the commands:
+Alternatively you can use the interactive mode:
 ```
 gdvm download
 gdvm use --local
@@ -89,7 +89,7 @@ gdvm use --local
 ```
 gdvm use --system-default VERSION
 ```
-or for the interactive version:
+or for the interactive mode:
 ```
 gdvm use --system-default
 ```
