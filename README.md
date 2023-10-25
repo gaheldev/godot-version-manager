@@ -36,6 +36,7 @@ Manage the Godot version of your different projects from the command line.
 
 > [!WARNING]
 > currently under development, breaking changes may happen
+> don't hesitate to report any issue :)
 
 <br></br>
 
