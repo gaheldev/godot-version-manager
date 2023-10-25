@@ -29,9 +29,16 @@ def test_list():
     assert ('not_a_version' in app_manager.versions) == False
 
 
-# TODO
 def test_use_local():
-    pass
+    if isinstance(app, m.GodotApp):
+        os.chdir('tests/')
+        app.install(project=True)
+        version = ''
+        with open('.godotversion') as version_file:
+            version = version_file.read()
+        assert version == '3.42.7.stable.official.666aa6aa'
+        os.remove('.godotversion')
+        os.chdir('../')
 
 
 def test_remove():
