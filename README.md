@@ -67,17 +67,21 @@ cd gdvm
 <br/>
 
 ## Set a Godot version to use for current working directory
-
 ```
-gdvm download VERSION_NUMBER --release RELEASE
+gdvm download VERSION_NUMBER
 gdvm use --local VERSION
 ```
-
-Gvm supports autocompletion of all arguments including all possible version and release names.  
+Gvm supports autocompletion of all arguments including all possible versions. 
 Alternatively you can use the interactive mode:
 ```
 gdvm download
 gdvm use --local
+```
+
+If you'd like to use a release other than stable, such as `rc1` or `dev5`, you can use the `--release` argument:
+```
+gdvm download VERSION_NUMBER --release RELEASE
+gdvm use --local VERSION
 ```
 
 >[!NOTE]
