@@ -146,8 +146,17 @@ def download_app(version_number: str,
 
     link = matching_links[0]
     download_path = os.path.join(dl_path, os.path.basename(link))
+
     print(f'Downloading {link}')
-    wget.download(link, out=download_path)
+
+    try:
+        wget.download(link, out=download_path)
+    except KeyboardInterrupt:
+        import sys
+        print()
+        print("Aborting...")
+        sys.exit()
+
     print()
     return download_path
 
