@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # TODO: add ~/.local/bin to path if it's not in it
 mkdir -p ~/.local/bin
 

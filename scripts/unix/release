@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Creating release for linux..."
 
 system="linux"
@@ -7,7 +9,7 @@ mkdir -p ${dir}/dist
 cp dist/gdvm ${dir}/dist/
 cp gdvm.completion ${dir}/
 cp godot.png ${dir}/
-cp install.sh ${dir}/
+cp scripts/unix/install ${dir}/
 cp LICENSE ${dir}/
 
 
