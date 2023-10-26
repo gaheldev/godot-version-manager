@@ -84,6 +84,7 @@ def main():
             case 'y':
                 for app in chosen_apps:
                     app_manager.remove(app)
+                exit()
             case other:
                 abort()
 

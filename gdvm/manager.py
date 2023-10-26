@@ -236,7 +236,6 @@ class AppManager:
     def remove(self, app: GodotApp):
         app.remove()
         print(f'Removed {app.version}')
-        exit()
 
 
     def run_system_version(self):
