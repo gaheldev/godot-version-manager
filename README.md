@@ -157,8 +157,7 @@ Run `deactivate` to deactivate the virtualenv.
 #### Install gdvm on your system
 
 ```
-./build.sh
-./install.sh
+make install
 ```
 
 
@@ -166,15 +165,14 @@ Run `deactivate` to deactivate the virtualenv.
 
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
-Run `pytest -v` in the project's root directory to run all tests. 
+Run `make tests` in the project's root directory to run all tests. 
 
 #### Automatically run tests before any commit
 
 > [!WARNING]
 > this will delete any pre-commit hook you already created
 ```
-chmod +x pre-commit-hook.sh
-./pre-commit-hook.sh
+make hook
 ```
 
 If you already have a pre-commit hook set up, just add the line `pytest -v` to `.git/hooks/pre-commit`
