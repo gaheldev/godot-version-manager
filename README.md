@@ -50,7 +50,7 @@ Install `gdvm` by running the install script from the extracted directory:
 
 ```
 cd gdvm
-./install.sh
+./install
 ```
 
 >[!NOTE]
