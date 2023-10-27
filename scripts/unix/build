@@ -1,9 +1,29 @@
 #!/bin/bash
 
 pip install -r requirements.txt
+
+
+TAG=$(git describe --tags)
+
+BRANCH=$(git branch --show-current)
+case $BRANCH in
+	main)
+		VERSION=${TAG};;
+	*)
+		VERSION="${TAG}:${BRANCH}";;
+esac
+echo "# DO NOT EDIT: automatically generated during build
+
+__version__ = \"${VERSION}\"
+" > gdvm/version.py
+
+
+echo 'Building gdvm: version ${VERSION}'
 pyinstaller -F main.py -n gdvm
 
 (
 cd dist
 register-python-argcomplete gdvm > ../gdvm.completion
 )
+
+rm gdvm/version.py

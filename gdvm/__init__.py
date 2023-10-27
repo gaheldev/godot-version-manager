@@ -11,6 +11,24 @@ from .manager import AppManager
 from .helpers import abort, godotversion_in_cwd, platform, architecture
 from .downloader import downloader as dl
 
+try:
+    # during build, a version.py module should get generated
+    from .version import __version__
+except:
+    # when using gdvm from the package directly, we get the current version with git
+    import subprocess as sp
+    try:
+        __version__ = sp.run(['git', 'describe', '--tags'], check=False, stdout=sp.PIPE).stdout\
+                        .decode('utf-8')\
+                        .strip()
+        current_branch = sp.run(['git', 'branch', '--show-current'], check=False, stdout=sp.PIPE).stdout\
+                           .decode('utf-8')\
+                           .strip()
+        if current_branch != 'main':
+            __version__ = __version__ + ':' + current_branch
+    except:
+        __version__ = 'version not found'
+
 
 def main():
 
@@ -28,8 +46,7 @@ def main():
         exit()
 
     if args.subparser_name is None and args.version:
-        from .version import VERSION
-        print(VERSION)
+        print(__version__)
         exit()
 
     app_manager = AppManager()

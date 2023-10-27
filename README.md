@@ -165,7 +165,7 @@ make install
 > [!WARNING]
 > this will delete any pre-commit hook you already created
 
-To automatically run tests before commits and bump versions we use a pre-commit hook:
+To automatically run tests before commits we use a pre-commit hook:
 
 ```
 make hook
