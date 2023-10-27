@@ -27,7 +27,7 @@ def main():
         parser.print_help()
         exit()
 
-    if args.version:
+    if args.subparser_name is None and args.version:
         from .version import VERSION
         print(VERSION)
         exit()
@@ -35,7 +35,7 @@ def main():
     app_manager = AppManager()
 
 
-    if args.list or args.subparser_name == 'list':
+    if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
         cli.display_versions(app_manager.versions, manager.get_current_version())
         exit()
 
