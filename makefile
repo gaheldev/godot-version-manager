@@ -5,7 +5,7 @@ else
 endif
 
 
-.PHONY : build install release tests hook
+.PHONY : build install release tests hook patch-release minor-release major-release
 
 
 tests :
@@ -27,6 +27,16 @@ release : build
 
 hook :
 	@echo not implemented for Windows
+
+patch-version : hook
+	@echo not implemented for Windows
+
+minor-release : hook
+	@echo not implemented
+
+major-release : hook
+	@echo not implemented
+
 
 endif
 
@@ -55,6 +65,18 @@ hook :
 	# implement in unix script
 	# ./scripts/unix/pre-commit-hook
 
+patch-release : hook
+	@echo not implemented for OSX
+	# implement in unix script
+	# ./scripts/unix/push-patchh-release
+
+minor-release : hook
+	@echo not implemented
+
+major-release : hook
+	@echo not implemented
+
+
 endif
 
 
@@ -63,16 +85,26 @@ endif
 ifeq ($(platform), Linux)
 
 build :
-	./scripts/unix/build
+	@./scripts/unix/build
 
 install : build
-	./scripts/unix/install
+	@./scripts/unix/install
 
 release : build
-	./scripts/unix/release
+	@./scripts/unix/release
 
 hook :
-	./scripts/unix/pre-commit-hook
+	@./scripts/unix/pre-commit-hook
+
+patch-release : hook
+	@./scripts/unix/push-release-version patch
+
+minor-release : hook
+	@./scripts/unix/push-release-version minor
+
+major-release : hook
+	@./scripts/unix/push-release-version major
+
 
 endif
 

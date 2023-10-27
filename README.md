@@ -183,16 +183,10 @@ Run `make tests` in the project's root directory to run all tests.
 
 ## Releases
 
-Releases are automatically built on github when a tag `v*.*.*` is pushed.  
-The process to create a new online release is convoluted, until this is improved you have to run:
+Releases are automatically built on github when a tag `v*.*.*` is pushed by one of the commands:
 
 ```
-make hook
-git commit "bump to version <VERSION>"
-git tag <VERSION>
-git commit --amend # save and do nothing, this is for git hook to update gdvm version to the new tag
-git tag -d <VERSION>
-git tag <VERSION>
-git push
-git push origin <VERSION>
+make patch-release
+make minor-release
+make major-release
 ```
