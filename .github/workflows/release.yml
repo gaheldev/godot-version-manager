@@ -16,8 +16,7 @@ jobs:
           - os: ubuntu-20.04 # for glibc compatibility with systems > 20.04
             TARGET: linux
             CMD_BUILD: |
-              ./build.sh
-              ./release.sh
+              make release
             OUT_FILE_NAME: release/gdvm_linux.zip
 # TEMPLATE FOR INSPIRATION :P
 #          - os: macos-latest
