@@ -194,5 +194,5 @@ git commit --amend # save and do nothing, this is for git hook to update gdvm ve
 git tag -d <VERSION>
 git tag <VERSION>
 git push
-git push <VERSION>
+git push origin <VERSION>
 ```
