@@ -179,3 +179,20 @@ make hook
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
 Run `make tests` in the project's root directory to run all tests.
+
+
+## Releases
+
+Releases are automatically built on github when a tag `v*.*.*` is pushed.  
+The process to create a new online release is convoluted, until this is improved you have to run:
+
+```
+make hook
+git commit "bump to version <VERSION>"
+git tag <VERSION>
+git commit --amend # save and do nothing, this is for git hook to update gdvm version to the new tag
+git tag -d <VERSION>
+git tag <VERSION>
+git push
+git push <VERSION>
+```
