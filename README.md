@@ -171,7 +171,8 @@ To automatically run tests before commits and bump versions we use a pre-commit 
 make hook
 ```
 
-If you already have a pre-commit hook set up, just add what you need from `scripts/unix/pre-commit-hook` to `.git/hooks/pre-commit`
+> [!WARNING]
+> if a hook has been changed by you or someone else, you need to run `make hook` again
 
 ## Tests
 

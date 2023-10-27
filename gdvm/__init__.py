@@ -27,6 +27,10 @@ def main():
         parser.print_help()
         exit()
 
+    if args.version:
+        from .version import VERSION
+        print(VERSION)
+        exit()
 
     app_manager = AppManager()
 

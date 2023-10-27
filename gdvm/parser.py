@@ -61,6 +61,10 @@ parser_list = subparsers.add_parser('list', help=f'list managed Godot versions')
 main_parser.add_argument('-l', '--list', action='store_true',
                          help=f'list managed Godot versions')
 
+# Display current gdvm version
+main_parser.add_argument('-v', '--version', action='store_true',
+                         help=f'display gdvm version')
+
 
 # Start Godot
 parser_run = subparsers.add_parser('run',
