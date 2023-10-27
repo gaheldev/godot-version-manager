@@ -1,7 +1,6 @@
 #!/bin/bash
 
 LAST_VERSION=$(git describe --tags --abbrev=0 $(git rev-list --tags --max-count=1))
-LAST_VERSION=v3.4.5
 
 
 MAJOR=$(echo ${LAST_VERSION:1} | cut -d "." -f 1)
@@ -36,10 +35,7 @@ read -p "Bump version $LAST_VERSION -> $VERSION? [y/N]: " confirm && [[ $confirm
 MSG="bump: gdvm version $LAST_VERSION -> $VERSION"
 
 
-# git commit -m $MSG
-# git tag $VERSION
-# git commit --amend -m $MSG # this is for git hook to update gdvm version to the new tag
-# git tag -d $VERSION # make sure the version tag is 
-# git tag $VERSION
-# git push
-# git push origin $VERSION
+git commit --allow-empty -m $MSG
+git tag $VERSION
+git push
+git push origin $VERSION
