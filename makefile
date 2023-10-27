@@ -5,8 +5,13 @@ else
 endif
 
 
-.PHONY : build install release tests hook patch-release minor-release major-release
+.PHONY : clean build install release tests hook patch-release minor-release major-release
 
+clean :
+	rm -r build
+	rm -r dist
+	rm *.completion
+	rm *.spec
 
 tests :
 	pytest -v
