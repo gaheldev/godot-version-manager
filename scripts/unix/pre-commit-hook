@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo '#!/bin/bash
+
+# run tests
+pytest -v
+
+# automatically change gdvm version
+git describe --tags > gdvm/VERSION
+git add gdvm/VERSION
+echo VERSION: bumping to `cat gdvm/VERSION`
+' > .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit

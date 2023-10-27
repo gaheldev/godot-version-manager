@@ -160,19 +160,21 @@ Run `deactivate` to deactivate the virtualenv.
 make install
 ```
 
+#### Git hooks
+
+> [!WARNING]
+> this will delete any pre-commit hook you already created
+
+To automatically run tests before commits and bump versions we use a pre-commit hook:
+
+```
+make hook
+```
+
+If you already have a pre-commit hook set up, just add what you need from `scripts/unix/pre-commit-hook` to `.git/hooks/pre-commit`
 
 ## Tests
 
 Tests are located in the `tests/` folder of the project. All test files should be named 'test_*.py' or '*_test.py'.
 
-Run `make tests` in the project's root directory to run all tests. 
-
-#### Automatically run tests before any commit
-
-> [!WARNING]
-> this will delete any pre-commit hook you already created
-```
-make hook
-```
-
-If you already have a pre-commit hook set up, just add the line `pytest -v` to `.git/hooks/pre-commit`
+Run `make tests` in the project's root directory to run all tests.

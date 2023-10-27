@@ -53,7 +53,7 @@ release : build
 hook :
 	@echo not implemented for OSX
 	# implement in unix script
-	# ./scripts/unix/pre-commit-test-hook
+	# ./scripts/unix/pre-commit-hook
 
 endif
 
@@ -72,7 +72,7 @@ release : build
 	./scripts/unix/release
 
 hook :
-	./scripts/unix/pre-commit-test-hook
+	./scripts/unix/pre-commit-hook
 
 endif
 
