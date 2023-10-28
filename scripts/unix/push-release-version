@@ -35,7 +35,7 @@ read -p "Bump version $LAST_VERSION -> $VERSION? [y/N]: " confirm && [[ $confirm
 MSG="bump: gdvm version $LAST_VERSION -> $VERSION"
 
 
-git commit --allow-empty -m $MSG
+git commit --allow-empty -m "$MSG"
 git tag $VERSION
 git push
 git push origin $VERSION
