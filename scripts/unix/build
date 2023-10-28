@@ -7,7 +7,7 @@ TAG=$(git describe --tags)
 
 BRANCH=$(git branch --show-current)
 case $BRANCH in
-	main)
+	main | '')
 		VERSION=${TAG};;
 	*)
 		VERSION="${TAG}:${BRANCH}";;
