@@ -29,7 +29,12 @@ esac
 VERSION=v${MAJOR}.${MINOR}.${PATCH}
 
 
-read -p "Bump version $LAST_VERSION -> $VERSION? [y/N]: " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 0
+read -p "Bump version $LAST_VERSION -> $VERSION? [y/N]: " confirm
+
+if [[ $confirm != [yY] && $confirm != [yY][eE][sS] ]]; then
+	echo Aborting...
+	exit 0
+fi
 
 
 MSG="bump: gdvm version $LAST_VERSION -> $VERSION"
