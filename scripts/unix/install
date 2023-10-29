@@ -1,11 +1,29 @@
 #!/bin/bash
 
+
+
+LEGACY_COMPLETION=/usr/share/bash-completion/completions/gdvm
+LEGACY_ICON=/usr/share/share/pixmaps/godot.png
+
+if [ -e $LEGACY_COMPLETION ]; then
+	echo "Deleting ${LEGACY_COMPLETION} from a previous installation"
+	sudo rm "$LEGACY_COMPLETION"
+fi
+
+if [ -e $LEGACY_ICON ]; then
+	echo "Deleting ${LEGACY_ICON} from a previous installation"
+	sudo rm "$LEGACY_ICON"
+fi
+
+
+
 # TODO: add ~/.local/bin to path if it's not in it
 mkdir -p ~/.local/bin
 
 cp dist/gdvm ~/.local/bin/
 
-sudo cp gdvm.completion /usr/share/bash-completion/completions/gdvm
+mkdir -p ~/.local/share/bash-completion/completions
+cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
 
-sudo cp godot.png /usr/share/pixmaps/
+cp godot.png ~/.local/share/icons/
 rm -r ~/.cache/gdvm 2> /dev/null || true
