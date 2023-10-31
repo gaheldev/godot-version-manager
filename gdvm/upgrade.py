@@ -68,6 +68,7 @@ def upgrade(version: str):
     archive = os.path.join(TMP_DIR, os.path.basename(link))
     try:
         wget.download(link, out=archive)
+        print()
     except KeyboardInterrupt:
         import sys
         print()
