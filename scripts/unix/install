@@ -1,18 +1,24 @@
 #!/bin/bash
 
+case $1 in
+	'--force')
+		force=1;;
+esac
 
 
 LEGACY_COMPLETION=/usr/share/bash-completion/completions/gdvm
 LEGACY_ICON=/usr/share/share/pixmaps/godot.png
 
-if [ -e $LEGACY_COMPLETION ]; then
-	echo "Deleting ${LEGACY_COMPLETION} from a previous installation"
-	sudo rm "$LEGACY_COMPLETION"
-fi
+if [ ! $force ]; then
+	if [ -e $LEGACY_COMPLETION ]; then
+		echo "Deleting ${LEGACY_COMPLETION} from a previous installation"
+		sudo rm "$LEGACY_COMPLETION"
+	fi
 
-if [ -e $LEGACY_ICON ]; then
-	echo "Deleting ${LEGACY_ICON} from a previous installation"
-	sudo rm "$LEGACY_ICON"
+	if [ -e $LEGACY_ICON ]; then
+		echo "Deleting ${LEGACY_ICON} from a previous installation"
+		sudo rm "$LEGACY_ICON"
+	fi
 fi
 
 
