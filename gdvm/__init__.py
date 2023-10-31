@@ -149,6 +149,24 @@ def main():
             print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
 
 
+    if args.subparser_name == 'upgrade':
+        print('looking for a new release...')
+        from . import upgrade as up
+        latest = up.latest_release()
+        if not up.is_more_recent_than_current(latest):
+            print('No newer release available')
+            exit()
+
+        match input(f'{latest} is available, do you want to upgrade? [y/N]: ').lower():
+            case 'y' | 'yes':
+                up.upgrade(latest)
+                exit()
+            case _:
+                abort()
+
+
+
+
 
 
 if __name__ == '__main__':

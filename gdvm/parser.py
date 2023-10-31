@@ -107,6 +107,10 @@ parser_dl.add_argument('--release',
          .completer = c_releases
 
 
+# Upgrade gdvm
+parser_up = subparsers.add_parser('upgrade', help='upgrade gdvm to latest release')
+
+
 
 def parse_args(*args,**kwargs):
     argcomplete.autocomplete(main_parser)
