@@ -14,7 +14,7 @@ clean :
 	rm *.spec
 
 tests :
-	pytest -v
+	pytest -v --runslow
 
 
 ######### Windows ########
