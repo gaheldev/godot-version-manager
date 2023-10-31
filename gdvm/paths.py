@@ -13,5 +13,12 @@ match platform():
         LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
         TMP_DIR = '/tmp/'
 
+    case 'osx':
+        INSTALL_PATH = expanduser('~/Applications/Godot.app/Godot')
+        # DESKTOP_PATH = expanduser('~/.local/share/applications/godot.desktop')
+        APP_DIR = expanduser('~/.local/share/gdvm/apps/')
+        # CACHE_DIR = expanduser('~/.cache/gdvm/')
+        # TMP_DIR = '/tmp/'
+
     case _ as platform_name:
         raise NotImplementedError(f'Unsupported platform: {platform_name}')
