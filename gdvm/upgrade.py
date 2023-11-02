@@ -35,7 +35,6 @@ def latest_release() -> str:
 
 
 def release_link(version: str) -> str:
-    """ link to the latest release available"""
     return f'https://github.com/gaheldev/godot-version-manager/releases/download/{version}/{release_zip}'
 
 
