@@ -1,5 +1,8 @@
-from .downloader import downloader
 import os
+from argcomplete.completers import ChoicesCompleter
+
+from .downloader import downloader
+from . import manager
 
 
 
@@ -32,6 +35,25 @@ class FilteredFilesCompleter():
 
 
 
-def c_releases(prefix, parsed_args, **kwargs):
-    return downloader.get_release_names(parsed_args.version)
+class GodotVersionNumbersCompleter(ChoicesCompleter):
+    def __init__(self):
+        super().__init__(downloader.get_version_numbers())
 
+    def __call__(self, **kwargs):
+        return super().__call__(**kwargs)
+
+
+
+class GodotReleasesCompleter:
+    def __call__(self, prefix, parsed_args, **kwargs):
+        for name in downloader.get_release_names(parsed_args.version):
+            yield name
+
+
+
+class InstalledVersionsCompleter(ChoicesCompleter):
+    def __init__(self):
+        super().__init__(manager.get_installed_versions())
+
+    def __call__(self, **kwargs):
+        return super().__call__(**kwargs)

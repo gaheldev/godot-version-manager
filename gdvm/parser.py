@@ -3,9 +3,7 @@ import argparse
 import argcomplete
 import os
 
-from .downloader import downloader
-from . import manager
-from .completers import FilteredFilesCompleter, c_releases
+from .completers import FilteredFilesCompleter, GodotReleasesCompleter, GodotVersionNumbersCompleter, InstalledVersionsCompleter
 
 
 
@@ -23,7 +21,7 @@ parser_use = subparsers.add_parser('use', help='pick the Godot version to use sy
 parser_use.add_argument('version', metavar='VERSION',
                         nargs='?',
                         help='version of Godot to use from managed versions')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
+          .completer = InstalledVersionsCompleter()
 
 parser_use.add_argument('--system-default', action='store_true',
                         help='pick the Godot version to use system wise')
@@ -51,7 +49,7 @@ parser_del.add_argument('-f', '--force',
 parser_del.add_argument('version', metavar='VERSION',
                         nargs='*',
                         help='version(s) of the installed Godot app to remove')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
+          .completer = InstalledVersionsCompleter()
 
 
 
@@ -73,7 +71,7 @@ parser_run = subparsers.add_parser('run',
 parser_run.add_argument('version', metavar='VERSION',
                         nargs='?',
                         help='Godot version to run (e.g. 3.4, 4.1.1, ...)')\
-          .completer = argcomplete.ChoicesCompleter(manager.get_installed_versions())
+          .completer = InstalledVersionsCompleter()
 
 parser_run.add_argument('--system', action='store_true',
                         help='run system Godot version')
@@ -92,7 +90,7 @@ parser_dl = subparsers.add_parser('download', help='download a Godot version (ad
 parser_dl.add_argument('version', metavar='VERSION',
                        nargs='?',
                        help='Godot version to download (e.g. 3.4, 4.1.1, ...)')\
-         .completer = argcomplete.ChoicesCompleter(downloader.get_version_numbers())
+         .completer = GodotVersionNumbersCompleter()
 
 parser_dl.add_argument('--system',
                        default='', choices=['linux', 'windows', 'osx'],
@@ -108,7 +106,7 @@ parser_dl.add_argument('--mono', action='store_true', help='mono build')
 parser_dl.add_argument('--release',
                        default='stable', metavar=('RELEASE'),
                        help='stable (default), alpha, beta, rc or dev release')\
-         .completer = c_releases
+         .completer = GodotReleasesCompleter()
 
 
 # Upgrade gdvm
