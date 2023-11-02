@@ -32,11 +32,6 @@ except:
 
 def main():
 
-    def pick_version():
-        # TODO: select multiple versions in version picker
-        return cli.pick(app_manager.versions, manager.get_current_version())
-
-
     # Parse arguments
     args = parser.parse_args()
 
@@ -49,7 +44,13 @@ def main():
         print(__version__)
         exit()
 
+
     app_manager = AppManager()
+
+    def pick_version():
+        # TODO: select multiple versions in version picker
+        return cli.pick(app_manager.versions, manager.get_current_version())
+
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
