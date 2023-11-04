@@ -83,6 +83,10 @@ parser_run.add_argument('--local', action='store_true',
 
 
 # Download godot version
+parser_sync = subparsers.add_parser('sync', help='get latest list of Godot builds')
+
+
+# Download godot version
 parser_dl = subparsers.add_parser('download', help='download a Godot version (add to managed if compatible with system)')
 
 parser_dl.add_argument('version', metavar='VERSION',

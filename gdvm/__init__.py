@@ -9,7 +9,6 @@ from . import parser
 from . import manager
 from .manager import AppManager
 from .helpers import abort, godotversion_in_cwd, platform, architecture
-from .downloader import downloader as dl
 
 try:
     # during build, a version.py module should get generated
@@ -55,6 +54,12 @@ def main():
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
         cli.display_versions(app_manager.versions, manager.get_current_version())
+        exit()
+
+
+    if args.subparser_name == 'sync':
+        from .downloader.godotwebsite import sync
+        sync()
         exit()
 
 
@@ -112,6 +117,8 @@ def main():
 
 
     if args.subparser_name == 'download':
+        from .downloader import downloader as dl
+
         system = platform()
         arch = architecture()
         release = args.release
