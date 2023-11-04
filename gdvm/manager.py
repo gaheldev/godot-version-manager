@@ -52,15 +52,15 @@ def get_installed_versions() -> Generator[str, None, None]:
         yield get_version(app)
 
 
-def _get_mono_app(mono_path: str) -> str:
-    """ mono_path is the path to the folder extracted from mono release 
+def _get_mono_app(mono_dir: str) -> str:
+    """ mono_dir is the path to the folder extracted from mono release
 
         return: path to the mono executable app
     """
-    for f in os.scandir(mono_path):
-        if f.is_file():
+    for f in os.scandir(mono_dir):
+        if f.is_file() and ('Godot_v' in f.name):
             return f.path
-    raise Exception(f'mono app not found in {mono_path}')
+    raise Exception(f'mono app not found in {mono_dir}')
 
 
 def is_valid_app(app_path: str) -> bool:
