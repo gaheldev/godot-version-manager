@@ -1,23 +1,28 @@
 from typing import Generator
 
 # from . import tuxfamily as remote
-from . import github as remote
+from .github import GithubRemote as Remote
 from ..paths import TMP_DIR
 
 
 
+remote = Remote()
+
 
 
 def get_version_numbers() -> Generator[str, None, None]:
-    return remote.get_version_numbers()
+    return remote.version_numbers
+
 
 
 def get_prerelease_names(version: str) -> Generator[str, None, None]:
-    return remote.get_prerelease_names(version)
+    return remote.prerelease_names(version)
+
 
 
 def get_release_names(version: str) -> Generator[str, None, None]:
-    return remote.get_release_names(version)
+    return remote.release_names(version)
+
 
 
 def download_app(version_number: str,

@@ -15,6 +15,9 @@ REMOTE_VERSIONS_FILE = 'https://raw.githubusercontent.com/godotengine/godot-webs
 
 def sync():
     print('Getting latest releases...')
+    if os.path.isfile(VERSIONS_PATH):
+        os.remove(VERSIONS_PATH)
+
     wget.download(REMOTE_VERSIONS_FILE, out=VERSIONS_PATH)
     print()
     with open(LAST_SYNCED_PATH, 'w') as f:
@@ -61,7 +64,7 @@ class VersionParser():
     cache = VERSIONS_PATH
 
     def __init__(self):
-        if days_since_synced() >= 1:
+        if (not os.path.isfile(self.cache)) or (days_since_synced() >= 1):
             sync()
 
         with open(self.cache) as stream:
@@ -70,6 +73,7 @@ class VersionParser():
         # with urlopen(self.remote) as stream:
         #     self.yaml = yaml.safe_load(stream)
     
+
     @property
     def versions(self) -> Generator[Version, None, None]:
         for v in self.yaml:

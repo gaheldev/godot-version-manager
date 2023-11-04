@@ -223,9 +223,9 @@ class AppManager:
 
 
     def add_version(self, version: str):
-        version_number, pre_release, mono = parse_version(version)
+        version_number, release, mono = parse_version(version)
         archive = download_app(version_number,
-                               prerelease=pre_release,
+                               release=release,
                                system=platform(),
                                mono=mono,
                                architecture=architecture())

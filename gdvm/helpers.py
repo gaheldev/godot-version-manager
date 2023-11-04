@@ -55,15 +55,19 @@ def parse_version(version: str) -> Tuple[str, str, bool]:
     nb = re.compile(r'^[1-4](\.\d)+')
     version_number = nb.match(version)[0]
 
-    pre = re.compile(r'.*(?P<prerelease>alpha\d?|beta\d?|rc\d?|dev\d?).*')
+    pre = re.compile(r'.*(?P<release>stable|alpha\d?|beta\d?|rc\d?|dev\d?).*')
     m = pre.match(version)
-    pre_release = m.group('prerelease') if m is not None else ''
+
+    if m is None:
+        raise Exception(f'Could not parse release from version name: {version}')
+
+    release = m.group('release')
 
     mono = False
     if 'mono' in version:
         mono = True
 
-    return version_number, pre_release, mono
+    return version_number, release, mono
 
 
 
