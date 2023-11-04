@@ -89,3 +89,9 @@ def persist_to_file(file_name):
 
     return decorator
 
+
+
+def urljoin(*args):
+    """ Basic path join for urls that works on both windows and unix
+    """
+    return '/'.join(arg.rstrip('/') for arg in args)

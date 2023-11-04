@@ -5,6 +5,7 @@ from typing import Generator
 import re
 
 from ..paths import VERSIONS_PATH
+from ..helpers import urljoin
 from .godotwebsite import VersionParser
 from .abstractremote import AbstractRemote
 
@@ -67,14 +68,14 @@ class GithubRemote(AbstractRemote):
         else:
             repo = self.PRERELEASE_REPO
         short_version = self.short_name(version_number, release)
-        return os.path.join(repo, short_version, version_name)
+        return urljoin(repo, short_version, version_name)
 
 
 
     def _app_links(self,
-                       version_number: str,
-                       mono=False,
-                       release='stable') -> list[str]:
+                   version_number: str,
+                   mono=False,
+                   release='stable') -> list[str]:
         repo = self.release_page(version_number, release, mono)
 
         page = requests.get(repo)
