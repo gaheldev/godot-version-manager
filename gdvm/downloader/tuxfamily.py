@@ -56,7 +56,7 @@ def _is_app(href: str) -> bool:
 
 def get_version_numbers() -> Generator[str, None, None]:
     page = requests.get(ARCHIVE_REPO)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = BeautifulSoup(page.content, 'lxml')
     # get all hyperlinks from table which are root directories in ARCHIVE_REPO
     root_dirs_tags = soup.select('table')[0].tbody.find_all('a')
     for tag in root_dirs_tags:
@@ -73,7 +73,7 @@ def get_prerelease_names(version: str) -> Generator[str, None, None]:
 def get_release_names(version: str) -> Generator[str, None, None]:
     repo = os.path.join(ARCHIVE_REPO, version)
     page = requests.get(repo)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = BeautifulSoup(page.content, 'lxml')
     # get all hyperlinks from table
     links_tags = soup.select('table')[0].tbody.find_all('a')
 
@@ -170,7 +170,7 @@ def _get_app_links(version_number: str, mono=False, release='stable') -> list[st
         repo = os.path.join(repo, 'mono')
 
     page = requests.get(repo)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = BeautifulSoup(page.content, 'lxml')
     # get all hyperlinks in the table, which include downloadable Godot apps
     hrefs_tags = soup.select('table')[0].tbody.find_all('a')
     hrefs = [tag.get('href') for tag in hrefs_tags]

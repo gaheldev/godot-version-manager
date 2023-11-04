@@ -43,7 +43,7 @@ def get_release_names(version: str) -> Generator[str, None, None]:
 
 # TODO
 def _app_name_matches(name: str, system, architecture, mono=False):
-    if 'mono' in name != mono:
+    if ('mono' in name) != mono:
         return False
 
     match system:
@@ -95,7 +95,7 @@ def download_app(version_number: str,
     app_links = _get_app_links(version_number, mono=mono, release=release)
     matching_links = []
     for link in app_links:
-        if _app_name_matches(link, system, architecture):
+        if _app_name_matches(link, system, architecture, mono=mono):
             matching_links.append(link)
 
     if len(matching_links) == 0:
@@ -145,7 +145,7 @@ def _get_app_links(version_number: str, mono=False, release='stable') -> list[st
     repo = release_page(version_number, release)
 
     page = requests.get(repo)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = BeautifulSoup(page.content, 'lxml')
 
     hrefs_tags = soup.find_all('a', {'href': re.compile(r'Godot.*\.zip')})
 
