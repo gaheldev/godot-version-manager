@@ -32,11 +32,14 @@ fi
 mkdir -p $INSTALL_DIR
 
 # When autoupgrading, gdvm bin might still be busy, let's wait for gdvm to be done
+sleep 0.5
+echo
+echo -n "Installing gdvm"
 while lsof ${INSTALL_PATH} 1>/dev/null; do
 	echo -n "."
 	sleep 0.5
 done
-echo "."
+echo -ne "\n"
 
 cp dist/gdvm $INSTALL_DIR
 
@@ -49,3 +52,4 @@ rm -r ~/.cache/gdvm 2> /dev/null || true
 echo Installed gdvm to $INSTALL_DIR
 
 gdvm sync
+echo 'Done'

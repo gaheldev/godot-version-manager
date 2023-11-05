@@ -82,4 +82,6 @@ def upgrade(version: str):
     install_script = os.path.join(extracted, 'install')
     os.chmod(install_script, os.stat(install_script).st_mode | 0o111)
 
-    sp.run([install_script, '--force'], check=True)
+    sp.Popen([install_script, '--force'],
+           shell=True,
+           stdin=None, stdout=None, stderr=None)
