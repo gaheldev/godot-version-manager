@@ -1,8 +1,14 @@
 #!/bin/bash
 
 
-INSTALL_DIR=~/.local/bin/
-INSTALL_PATH="${INSTALL_DIR}gdvm"
+# TODO: add ~/.local/bin to path if it's not in it
+BIN_DIR=${HOME}/.local/bin/
+BIN_PATH="${BIN_DIR}gdvm"
+mkdir -p $BIN_DIR
+
+FILES_DIR=${HOME}/.local/share/gdvm/libs/
+REAL_BIN="${FILES_DIR}gdvm"
+mkdir -p $FILES_DIR
 
 
 case $1 in
@@ -28,20 +34,24 @@ fi
 
 
 
-# TODO: add ~/.local/bin to path if it's not in it
-mkdir -p $INSTALL_DIR
 
 # When autoupgrading, gdvm bin might still be busy, let's wait for gdvm to be done
 sleep 0.5
 echo
 echo -n "Installing gdvm"
-while lsof ${INSTALL_PATH} 1>/dev/null; do
+while lsof ${BIN_PATH} 1>/dev/null; do
 	echo -n "."
 	sleep 0.5
 done
 echo -ne "\n"
 
-cp dist/gdvm $INSTALL_DIR
+# remove previous BIN if it exists
+if [ -e $BIN_PATH ]; then
+	rm $BIN_PATH
+fi
+
+cp -r dist/gdvm/* $FILES_DIR
+ln -s $REAL_BIN $BIN_PATH
 
 mkdir -p ~/.local/share/bash-completion/completions
 cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
@@ -49,7 +59,7 @@ cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
 cp godot.png ~/.local/share/icons/
 rm -r ~/.cache/gdvm 2> /dev/null || true
 
-echo Installed gdvm to $INSTALL_DIR
+echo Installed gdvm to $BIN_DIR
 
 gdvm sync
 echo 'Done'

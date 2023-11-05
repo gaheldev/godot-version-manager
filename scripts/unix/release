@@ -6,7 +6,9 @@ system="linux"
 dir="release/${system}/gdvm"
 mkdir -p ${dir}/dist
 
-cp dist/gdvm ${dir}/dist/
+
+rm -r ${dir}/dist/gdvm
+cp -r dist/gdvm ${dir}/dist/
 cp gdvm.completion ${dir}/
 cp godot.png ${dir}/
 cp scripts/unix/install ${dir}/

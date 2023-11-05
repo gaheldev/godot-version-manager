@@ -19,11 +19,11 @@ __version__ = \"${VERSION}\"
 
 
 echo 'Building gdvm: version ${VERSION}'
-pyinstaller -F main.py -n gdvm
+pyinstaller -D main.py -n gdvm
 
 (
-cd dist
-register-python-argcomplete gdvm > ../gdvm.completion
+cd dist/gdvm/
+register-python-argcomplete gdvm > ../../gdvm.completion
 )
 
 rm gdvm/version.py
