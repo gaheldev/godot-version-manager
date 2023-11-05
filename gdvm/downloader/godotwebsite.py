@@ -4,6 +4,7 @@ import yaml
 from typing import Generator
 import wget
 from datetime import date
+from functools import cached_property
 
 from ..paths import CACHE_DIR, VERSIONS_PATH, LAST_SYNCED_PATH
 
@@ -17,7 +18,7 @@ REMOTE_VERSIONS_FILE = 'https://raw.githubusercontent.com/godotengine/godot-webs
 
 
 def sync():
-    print('Getting latest releases...')
+    print('Getting available Godot releases...')
     if os.path.isfile(VERSIONS_PATH):
         os.remove(VERSIONS_PATH)
 
@@ -30,7 +31,7 @@ def sync():
 
 def days_since_synced() -> int:
     if not os.path.isfile(LAST_SYNCED_PATH):
-        sync()
+        raise FileNotFoundError('Fix by running: gdvm sync')
 
     today = date.today()
     with open(LAST_SYNCED_PATH) as f:
@@ -66,24 +67,23 @@ class VersionParser():
     remote = REMOTE_VERSIONS_FILE
     cache = VERSIONS_PATH
 
-    def __init__(self):
+
+    @cached_property
+    def _yaml(self):
         if (not os.path.isfile(self.cache)) or (days_since_synced() >= 1):
             sync()
 
         with open(self.cache) as stream:
-            self.yaml = yaml.safe_load(stream)
+            return yaml.safe_load(stream)
 
-        # with urlopen(self.remote) as stream:
-        #     self.yaml = yaml.safe_load(stream)
-    
 
     @property
     def versions(self) -> Generator[Version, None, None]:
-        for v in self.yaml:
+        for v in self._yaml:
             yield Version(v)
                 
     def __getitem__(self, version: str) -> Version:
-        for v in self.yaml:
+        for v in self._yaml:
             if v['name'] == version:
                 return Version(v)
         raise KeyError
