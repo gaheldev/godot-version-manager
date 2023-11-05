@@ -5,12 +5,15 @@ from typing import Generator
 import wget
 from datetime import date
 
-from ..paths import VERSIONS_PATH, LAST_SYNCED_PATH
+from ..paths import CACHE_DIR, VERSIONS_PATH, LAST_SYNCED_PATH
 
 
+
+os.makedirs(CACHE_DIR, exist_ok=True)
 
 # TODO: download versions last modification of VERSIONS_PATH is from less than a day? or if no network ?
 REMOTE_VERSIONS_FILE = 'https://raw.githubusercontent.com/godotengine/godot-website/master/_data/versions.yml'
+
 
 
 def sync():
