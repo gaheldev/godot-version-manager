@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+INSTALL_DIR=~/.local/bin/
+INSTALL_PATH="${INSTALL_DIR}gdvm"
+
+
 case $1 in
 	'--force')
 		force=1;;
@@ -24,9 +29,16 @@ fi
 
 
 # TODO: add ~/.local/bin to path if it's not in it
-mkdir -p ~/.local/bin
+mkdir -p $INSTALL_DIR
 
-cp dist/gdvm ~/.local/bin/
+# When autoupgrading, gdvm bin might still be busy, let's wait for gdvm to be done
+while lsof ${INSTALL_PATH} 1>/dev/null; do
+	echo -n "."
+	sleep 0.5
+done
+echo "."
+
+cp dist/gdvm $INSTALL_DIR
 
 mkdir -p ~/.local/share/bash-completion/completions
 cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
@@ -34,6 +46,6 @@ cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
 cp godot.png ~/.local/share/icons/
 rm -r ~/.cache/gdvm 2> /dev/null || true
 
-echo Installed gdvm to ~/.local/bin/
+echo Installed gdvm to $INSTALL_DIR
 
 gdvm sync
