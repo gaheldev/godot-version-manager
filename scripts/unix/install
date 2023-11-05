@@ -35,3 +35,5 @@ cp godot.png ~/.local/share/icons/
 rm -r ~/.cache/gdvm 2> /dev/null || true
 
 echo Installed gdvm to ~/.local/bin/
+
+gdvm sync
