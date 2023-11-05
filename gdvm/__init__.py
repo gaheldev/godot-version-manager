@@ -51,12 +51,12 @@ def main():
 
     def pick_version():
         # TODO: select multiple versions in version picker
-        return cli.pick(app_manager.versions, manager.get_current_version())
+        return cli.pick(app_manager.versions, manager.current_version())
 
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
-        cli.display_versions(app_manager.versions, manager.get_current_version())
+        cli.display_versions(app_manager.versions, manager.current_version())
         exit()
 
 
@@ -78,7 +78,7 @@ def main():
 
     if args.subparser_name == 'run':
         if args.version:
-            app_manager.get_app_from_version(args.version).run()
+            app_manager[args.version].run()
             exit()
 
         if args.system:
@@ -95,14 +95,13 @@ def main():
                     raise Exception(f'Project version {project_version} unrecognized')
 
         else:
-            # TODO
             version = pick_version()
-            app_manager.get_app_from_version(version).run()
+            app_manager[version].run()
 
 
     if args.subparser_name == 'use':
         version = args.version if args.version else pick_version()
-        chosen_app = app_manager.get_app_from_version(version)
+        chosen_app = app_manager[version]
         app_manager.install(chosen_app, project=args.local) # defaults to local
 
 
@@ -113,7 +112,7 @@ def main():
     if args.subparser_name == 'remove':
         versions = args.version if args.version else [pick_version()]
 
-        chosen_apps = [app_manager.get_app_from_version(version) for version in versions]
+        chosen_apps = [app_manager[version] for version in versions]
 
         if args.force:
             for app in chosen_apps:
@@ -152,10 +151,10 @@ def main():
         if args.version:
             version = args.version
         else:
-            versions = list(dl.get_version_numbers())
+            versions = list(dl.version_numbers())
             version = cli.pick(versions, versions[-1])
 
-        releases = list(dl.get_release_names(version))
+        releases = list(dl.release_names(version))
         if (not args.version) or (release not in releases):
             default_release = 'stable' if 'stable' in releases else releases[-1]
             release = cli.pick(releases, default_release)

@@ -25,20 +25,20 @@ def _version(app_path: str):
              .decode('utf-8')\
              .strip()
 
-def get_current_version() -> str:
+def current_version() -> str:
     if not os.path.isfile(INSTALL_PATH):
         return ''
     return _version(INSTALL_PATH)
 
 
 @persist_to_file(os.path.join(CACHE_DIR, 'versions.dat'))
-def get_version(app_path: str) -> str:
+def version(app_path: str) -> str:
     if os.path.isdir(app_path) and 'mono' in app_path:
         return _version(_get_mono_app(app_path))
     return _version(app_path)
 
 
-def get_installed_apps() -> Generator[str, None, None]:
+def installed_apps() -> Generator[str, None, None]:
     with os.scandir(APP_DIR) as it:
         for file in it:
             if file.is_file:
@@ -47,9 +47,9 @@ def get_installed_apps() -> Generator[str, None, None]:
                 yield _get_mono_app(file.path)
 
 
-def get_installed_versions() -> Generator[str, None, None]:
-    for app in get_installed_apps():
-        yield get_version(app)
+def installed_versions() -> Generator[str, None, None]:
+    for app in installed_apps():
+        yield version(app)
 
 
 def _get_mono_app(mono_dir: str) -> str:
@@ -65,7 +65,7 @@ def _get_mono_app(mono_dir: str) -> str:
 
 def is_valid_app(app_path: str) -> bool:
     try:
-        get_version(app_path)
+        version(app_path)
     except:
         Warning(f'Cannot get Godot version from {basename(app_path)}')
         return False
@@ -81,11 +81,11 @@ class GodotApp:
     mono: bool = field(init=False)
 
     def __post_init__(self):
-        self.version = self._get_version()
+        self.version = self._version()
         self.mono = 'mono' in self.version
 
-    def _get_version(self) -> str:
-        return get_version(self.path)
+    def _version(self) -> str:
+        return version(self.path)
 
     def install(self, project=False):
         """Make app the system Godot (from CLI and desktop)"""
@@ -203,7 +203,7 @@ class AppManager:
         return local_version
 
 
-    def get_app_from_version(self, version: str) -> GodotApp:
+    def __getitem__(self, version: str) -> GodotApp:
         for app in self.apps:
             if app.version == version:
                 return app
@@ -238,17 +238,17 @@ class AppManager:
 
 
     def run_system_version(self):
-        current_version = get_current_version()
-        if current_version == '':
+        version = current_version()
+        if version == '':
             print('System version is not defined')
             abort()
-        system_app = self.get_app_from_version(current_version)
+        system_app = self[version]
         system_app.run()
 
 
     def run_project_version(self):
         if self.project_version:
-            project_app = self.get_app_from_version(self.project_version)
+            project_app = self[self.project_version]
             project_app.run()
 
 

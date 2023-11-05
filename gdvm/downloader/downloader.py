@@ -10,17 +10,17 @@ remote = Remote()
 
 
 
-def get_version_numbers() -> Generator[str, None, None]:
+def version_numbers() -> Generator[str, None, None]:
     return remote.version_numbers
 
 
 
-def get_prerelease_names(version: str) -> Generator[str, None, None]:
+def prerelease_names(version: str) -> Generator[str, None, None]:
     return remote.prerelease_names(version)
 
 
 
-def get_release_names(version: str) -> Generator[str, None, None]:
+def release_names(version: str) -> Generator[str, None, None]:
     return remote.release_names(version)
 
 

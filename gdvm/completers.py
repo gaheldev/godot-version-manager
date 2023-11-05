@@ -37,7 +37,7 @@ class FilteredFilesCompleter():
 
 class GodotVersionNumbersCompleter(ChoicesCompleter):
     def __init__(self):
-        super().__init__(downloader.get_version_numbers())
+        super().__init__(downloader.version_numbers())
 
     def __call__(self, **kwargs):
         return super().__call__(**kwargs)
@@ -46,14 +46,14 @@ class GodotVersionNumbersCompleter(ChoicesCompleter):
 
 class GodotReleasesCompleter:
     def __call__(self, prefix, parsed_args, **kwargs):
-        for name in downloader.get_release_names(parsed_args.version):
+        for name in downloader.release_names(parsed_args.version):
             yield name
 
 
 
 class InstalledVersionsCompleter(ChoicesCompleter):
     def __init__(self):
-        super().__init__(manager.get_installed_versions())
+        super().__init__(manager.installed_versions())
 
     def __call__(self, **kwargs):
         return super().__call__(**kwargs)
