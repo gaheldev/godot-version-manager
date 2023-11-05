@@ -3,6 +3,9 @@
 
 
 from sys import exit, stderr
+from colorama import Fore, Style
+from colorama import just_fix_windows_console
+just_fix_windows_console()
 
 from . import cli
 from . import parser
@@ -57,9 +60,19 @@ def main():
         exit()
 
 
+    def check_gdvm_release():
+        from . import upgrade as up
+        latest = up.latest_release()
+        if up.is_more_recent_than_current(latest):
+            print(f'{Fore.YELLOW}A new version of gdvm is available ({latest}), consider upgrading with: gdvm upgrade{Style.RESET_ALL}')
+
+
     if args.subparser_name == 'sync':
+        check_gdvm_release()
+
         from .downloader.godotwebsite import sync
         sync()
+
         exit()
 
 
@@ -117,6 +130,8 @@ def main():
 
 
     if args.subparser_name == 'download':
+        check_gdvm_release()
+
         from .downloader import downloader as dl
 
         system = platform()
@@ -158,11 +173,11 @@ def main():
 
 
     if args.subparser_name == 'upgrade':
-        print('looking for a new release...')
+        print('Looking for a new gdvm release...')
         from . import upgrade as up
         latest = up.latest_release()
         if not up.is_more_recent_than_current(latest):
-            print('No newer release available')
+            print('Already up to date')
             exit()
 
         match input(f'{latest} is available, do you want to upgrade? [y/N]: ').lower():
