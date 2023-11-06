@@ -64,4 +64,3 @@ echo Installed gdvm to $BIN_DIR
 gdvm sync
 
 echo 'Done'
-exit 0
