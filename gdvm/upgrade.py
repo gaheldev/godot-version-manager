@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import wget
 import os
 from shutil import unpack_archive
 import subprocess as sp
@@ -8,7 +7,7 @@ import re
 
 from .paths import TMP_DIR
 from . import __version__
-from .helpers import platform
+from .helpers import platform, download
 
 
 
@@ -65,14 +64,7 @@ def is_more_recent_than_current(version: str):
 def upgrade(version: str):
     link = release_link(version)
     archive = os.path.join(TMP_DIR, os.path.basename(link))
-    try:
-        wget.download(link, out=archive)
-        print()
-    except KeyboardInterrupt:
-        import sys
-        print()
-        print("Aborting...")
-        sys.exit()
+    download(link, out=archive)
 
     unpack_archive(archive, TMP_DIR)
     extracted = os.path.join(TMP_DIR, 'gdvm')

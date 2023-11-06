@@ -1,7 +1,8 @@
-import wget
 import os
 from typing import Generator
 from abc import abstractmethod
+
+from ..helpers import download
 
 
 
@@ -47,13 +48,7 @@ class AbstractRemote:
 
         print(f'Downloading {link}')
 
-        try:
-            wget.download(link, out=download_path)
-        except KeyboardInterrupt:
-            import sys
-            print()
-            print("Aborting...")
-            sys.exit()
+        download(link, out=download_path)
 
         print()
         return download_path

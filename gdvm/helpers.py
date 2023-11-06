@@ -1,3 +1,4 @@
+from os import remove
 from os.path import basename, splitext, isfile, join
 import shutil
 from sys import exit
@@ -5,6 +6,7 @@ from platform import system, machine
 import json
 import re
 from typing import Tuple
+import wget
 
 
 
@@ -95,3 +97,24 @@ def urljoin(*args):
     """ Basic path join for urls that works on both windows and unix
     """
     return '/'.join(arg.rstrip('/') for arg in args)
+
+
+def download(link, out=None):
+    """ wget wrapper with some safety net
+
+        WARNING: if out exists, it will be removed !!
+    """
+    try:
+        if out is not None:
+            if isfile(out):
+                remove(out)
+            wget.download(link, out=out)
+        else:
+            wget.download(link)
+        print() # newline after wget
+
+    except KeyboardInterrupt:
+        import sys
+        print()
+        print("Aborting...")
+        sys.exit()

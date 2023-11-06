@@ -2,11 +2,11 @@ import os
 # from urllib.request import urlopen
 import yaml
 from typing import Generator
-import wget
 from datetime import date
 from functools import cached_property
 
 from ..paths import CACHE_DIR, VERSIONS_PATH, LAST_SYNCED_PATH
+from ..helpers import download
 
 
 
@@ -19,11 +19,8 @@ REMOTE_VERSIONS_FILE = 'https://raw.githubusercontent.com/godotengine/godot-webs
 
 def sync():
     print('Getting available Godot releases...')
-    if os.path.isfile(VERSIONS_PATH):
-        os.remove(VERSIONS_PATH)
+    download(REMOTE_VERSIONS_FILE, out=VERSIONS_PATH)
 
-    wget.download(REMOTE_VERSIONS_FILE, out=VERSIONS_PATH)
-    print()
     with open(LAST_SYNCED_PATH, 'w') as f:
         f.write(date.today().isoformat())
 
