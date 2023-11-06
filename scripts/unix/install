@@ -62,4 +62,6 @@ rm -r ~/.cache/gdvm 2> /dev/null || true
 echo Installed gdvm to $BIN_DIR
 
 gdvm sync
+
 echo 'Done'
+exit 0

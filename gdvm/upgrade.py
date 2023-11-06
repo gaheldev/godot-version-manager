@@ -83,5 +83,5 @@ def upgrade(version: str):
     os.chmod(install_script, os.stat(install_script).st_mode | 0o111)
 
     sp.Popen([install_script, '--force'],
-           shell=True,
-           stdin=None, stdout=None, stderr=None)
+             shell=True,
+             stdin=None, stdout=None, stderr=None)
