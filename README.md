@@ -77,6 +77,7 @@ gdvm download VERSION_NUMBER
 gdvm use --local VERSION
 ```
 Gvm supports autocompletion of all arguments including all possible versions. 
+If your internet is slow, the first autocompletion of the day may take some time, as gdvm retrieves available versions. You may want to run `gdvm sync` prior `gdvm download`.
 Alternatively you can use the interactive mode:
 ```
 gdvm download
