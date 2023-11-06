@@ -18,6 +18,8 @@ match platform():
         DESKTOP_PATH = expanduser('~/Applications/Godot.app/')
         APP_DIR = expanduser('~/Library/Application Support/gdvm/apps')
         CACHE_DIR = expanduser('~/Library/Caches/gdvm/')
+        VERSIONS_PATH = join(CACHE_DIR, 'available_versions.yml')
+        LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
         TMP_DIR = '/tmp/'
 
     case _ as platform_name:
