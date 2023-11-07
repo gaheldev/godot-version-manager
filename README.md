@@ -34,8 +34,7 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 
 * [x] linux 🐧
 * [ ] windows 🪟 (incoming)
-* [ ] macos 🍎 (shouldn't be hard)
-* [ ] android
+* [ ] macos 🍎
 
 <br/>
 
