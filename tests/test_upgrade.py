@@ -5,6 +5,7 @@ from gdvm import upgrade as up
 
 
 
+@pytest.mark.online
 @pytest.mark.slow
 def test_latest_release():
     release_regex = re.compile(r'v\d+\.\d+\.\d+')

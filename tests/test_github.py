@@ -1,6 +1,8 @@
+import pytest
 from gdvm.downloader import github
 
 
+@pytest.mark.online
 def test_version_parser():
     parser = github.VersionParser()
     assert parser._yaml is not None

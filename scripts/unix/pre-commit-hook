@@ -3,6 +3,6 @@
 echo '#!/bin/bash
 
 # run tests
-pytest -v
+pytest -v --online
 ' > .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit

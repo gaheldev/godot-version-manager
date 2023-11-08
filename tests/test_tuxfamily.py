@@ -1,3 +1,4 @@
+import pytest
 from gdvm.downloader.tuxfamily import TuxfamilyRemote as Remote
 
 
@@ -5,7 +6,7 @@ from gdvm.downloader.tuxfamily import TuxfamilyRemote as Remote
 remote = Remote()
 
 
-
+@pytest.mark.online
 def test_is_supported_version_number():
     valid_versions = ['3.1', '4.4.9', '3.0', '3.12', '3.10.13', '4.0.1']
     for valid in valid_versions:
