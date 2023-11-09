@@ -56,7 +56,10 @@ def main():
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
-        cli.display_versions(app_manager.versions, manager.current_version())
+        if godotversion_in_cwd():
+            cli.display_versions(app_manager.versions, app_manager.project_version)
+        else:
+            cli.display_versions(app_manager.versions, app_manager.current_version)
         exit()
 
 

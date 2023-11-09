@@ -25,9 +25,11 @@ def installed_apps() -> Generator[GodotApp, None, None]:
                 yield GodotApp(get_mono_app(file.path))
 
 
+
 def installed_versions() -> Generator[str, None, None]:
     for app in installed_apps():
         yield app.short_version
+
 
 
 def is_valid_app(app_path: str) -> bool:
@@ -110,10 +112,23 @@ class AppManager:
 
     @property
     def project_version(self) -> str:
+        try:
+            return self[self.project_long_version].short_version
+        except:
+            return ''
+
+
+    @property
+    def project_long_version(self) -> str:
         local_version = ''
         with open('.godotversion') as version_file:
             local_version = version_file.read()
         return local_version
+
+
+    @property
+    def current_version(self) -> str:
+        return current_version()
 
 
     def __getitem__(self, version: str) -> GodotApp:
@@ -152,7 +167,7 @@ class AppManager:
 
 
     def run_system_version(self):
-        version = current_version()
+        version = self.current_version
         if version == '':
             print('System version is not defined')
             abort()
