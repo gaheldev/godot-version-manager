@@ -4,7 +4,7 @@ from os.path import basename
 from typing import Generator
 
 from .data import GodotApp, get_mono_app, version, current_version
-from .helpers import extract_archive, abort, parse_version, platform, architecture
+from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
 
@@ -119,10 +119,17 @@ class AppManager:
 
 
     @property
+    def current_project(self) -> str | None:
+        return current_local_project()
+
+
+    @property
     def project_long_version(self) -> str:
         local_version = ''
-        with open('.godotversion') as version_file:
-            local_version = version_file.read()
+        if self.current_project:
+            gdversion_file = os.path.join(self.current_project, '.godotversion')
+            with open(gdversion_file) as f:
+                local_version = f.read()
         return local_version
 
 

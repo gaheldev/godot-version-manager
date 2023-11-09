@@ -11,7 +11,7 @@ from . import cli
 from . import parser
 from . import manager
 from .manager import AppManager
-from .helpers import abort, godotversion_in_cwd, platform, architecture
+from .helpers import abort, current_local_project, platform, architecture
 
 try:
     # during build, a version.py module should get generated
@@ -56,7 +56,7 @@ def main():
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
-        if godotversion_in_cwd():
+        if current_local_project():
             cli.display_versions(app_manager.versions, app_manager.project_version)
         else:
             cli.display_versions(app_manager.versions, app_manager.current_version)
@@ -84,9 +84,14 @@ def main():
             app_manager[args.version].run()
             exit()
 
+        local_project = current_local_project()
+
         if args.system:
             app_manager.run_system_version()
-        elif godotversion_in_cwd() or args.local:
+        elif local_project or args.local:
+            if local_project:
+                print(f'{Fore.YELLOW}Found project with local version: {local_project}{Style.RESET_ALL}')
+
             try:
                 app_manager.run_project_version()
             except LookupError:

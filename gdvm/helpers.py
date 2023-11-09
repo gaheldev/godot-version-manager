@@ -1,5 +1,5 @@
-from os import remove
-from os.path import basename, splitext, isfile, join
+from os import remove, chdir
+from os.path import basename, splitext, isfile, join, abspath, expanduser
 import shutil
 from sys import exit
 from platform import system, machine
@@ -27,14 +27,39 @@ def abort():
 
 
 
-def gvmfile_in_cwd() -> bool:
-    return isfile(join('.', '.gvm'))
-
-
 def godotversion_in_cwd() -> bool:
-    if gvmfile_in_cwd():
-        raise Exception('.gvm files are deprecated, please rename it .godotversion')
     return isfile(join('.', '.godotversion'))
+
+
+
+def current_local_project() -> str | None:
+    """ looks for a .godotversion file in the parent tree
+
+        the search is limited to $HOME
+
+        return the path of the first parent folder found with .godotversion file
+        return None if no local version exists in the parent tree
+    """
+    original_dir = abspath('.')
+    def reset_cwd():
+        chdir(original_dir)
+
+    def cwd():
+        return abspath('.')
+
+    stop = abspath(expanduser('~/..'))
+    while cwd() != stop:
+        if godotversion_in_cwd():
+            local_project = cwd()
+            reset_cwd()
+            return local_project
+        else:
+            chdir('..')
+    reset_cwd()
+    return None
+
+
+
 
 
 def platform() -> str:
