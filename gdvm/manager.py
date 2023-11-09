@@ -1,15 +1,12 @@
 import os
-import shutil
-import subprocess as sp
 
 from os.path import basename
-from dataclasses import dataclass, field
 from typing import Generator
 
-from .helpers import extract_archive, persist_to_file, abort, parse_version, platform, architecture
-from .paths import INSTALL_PATH, CACHE_DIR, APP_DIR, TMP_DIR
+from .data import GodotApp, get_mono_app, version, current_version
+from .helpers import extract_archive, abort, parse_version, platform, architecture
+from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
-from . import desktop
 
 
 
@@ -19,48 +16,18 @@ os.makedirs(APP_DIR,exist_ok=True)
 
 
 
-def _version(app_path: str):
-    # check=True to check for exit error
-    return sp.run([app_path, '--version'], check=False, stdout=sp.PIPE).stdout\
-             .decode('utf-8')\
-             .strip()
-
-def current_version() -> str:
-    if not os.path.isfile(INSTALL_PATH):
-        return ''
-    return _version(INSTALL_PATH)
-
-
-@persist_to_file(os.path.join(CACHE_DIR, 'versions.dat'))
-def version(app_path: str) -> str:
-    if os.path.isdir(app_path) and 'mono' in app_path:
-        return _version(_get_mono_app(app_path))
-    return _version(app_path)
-
-
-def installed_apps() -> Generator[str, None, None]:
+def installed_apps() -> Generator[GodotApp, None, None]:
     with os.scandir(APP_DIR) as it:
         for file in it:
             if file.is_file:
-                yield file.path
+                yield GodotApp(file.path)
             if file.is_dir and 'mono' in file.name:
-                yield _get_mono_app(file.path)
+                yield GodotApp(get_mono_app(file.path))
 
 
 def installed_versions() -> Generator[str, None, None]:
     for app in installed_apps():
-        yield version(app)
-
-
-def _get_mono_app(mono_dir: str) -> str:
-    """ mono_dir is the path to the folder extracted from mono release
-
-        return: path to the mono executable app
-    """
-    for f in os.scandir(mono_dir):
-        if f.is_file() and ('Godot_v' in f.name):
-            return f.path
-    raise Exception(f'mono app not found in {mono_dir}')
+        yield app.short_version
 
 
 def is_valid_app(app_path: str) -> bool:
@@ -71,60 +38,6 @@ def is_valid_app(app_path: str) -> bool:
         return False
     return True
 
-
-
-
-@dataclass
-class GodotApp:
-    path: str
-    version: str = field(init=False)
-    mono: bool = field(init=False)
-
-    def __post_init__(self):
-        self.version = self._version()
-        self.mono = 'mono' in self.version
-
-    def _version(self) -> str:
-        return version(self.path)
-
-    def install(self, project=False):
-        """Make app the system Godot (from CLI and desktop)"""
-        if project:
-            # define as app for the current directory
-            with open('.godotversion', 'w') as version_file:
-                version_file.write(self.version)
-            print(f'Using {self.version} in project folder {os.getcwd()}')
-        else:
-            if self.mono:
-                raise NotImplementedError('Defining as default system is unsupported for mono builds')
-            # install as system app
-            shutil.copy(self.path, INSTALL_PATH)
-            desktop.create_shortcut(INSTALL_PATH)
-            print(f'Using {self.version} ({INSTALL_PATH})')
-
-    def run(self):
-        print(f'Launching {self.version}')
-        executable = self.path if not self.mono else _get_mono_app(self.path)
-        sp.Popen([executable, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-
-    def remove(self):
-        if self.mono:
-            shutil.rmtree(self.path)
-        else:
-            os.remove(self.path)
-
-
-    def __gt__(self, other):
-        return self.version > other.version
-
-    def __lt__(self, other):
-        return self.version < other.version
-
-    def __eq__(self, other):
-        return self.version == other.version
-
-    def __ne__(self, other):
-        return self.version != other.version
 
 
 
@@ -162,7 +75,7 @@ class AppManager:
         if os.path.isfile(godot_path):
             godot_exe = godot_path
         elif os.path.isdir(godot_path):
-            godot_exe = _get_mono_app(godot_path)
+            godot_exe = get_mono_app(godot_path)
         else:
             print(f'{godot_path} is not valid')
             abort()
@@ -192,7 +105,7 @@ class AppManager:
 
     @property
     def versions(self) -> list[str]:
-        return [app.version for app in self.apps]
+        return [app.short_version for app in self.apps]
 
 
     @property
@@ -204,8 +117,9 @@ class AppManager:
 
 
     def __getitem__(self, version: str) -> GodotApp:
+        """ accepts either complete or short version """
         for app in self.apps:
-            if app.version == version:
+            if (app.version == version) or (app.short_version == version):
                 return app
         raise LookupError(f'{version} is not installed')
 

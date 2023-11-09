@@ -25,7 +25,7 @@ def test_add_from_zip():
 
 
 def test_list():
-    assert ('3.42.7.stable.official.666aa6aa' in app_manager.versions) == True
+    assert ('3.42.7-stable' in app_manager.versions) == True
     assert ('not_a_version' in app_manager.versions) == False
 
 
