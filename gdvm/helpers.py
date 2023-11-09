@@ -54,10 +54,10 @@ def architecture() -> str:
 
 
 def parse_version(version: str) -> Tuple[str, str, bool]:
-    nb = re.compile(r'^[1-4](\.\d)+')
+    nb = re.compile(r'^[1-4](\.\d+)+')
     version_number = nb.match(version)[0]
 
-    pre = re.compile(r'.*(?P<release>stable|alpha\d?|beta\d?|rc\d?|dev\d?).*')
+    pre = re.compile(r'.*(?P<release>stable|alpha\d*|beta\d*|rc\d*|dev\d*).*')
     m = pre.match(version)
 
     if m is None:
