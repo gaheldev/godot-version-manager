@@ -17,12 +17,18 @@ def _version(app_path: str):
              .strip()
 
 
+def _short_version(long_version: str) -> str:
+    number, release, mono = parse_version(long_version)
+    mono_suffix = '.mono' if mono else ''
+    return f'{number}-{release}{mono_suffix}'
 
-def current_version() -> str:
+
+
+def current_system_version() -> str:
     if not os.path.isfile(INSTALL_PATH):
         return ''
-    app = GodotApp(INSTALL_PATH)
-    return app.short_version
+    long_version = _version(INSTALL_PATH)
+    return _short_version(long_version)
 
 
 
@@ -54,6 +60,7 @@ class GodotApp:
 
     def __post_init__(self):
         self.version = self._version()
+        self.short_version = _short_version(self.version)
         number, release, mono = parse_version(self.version)
         self.version_number = number
         self.release = release
@@ -61,11 +68,6 @@ class GodotApp:
 
     def _version(self) -> str:
         return version(self.path)
-
-    @property
-    def short_version(self) -> str:
-        mono_suffix = '.mono' if self.mono else ''
-        return f'{self.version_number}-{self.release}{mono_suffix}'
 
     def install(self, project=False):
         """Make app the system Godot (from CLI and desktop)"""

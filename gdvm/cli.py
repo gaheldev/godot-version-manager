@@ -1,4 +1,5 @@
 from collections import namedtuple
+from colorama import Fore, Style
 
 from .helpers import abort
 
@@ -6,10 +7,35 @@ from .helpers import abort
 
 
 def _selection_display(item: str, default_item:str='') -> str:
+    if not default_item:
+        return ''
+
     if default_item == item:
         return '-> '
     else:
         return '   '
+
+
+def _use_display(item: str, system:str='', local:str='') -> str:
+    suffix = ''
+    if item == system:
+        suffix += f'{Fore.RED} System'
+    if item == local:
+        suffix += f'{Fore.YELLOW} Local'
+    return suffix
+
+
+
+def _verbose_display(item: str, system:str='', local:str='') -> str:
+    default_item = ''
+    if local:
+        default_item = local
+    elif system:
+        default_item = system
+
+    suffix = _use_display(item, system, local)
+
+    return f'{_selection_display(item, default_item)}{item}{suffix}{Style.RESET_ALL}'
 
 
 
@@ -65,10 +91,9 @@ def pick(items: list[str], default_item:str='') -> str:
 
 
 # TODO: move to manager?
-def display_versions(versions: list[str], current_version:str=''):
+def display_versions(versions: list[str], system:str='', local:str=''):
     """List existing Godot applications"""
-    to_display = [f'{_selection_display(version, current_version)}{version}'
-                  for version in versions]
+    to_display = [_verbose_display(version, system, local) for version in versions]
 
     print('\n'.join(to_display))
 

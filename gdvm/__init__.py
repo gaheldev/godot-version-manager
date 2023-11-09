@@ -51,15 +51,20 @@ def main():
 
     def pick_version():
         # TODO: select multiple versions in version picker
-        return cli.pick(app_manager.versions, manager.current_version())
+        return cli.pick(app_manager.versions, manager.current_system_version())
 
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
         if current_local_project():
-            cli.display_versions(app_manager.versions, app_manager.project_version)
+            cli.display_versions(app_manager.versions,
+                                 system=app_manager.system_version,
+                                 local=app_manager.project_version
+                                 )
         else:
-            cli.display_versions(app_manager.versions, app_manager.current_version)
+            cli.display_versions(app_manager.versions,
+                                 system=app_manager.system_version
+                                 )
         exit()
 
 

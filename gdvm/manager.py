@@ -3,7 +3,7 @@ import os
 from os.path import basename
 from typing import Generator
 
-from .data import GodotApp, get_mono_app, version, current_version
+from .data import GodotApp, get_mono_app, version, current_system_version
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
@@ -134,8 +134,8 @@ class AppManager:
 
 
     @property
-    def current_version(self) -> str:
-        return current_version()
+    def system_version(self) -> str:
+        return current_system_version()
 
 
     def __getitem__(self, version: str) -> GodotApp:
@@ -174,7 +174,7 @@ class AppManager:
 
 
     def run_system_version(self):
-        version = self.current_version
+        version = self.system_version
         if version == '':
             print('System version is not defined')
             abort()
