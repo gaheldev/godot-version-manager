@@ -49,10 +49,15 @@ def main():
 
     app_manager = AppManager()
 
-    def pick_version():
+    def pick_version(default_item='system'):
         # TODO: select multiple versions in version picker
+        if default_item == 'system':
+            default = app_manager.system_version
+        else:
+            default = ''
+
         return cli.pick(app_manager.versions,
-                        default_item=app_manager.system_version,
+                        default_item=default,
                         system=app_manager.system_version,
                         local=app_manager.project_version
                         )
@@ -167,7 +172,7 @@ def main():
 
 
     if args.subparser_name == 'remove':
-        versions = args.version if args.version else [pick_version()]
+        versions = args.version if args.version else [pick_version(default_item='')]
 
         chosen_apps = [app_manager[version] for version in versions]
 
