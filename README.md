@@ -36,12 +36,6 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 * [ ] windows 🪟 (incoming)
 * [ ] macos 🍎
 
-<br/>
-
-> [!WARNING]
-> currently under development, breaking changes may happen  
-> don't hesitate to report any issue :)
-
 <br></br>
 
 
@@ -66,9 +60,7 @@ cd gdvm
 
 # 📝 Basic usage
 
->[!NOTE]
-> Run ```gdvm -h``` for advanced usage
-<br/>
+Run ```gdvm -h``` for advanced usage
 
 ## Set a Godot version to use for current working directory
 ```
