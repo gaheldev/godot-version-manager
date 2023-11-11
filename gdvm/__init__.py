@@ -51,7 +51,11 @@ def main():
 
     def pick_version():
         # TODO: select multiple versions in version picker
-        return cli.pick(app_manager.versions, manager.current_system_version())
+        return cli.pick(app_manager.versions,
+                        default_item=app_manager.system_version,
+                        system=app_manager.system_version,
+                        local=app_manager.project_version
+                        )
 
 
 

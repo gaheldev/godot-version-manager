@@ -16,12 +16,14 @@ def _selection_display(item: str, default_item:str='') -> str:
         return '   '
 
 
-def _use_display(item: str, system:str='', local:str='') -> str:
+def _used_display(item: str, system:str='', local:str='') -> str:
     suffix = ''
     if item == system:
         suffix += f'{Fore.RED} System'
     if item == local:
         suffix += f'{Fore.YELLOW} Local'
+    if suffix:
+        suffix += f'{Style.RESET_ALL}'
     return suffix
 
 
@@ -33,15 +35,16 @@ def _verbose_display(item: str, system:str='', local:str='') -> str:
     elif system:
         default_item = system
 
-    suffix = _use_display(item, system, local)
+    suffix = _used_display(item, system, local)
 
-    return f'{_selection_display(item, default_item)}{item}{suffix}{Style.RESET_ALL}'
+    return f'{_selection_display(item, default_item)}{item}{suffix}'
 
 
 
 Choice = namedtuple('Choice', 'id display')
 
-def _display_choice(displays: list[str], default_item:str='') -> list[Choice]:
+def _display_choice(displays: list[str], default_item:str='',
+                    system:str='', local:str='') -> list[Choice]:
     """Display a list of choices with an associated number
 
        Return a Choice(id,display) named tuple
@@ -49,7 +52,7 @@ def _display_choice(displays: list[str], default_item:str='') -> list[Choice]:
     choices = [Choice(id,display)
                for id, display in enumerate(displays)]
 
-    to_display = [f'{_selection_display(choice.display, default_item)}{choice.id}:\t{choice.display}'
+    to_display = [f'{_selection_display(choice.display, default_item)}{choice.id}:\t{choice.display}{_used_display(choice.display, system, local)}'
                   for choice in choices]
 
     print('\n'.join(to_display))
@@ -57,13 +60,14 @@ def _display_choice(displays: list[str], default_item:str='') -> list[Choice]:
 
 
 
-def pick(items: list[str], default_item:str='') -> str:
+def pick(items: list[str], default_item:str='',
+         system:str='', local:str='') -> str:
     """ Pick from a list of displayed strings
 
         Return the selected choice
     """
     # print versions with an associated number
-    choices = _display_choice(items, default_item)
+    choices = _display_choice(items, default_item, system, local)
 
     # ask which number to use
     try:
