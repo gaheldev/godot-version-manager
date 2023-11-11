@@ -26,9 +26,6 @@ parser_use.add_argument('version', metavar='VERSION',
 parser_use.add_argument('--system-default', action='store_true',
                         help='pick the Godot version to use system wise')
 
-parser_use.add_argument('--local', action='store_true',
-                        help='pick the Godot version to use in the current folder')
-
 
 # Add archive file without installing
 parser_add = subparsers.add_parser('add',

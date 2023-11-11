@@ -146,16 +146,16 @@ class AppManager:
         raise LookupError(f'{version} is not installed')
 
 
-    def install(self, app: str|GodotApp, project=False):
-        """Install as system Godot version (project=False) or define as Godot 
-           version for use in the current directory (project=True)
+    def install(self, app: str|GodotApp, system=False):
+        """Install as system Godot version (system=True) or define as Godot
+           version for use in the current directory (system=False)
 
            app: path or GodotApp 
         """
         if type(app) is str:
-            self.add(app).install(project)
+            self.add(app).install(system)
         elif type(app) is GodotApp:
-            app.install(project)
+            app.install(system)
 
 
     def add_version(self, version: str):

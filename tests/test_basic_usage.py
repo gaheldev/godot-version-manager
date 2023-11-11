@@ -32,7 +32,7 @@ def test_list():
 def test_use_local():
     if isinstance(app, m.GodotApp):
         os.chdir('tests/')
-        app.install(project=True)
+        app.install(system=False)
         version = ''
         with open('.godotversion') as version_file:
             version = version_file.read()

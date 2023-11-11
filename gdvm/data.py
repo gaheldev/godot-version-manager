@@ -69,20 +69,20 @@ class GodotApp:
     def _version(self) -> str:
         return version(self.path)
 
-    def install(self, project=False):
+    def install(self, system=False):
         """Make app the system Godot (from CLI and desktop)"""
-        if project:
-            # define as app for the current directory
-            with open('.godotversion', 'w') as version_file:
-                version_file.write(self.version)
-            print(f'Using {self.version} in project folder {os.getcwd()}')
-        else:
+        if system:
             if self.mono:
                 raise NotImplementedError("""Defining as system's default is unsupported for mono builds""")
             # install as system app
             shutil.copy(self.path, INSTALL_PATH)
             desktop.create_shortcut(INSTALL_PATH)
             print(f'Using {self.version} ({INSTALL_PATH})')
+        else:
+            # define as app for the current directory
+            with open('.godotversion', 'w') as version_file:
+                version_file.write(self.version)
+            print(f'Using {self.version} in project folder {os.getcwd()}')
 
     def run(self):
         print(f'Launching {self.version}')
