@@ -103,6 +103,10 @@ class AbstractRemote:
                     return False
                 if architecture not in name:
                     return False
+                if architecture == '64':
+                    # arch=64 shouldn't match 'arm64'
+                    if 'arm64' in name:
+                        return False
 
             case 'windows':
                 if 'win' not in name:
