@@ -66,21 +66,34 @@ def pick(items: list[str], default_item:str='',
 
         Return the selected choice
     """
+    if len(items) == 0:
+        print('No installed versions found, please use gdvm download or gdvm add')
+        abort()
+
     # print versions with an associated number
     choices = _display_choice(items, default_item, system, local)
 
+    def default_str():
+        if not default_item:
+            return ''
+        for i, item in enumerate(items):
+            if item == default_item:
+                return f' (default={i})'
+
     # ask which number to use
     try:
-        usr_input = input('Enter the choosen number: ')
+        usr_input = input(f'Enter the choosen number{default_str()}: ')
     except KeyboardInterrupt:
         print() # print on new line
         exit()
 
     if not usr_input:
+        if not default_item:
+            print('No item selected')
+            exit()
         return default_item
 
     try:
-        # TODO: check no input which means default
         chosen_number = int(usr_input)
     except ValueError:
         print('Incorrect input')
