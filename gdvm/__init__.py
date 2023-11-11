@@ -9,9 +9,9 @@ just_fix_windows_console()
 
 from . import cli
 from . import parser
-from . import manager
 from .manager import AppManager
 from .helpers import abort, current_local_project, platform, architecture
+from .paths import DESKTOP_PATH, INSTALL_PATH
 
 try:
     # during build, a version.py module should get generated
@@ -120,6 +120,46 @@ def main():
         version = args.version if args.version else pick_version()
         chosen_app = app_manager[version]
         app_manager.install(chosen_app, system=args.system_default) # defaults to local
+
+
+    if args.subparser_name == 'deactivate':
+        try:
+            match args.dac_subparser_name:
+
+                case 'system-default':
+                    if not app_manager.system_version:
+                        print('No default system Godot found')
+                        abort()
+
+                    match input(f"""Deactivate system's default Godot {Fore.YELLOW}{INSTALL_PATH}{Style.RESET_ALL}? [y/N]: """):
+                        case 'y':
+                            import os
+                            os.remove(DESKTOP_PATH)
+                            os.remove(INSTALL_PATH)
+                            print(f'Removed {INSTALL_PATH}')
+                        case _:
+                            abort()
+
+                case 'local':
+                    local_project = current_local_project()
+                    if not local_project:
+                        print('No local version found')
+                        abort()
+
+                    match input(f'Deactivate local version for {Fore.YELLOW}{local_project}{Style.RESET_ALL} ? [y/N]: '):
+                        case 'y':
+                            import os
+                            gdversion_file = os.path.join(local_project,'.godotversion')
+                            os.remove(gdversion_file)
+                            print(f'Removed {gdversion_file}')
+                        case _:
+                            abort()
+
+        except KeyboardInterrupt:
+            print()
+            abort()
+
+        exit()
 
 
     if args.subparser_name == 'add':

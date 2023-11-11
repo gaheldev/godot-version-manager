@@ -50,6 +50,20 @@ parser_del.add_argument('version', metavar='VERSION',
 
 
 
+# Stop using version as local or system's default
+parser_dac = subparsers.add_parser('deactivate',
+                                   help="""deactivate local or system's default Godot version""")
+
+dac_subparsers = parser_dac.add_subparsers(dest='dac_subparser_name')
+
+dac_subparsers.add_parser('system-default',
+                          help="""deactivate system's default Godot and its desktop shortcut (if any)""")
+
+dac_subparsers.add_parser('local',
+                          help='stop using a local Godot version in the current project (if any)')
+
+
+
 # Optional listing of available Godot version
 parser_list = subparsers.add_parser('list', help=f'list managed Godot versions')
 
