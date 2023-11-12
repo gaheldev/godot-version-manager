@@ -3,7 +3,7 @@ import os
 from os.path import basename
 from typing import Generator
 
-from .data import GodotApp, get_mono_app, version, current_system_version
+from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
@@ -19,10 +19,11 @@ os.makedirs(APP_DIR,exist_ok=True)
 def installed_apps() -> Generator[GodotApp, None, None]:
     with os.scandir(APP_DIR) as it:
         for file in it:
-            if file.is_file:
-                yield GodotApp(file.path)
-            if file.is_dir and 'mono' in file.name:
-                yield GodotApp(get_mono_app(file.path))
+            if not file.is_dir:
+                continue
+            app_path = app_path_from(file.path)
+            if app_path:
+                yield GodotApp(app_path)
 
 
 
@@ -45,14 +46,35 @@ def is_valid_app(app_path: str) -> bool:
 
 class AppManager:
     def __init__(self):
+        if self._has_old_saved_apps():
+            print('Migrating managed apps to new format...')
+            self.apps = []
+            self._migrate_old_apps()
+
         self.apps: list[GodotApp] = [GodotApp(path) 
-                                     for path in self.list_save_dir()
+                                     for path in self.list_apps_paths()
                                      if is_valid_app(path)]
         self.apps.sort(reverse=True)
 
 
-    def list_save_dir(self) -> list[str]:
-        return [os.path.join(APP_DIR, path) for path in os.listdir(APP_DIR)]
+    def list_apps_paths(self) -> Generator[str, None, None]:
+        """ return paths to Godot executables in APP_DIR """
+        for f in os.scandir(APP_DIR):
+            if f.is_dir():
+                yield os.path.join(APP_DIR, f, app_path_from(f))
+
+
+    def _has_old_saved_apps(self) -> bool:
+        for f in os.scandir(APP_DIR):
+            if 'Godot_v' in f.name:
+                return True
+        return False
+
+
+    def _migrate_old_apps(self):
+        for f in os.scandir(APP_DIR):
+            if 'Godot_v' in f.name:
+                self.add(f.path)
 
 
     def add(self, godot_path: str) -> GodotApp:
@@ -91,11 +113,21 @@ class AppManager:
             abort()
 
         # add to the list of managed versions
-        output_path = os.path.join(APP_DIR, basename(godot_path))
-        print(f'Saving a copy to {output_path}')
-        os.rename(godot_path, output_path)
+        tmp_app = GodotApp(godot_exe)
+        if os.path.isfile(godot_path):
+            output_exe = os.path.join(APP_DIR, tmp_app.short_version, basename(godot_exe))
+            output_dir = os.path.dirname(output_exe)
+            os.makedirs(output_dir, exist_ok=True)
+            print(f'Saving a copy to {output_dir}')
+            os.rename(godot_exe, output_exe)
+            new_app = GodotApp(output_exe)
+        else:
+            output_path = os.path.join(APP_DIR, tmp_app.short_version)
+            os.makedirs(output_path, exist_ok=True)
+            print(f'Saving a copy to {output_path}')
+            os.rename(godot_path, output_path)
+            new_app = GodotApp(output_path)
 
-        new_app = GodotApp(output_path)
         self.apps.append(new_app)
         return new_app
 

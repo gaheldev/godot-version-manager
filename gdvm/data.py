@@ -34,8 +34,6 @@ def current_system_version() -> str:
 
 @persist_to_file(os.path.join(CACHE_DIR, 'versions.dat'))
 def version(app_path: str) -> str:
-    if os.path.isdir(app_path) and 'mono' in app_path:
-        return _version(get_mono_app(app_path))
     return _version(app_path)
 
 
@@ -45,10 +43,26 @@ def get_mono_app(mono_dir: str) -> str:
 
         return: path to the mono executable app
     """
-    for f in os.scandir(mono_dir):
+    app = app_path_from(mono_dir)
+    if not app:
+        raise Exception(f'mono app not found in {mono_dir}')
+    else:
+        return app
+
+
+
+def app_path_from(dir: str) -> str:
+    """ dir is the path to the folder supposed to contain a Godot binary
+
+        return: path to the executable app
+    """
+    if os.path.isfile(dir):
+        return ''
+    for f in os.scandir(dir):
         if f.is_file() and ('Godot_v' in f.name):
             return f.path
-    raise Exception(f'mono app not found in {mono_dir}')
+    else:
+        return ''
 
 
 
@@ -86,14 +100,10 @@ class GodotApp:
 
     def run(self):
         print(f'Launching {self.version}')
-        executable = self.path if not self.mono else get_mono_app(self.path)
-        sp.Popen([executable, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+        sp.Popen([self.path, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
     def remove(self):
-        if self.mono:
-            shutil.rmtree(self.path)
-        else:
-            os.remove(self.path)
+        shutil.rmtree(os.path.dirname(self.path))
 
 
     def __gt__(self, other):

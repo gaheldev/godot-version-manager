@@ -45,3 +45,4 @@ def test_remove():
     if isinstance(app, m.GodotApp):
         app.remove()
         assert os.path.isfile(app.path) == False
+        assert os.path.isdir(os.path.dirname(app.path)) == False
