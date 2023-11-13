@@ -86,12 +86,14 @@ class GodotApp:
     def install(self, system=False):
         """Make app the system Godot (from CLI and desktop)"""
         if system:
-            if self.mono:
-                raise NotImplementedError("""Defining as system's default is unsupported for mono builds""")
             # install as system app
-            shutil.copy(self.path, INSTALL_PATH)
+            if os.path.isfile(INSTALL_PATH):
+                os.remove(INSTALL_PATH)
+
+            os.symlink(self.path, INSTALL_PATH)
             desktop.create_shortcut(INSTALL_PATH)
             print(f'Using {self.version} ({INSTALL_PATH})')
+
         else:
             # define as app for the current directory
             with open('.godotversion', 'w') as version_file:

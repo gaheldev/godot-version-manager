@@ -37,7 +37,7 @@ parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archiv
 
 # Delete Godot version
 parser_del = subparsers.add_parser('remove',
-                                   help='delete Godot version from managed versions (remain installed system wise if currently in use)')
+                                   help='delete Godot version from managed versions')
 
 parser_del.add_argument('-f', '--force',
                         action='store_true',
