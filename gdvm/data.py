@@ -17,7 +17,7 @@ def _version(app_path: str):
              .strip()
 
 
-def _short_version(long_version: str) -> str:
+def short_version(long_version: str) -> str:
     number, release, mono = parse_version(long_version)
     mono_suffix = '.mono' if mono else ''
     return f'{number}-{release}{mono_suffix}'
@@ -28,7 +28,7 @@ def current_system_version() -> str:
     if not os.path.isfile(INSTALL_PATH):
         return ''
     long_version = _version(INSTALL_PATH)
-    return _short_version(long_version)
+    return short_version(long_version)
 
 
 
@@ -75,7 +75,7 @@ class GodotApp:
     def __post_init__(self):
         self.dir = os.path.dirname(self.path)
         self.version = self._version()
-        self.short_version = _short_version(self.version)
+        self.short_version = short_version(self.version)
         number, release, mono = parse_version(self.version)
         self.version_number = number
         self.release = release

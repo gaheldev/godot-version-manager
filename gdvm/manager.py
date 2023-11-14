@@ -3,7 +3,7 @@ import os
 from os.path import basename
 from typing import Generator
 
-from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version
+from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version, short_version
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
@@ -144,10 +144,7 @@ class AppManager:
 
     @property
     def project_version(self) -> str:
-        try:
-            return self[self.project_long_version].short_version
-        except:
-            return ''
+        return short_version(self.project_long_version)
 
 
     @property
