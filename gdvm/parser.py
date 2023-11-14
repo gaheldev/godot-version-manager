@@ -91,8 +91,24 @@ parser_run.add_argument('--local', action='store_true',
                         help='launch local Godot version from current working directory .godotversion file')
 
 
-# Download godot version
+# Get list of available versions
 parser_sync = subparsers.add_parser('sync', help='get latest list of Godot builds')
+
+
+# Configure stuff
+parser_config = subparsers.add_parser('config', help='')
+
+parser_config.add_argument('--self-contain',
+                           default='', metavar=('VERSION'),
+                           nargs='*',
+                           help='self contain chosen Godot versions')\
+             .completer = InstalledVersionsCompleter()
+
+parser_config.add_argument('--share-container',
+                           default='', metavar=('VERSION'),
+                           nargs='*',
+                           help='use shared config for chosen Godot versions')\
+             .completer = InstalledVersionsCompleter()
 
 
 # Download godot version

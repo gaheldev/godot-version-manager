@@ -233,6 +233,13 @@ def main():
             print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
 
 
+    if args.subparser_name == 'config':
+        for version in args.self_contain:
+            app_manager[version].selfcontain = True
+        for version in args.share_container:
+            app_manager[version].selfcontain = False
+
+
     if args.subparser_name == 'upgrade':
         print('Looking for a new gdvm release...')
         from . import upgrade as up

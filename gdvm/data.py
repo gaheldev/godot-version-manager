@@ -73,6 +73,7 @@ class GodotApp:
     mono: bool = field(init=False)
 
     def __post_init__(self):
+        self.dir = os.path.dirname(self.path)
         self.version = self._version()
         self.short_version = _short_version(self.version)
         number, release, mono = parse_version(self.version)
@@ -106,6 +107,23 @@ class GodotApp:
 
     def remove(self):
         shutil.rmtree(os.path.dirname(self.path))
+
+    @property
+    def selfcontain(self):
+        # return .__sc__ file or __sc__ file exists
+        for f in os.scandir(self.dir):
+            if f.name == '.__sc__' or f.name == '__sc__':
+                    return True
+        return False
+
+    @selfcontain.setter
+    def selfcontain(self,value):
+        sc_file_path = os.path.join(self.dir, '.__sc__')
+        if value:
+            # create empty .__sc__ file if it doesn't exist
+            open(sc_file_path, 'a').close()
+        else:
+            os.remove(sc_file_path)
 
 
     def __gt__(self, other):
