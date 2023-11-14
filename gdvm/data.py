@@ -110,17 +110,17 @@ class GodotApp:
 
     @property
     def selfcontain(self):
-        # return .__sc__ file or __sc__ file exists
+        # return ._sc_ file or _sc_ file exists
         for f in os.scandir(self.dir):
-            if f.name == '.__sc__' or f.name == '__sc__':
+            if f.name == '._sc_' or f.name == '_sc_':
                     return True
         return False
 
     @selfcontain.setter
     def selfcontain(self,value):
-        sc_file_path = os.path.join(self.dir, '.__sc__')
+        sc_file_path = os.path.join(self.dir, '._sc_')
         if value:
-            # create empty .__sc__ file if it doesn't exist
+            # create empty ._sc_ file if it doesn't exist
             open(sc_file_path, 'a').close()
         else:
             os.remove(sc_file_path)
