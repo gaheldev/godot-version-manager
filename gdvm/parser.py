@@ -145,7 +145,7 @@ parser_up = subparsers.add_parser('upgrade', help='upgrade gdvm to latest releas
 
 
 def parse_args(*args,**kwargs):
-    argcomplete.autocomplete(main_parser)
+    argcomplete.autocomplete(main_parser, always_complete_options='long')
     return main_parser.parse_args(*args,**kwargs)
 
 
