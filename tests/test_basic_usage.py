@@ -35,7 +35,7 @@ def test_use_local():
         app.install(system=False)
         version = ''
         with open('.godotversion') as version_file:
-            version = version_file.read()
+            version = version_file.read().strip()
         assert version == '3.42.7.stable.official.666aa6aa'
         os.remove('.godotversion')
         os.chdir('../')

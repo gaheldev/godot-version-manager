@@ -98,7 +98,7 @@ class GodotApp:
         else:
             # define as app for the current directory
             with open('.godotversion', 'w') as version_file:
-                version_file.write(self.version)
+                version_file.write(f'{self.version}\n')
             print(f'Using {self.version} in project folder {os.getcwd()}')
 
     def run(self):

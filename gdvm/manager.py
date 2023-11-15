@@ -203,7 +203,7 @@ class AppManager:
         if self.current_project:
             gdversion_file = os.path.join(self.current_project, '.godotversion')
             with open(gdversion_file) as f:
-                local_version = f.read()
+                local_version = f.read().strip()
         return local_version
 
 
