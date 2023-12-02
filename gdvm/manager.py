@@ -2,6 +2,8 @@ import os
 
 from os.path import basename
 from typing import Generator
+from colorama import Fore, Style
+import shutil
 
 from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version, short_version
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
@@ -93,24 +95,29 @@ class AppManager:
         For mono builds, the godot_path should be either an archive or the extracted folder
         """
         # extract the zip archive if necessary
+        flag_archive = False
         if godot_path.endswith('.zip'):
             godot_path = extract_archive(godot_path, TMP_DIR)
+            flag_archive = True
 
         if os.path.isfile(godot_path):
             godot_exe = godot_path
         elif os.path.isdir(godot_path):
             godot_exe = get_mono_app(godot_path)
         else:
-            print(f'{godot_path} is not valid')
+            print(f'{Fore.RED}{godot_path} is not valid{Style.RESET_ALL}')
             abort()
 
         # make sure the file is executable
         os.chmod(godot_exe, os.stat(godot_exe).st_mode | 0o111)
 
         if not is_valid_app(godot_exe):
-            os.remove(godot_path)
-            print(f'{godot_path} is not valid')
+            if flag_archive:
+                os.remove(godot_path)
+            print(f'{Fore.RED}{godot_path} is not valid{Style.RESET_ALL}')
             abort()
+
+        print(f'{Fore.YELLOW}Installing {os.path.basename(godot_exe)}...{Style.RESET_ALL}')
 
         # add to the list of managed versions
         tmp_app = GodotApp(godot_exe)
@@ -119,13 +126,19 @@ class AppManager:
             output_dir = os.path.dirname(output_exe)
             os.makedirs(output_dir, exist_ok=True)
             print(f'Saving a copy to {output_dir}')
-            os.rename(godot_exe, output_exe)
+            if flag_archive:
+                os.rename(godot_exe, output_exe)
+            else:
+                shutil.copy2(godot_exe, output_exe)
             new_app = GodotApp(output_exe)
         else:
             output_path = os.path.join(APP_DIR, tmp_app.short_version)
             os.makedirs(output_path, exist_ok=True)
             print(f'Saving a copy to {output_path}')
-            os.rename(godot_path, output_path)
+            if flag_archive:
+                os.rename(godot_path, output_path)
+            else:
+                shutil.copy2(godot_path, output_path)
             new_app = GodotApp(output_path)
 
         self.apps.append(new_app)
