@@ -100,15 +100,16 @@ parser_sync = subparsers.add_parser('sync', help='get latest list of Godot build
 # Configure stuff
 parser_config = subparsers.add_parser('config', help='')
 
-parser_config.add_argument('--self-contain',
+contain_group = parser_config.add_mutually_exclusive_group()
+contain_group.add_argument('--self-contain',
                            default='', metavar=('VERSION'),
-                           nargs='*',
+                           nargs='+',
                            help='self contain chosen Godot versions')\
              .completer = InstalledVersionsCompleter()
 
-parser_config.add_argument('--share-container',
+contain_group.add_argument('--share-container',
                            default='', metavar=('VERSION'),
-                           nargs='*',
+                           nargs='+',
                            help='use shared config for chosen Godot versions')\
              .completer = InstalledVersionsCompleter()
 
