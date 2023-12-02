@@ -168,7 +168,11 @@ def main():
 
 
     if args.subparser_name == 'add':
-        app_manager.add(args.file)
+        if isinstance(args.file, list):
+            for f in args.file:
+                app_manager.add(f)
+        else:
+            app_manager.add(args.file)
 
 
     if args.subparser_name == 'remove':

@@ -31,7 +31,9 @@ parser_use.add_argument('--system-default', action='store_true',
 parser_add = subparsers.add_parser('add',
                                    help='add Godot binary or zip archive to managed versions')
 
-parser_add.add_argument('file', metavar='FILE', help='Godot binary or zip archive')\
+parser_add.add_argument('file', metavar='FILE',
+                        nargs='+',
+                        help='Godot binary or zip archive')\
           .completer = FilteredFilesCompleter(lambda f: os.path.basename(f).startswith('Godot_'))
 
 
