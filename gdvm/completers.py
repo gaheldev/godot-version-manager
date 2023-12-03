@@ -52,9 +52,15 @@ class GodotReleasesCompleter:
 
 
 
-class InstalledVersionsCompleter(ChoicesCompleter):
-    def __init__(self):
-        super().__init__(manager.installed_versions())
+class InstalledVersionsCompleter():
+    def __init__(self, argument:str=''):
+        self.installed = manager.installed_versions()
+        self.argument = argument
 
-    def __call__(self, **kwargs):
-        return super().__call__(**kwargs)
+    def __call__(self, prefix, parsed_args, **kwargs):
+        for target in self.installed:
+            if self.argument:
+                if target in vars(parsed_args)[self.argument]:
+                    continue
+            if target.startswith(prefix):
+                yield target
