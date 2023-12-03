@@ -48,7 +48,7 @@ parser_del.add_argument('-f', '--force',
 parser_del.add_argument('version', metavar='VERSION',
                         nargs='*',
                         help='version(s) of the installed Godot app to remove')\
-          .completer = InstalledVersionsCompleter()
+          .completer = InstalledVersionsCompleter(argument='version')
 
 
 
@@ -105,13 +105,13 @@ contain_group.add_argument('--self-contain',
                            default='', metavar=('VERSION'),
                            nargs='+',
                            help='self contain chosen Godot versions')\
-             .completer = InstalledVersionsCompleter()
+             .completer = InstalledVersionsCompleter(argument='self_contain')
 
 contain_group.add_argument('--share-container',
                            default='', metavar=('VERSION'),
                            nargs='+',
                            help='use shared config for chosen Godot versions')\
-             .completer = InstalledVersionsCompleter()
+             .completer = InstalledVersionsCompleter(argument='share_container')
 
 
 # Download godot version
