@@ -3,6 +3,7 @@ from argcomplete.completers import ChoicesCompleter
 
 from .downloader import downloader
 from . import manager
+from .helpers import FILE_SEP
 
 
 
@@ -31,7 +32,7 @@ class FilteredFilesCompleter():
             candidate = os.path.join(target_dir, name)
             if not self.predicate(candidate):
                 continue
-            yield candidate + "/" if os.path.isdir(candidate) else candidate
+            yield candidate + FILE_SEP if os.path.isdir(candidate) else candidate
 
 
 

@@ -47,7 +47,7 @@ def current_local_project() -> str | None:
     def cwd():
         return abspath('.')
 
-    stop = abspath(expanduser('~/..'))
+    stop = abspath(expanduser('~' + FILE_SEP + '..'))
     while cwd() != stop:
         if godotversion_in_cwd():
             local_project = cwd()
@@ -68,6 +68,8 @@ def platform() -> str:
         name = 'osx'
     return name
 
+
+FILE_SEP = '\\' if platform == 'windows' else '/' # first \ escapes the second one
 
 
 def architecture() -> str:
