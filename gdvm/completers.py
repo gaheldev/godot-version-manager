@@ -1,4 +1,5 @@
 import os
+import re
 from argcomplete.completers import ChoicesCompleter
 
 from .downloader import downloader

@@ -6,7 +6,7 @@ from colorama import Fore, Style
 import shutil
 
 from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version, short_version
-from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project
+from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project, wildcard_match
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
 
@@ -32,6 +32,32 @@ def installed_apps() -> Generator[GodotApp, None, None]:
 def installed_versions() -> Generator[str, None, None]:
     for app in installed_apps():
         yield app.short_version
+
+
+
+def expand_pattern(versions: str | list[str] | Generator[str, None, None]) -> Generator[str, None, None]:
+    if not versions:
+        return # empty generator
+
+    if isinstance(versions, str):
+        versions = [versions]
+
+    cache = set()
+    for version in versions:
+        if version in cache:
+            continue
+
+        if not '*' in version:
+            yield version
+            cache.add(version)
+            continue
+
+        for target in installed_versions():
+            if wildcard_match(version, target):
+                if not target in cache:
+                    yield target
+                    cache.add(version) # pattern
+                    cache.add(target) # match
 
 
 

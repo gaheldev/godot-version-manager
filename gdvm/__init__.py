@@ -9,7 +9,7 @@ just_fix_windows_console()
 
 from . import cli
 from . import parser
-from .manager import AppManager
+from .manager import AppManager, expand_pattern
 from .helpers import abort, current_local_project, platform, architecture
 from .paths import DESKTOP_PATH, INSTALL_PATH
 
@@ -177,6 +177,7 @@ def main():
 
     if args.subparser_name == 'remove':
         versions = args.version if args.version else [pick_version(default_item='')]
+        versions = expand_pattern(versions)
 
         chosen_apps = [app_manager[version] for version in versions]
 
@@ -238,9 +239,10 @@ def main():
 
 
     if args.subparser_name == 'config':
-        for version in args.self_contain:
+        # self_contain version can be nested in case of wildcard use
+        for version in expand_pattern(args.self_contain):
             app_manager[version].selfcontain = True
-        for version in args.share_container:
+        for version in expand_pattern(args.share_container):
             app_manager[version].selfcontain = False
 
 
