@@ -100,6 +100,11 @@ def parse_version(version: str) -> Tuple[str, str, bool]:
 
 
 
+def wildcard_match(pattern:str, target:str):
+    return re.fullmatch(re.escape(pattern).replace('\*','.*'), target)
+
+
+
 def persist_to_file(file_name):
 
     def decorator(original_func):
