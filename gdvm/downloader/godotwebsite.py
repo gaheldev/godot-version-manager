@@ -77,7 +77,9 @@ class VersionParser():
     @property
     def versions(self) -> Generator[Version, None, None]:
         for v in self._yaml:
-            yield Version(v)
+            version = Version(v)
+            if int(version.name[0]) >= 3: # only return versions >= 3.0
+                yield version
                 
     def __getitem__(self, version: str) -> Version:
         for v in self._yaml:
