@@ -221,6 +221,9 @@ def main():
             versions = list(dl.version_numbers())
             version = cli.pick(versions, versions[-1])
 
+        if release == 'latest':
+            release = dl.latest_release(version)
+
         releases = list(dl.release_names(version))
         if (not args.version) or (release not in releases):
             default_release = 'stable' if 'stable' in releases else releases[-1]

@@ -134,7 +134,7 @@ parser_dl.add_argument('--arch', metavar=('ARCH'),
 parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
 parser_dl.add_argument('--release',
-                       default='stable', metavar=('RELEASE'),
+                       default='latest', metavar=('RELEASE'),
                        help='stable (default), alpha, beta, rc or dev release')\
          .completer = GodotReleasesCompleter()
 

@@ -20,6 +20,11 @@ def prerelease_names(version: str) -> Generator[str, None, None]:
 
 
 
+def latest_release(version:str) -> str:
+    return remote.latest_release(version)
+
+
+
 def release_names(version: str) -> Generator[str, None, None]:
     return remote.release_names(version)
 

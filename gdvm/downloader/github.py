@@ -31,19 +31,25 @@ class GithubRemote(AbstractRemote):
 
     def prerelease_names(self, version: str) -> Generator[str, None, None]:
         v = self.website_builds[version]
-        if v is not None:
-            return v.prereleases
-        else:
-            raise LookupError(f'version {v} is not found in {VERSIONS_PATH}')
+        if v is None:
+            raise LookupError(f'version {version} is not found in {VERSIONS_PATH}')
+        return v.prereleases
+
+
+
+    def latest_release(self, version:str) -> str:
+        v = self.website_builds[version]
+        if v is None:
+            raise LookupError(f'version {version} is not found in {VERSIONS_PATH}')
+        return v.latest
 
 
 
     def release_names(self, version: str) -> Generator[str, None, None]:
         v = self.website_builds[version]
-        if v is not None:
-            return v.releases
-        else:
-            raise LookupError(f'version {v} is not found in {VERSIONS_PATH}')
+        if v is None:
+            raise LookupError(f'version {version} is not found in {VERSIONS_PATH}')
+        return v.releases
 
 
 

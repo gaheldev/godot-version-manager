@@ -20,6 +20,11 @@ class AbstractRemote:
 
 
     @abstractmethod
+    def latest_release(self, version:str) -> str:
+        pass
+
+
+    @abstractmethod
     def release_names(self, version: str) -> Generator[str, None, None]:
         pass
 
