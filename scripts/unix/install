@@ -62,4 +62,4 @@ echo Installed gdvm to $BIN_DIR
 
 gdvm sync
 
-echo 'Done'
+echo 'Press ENTER to quit installer'
