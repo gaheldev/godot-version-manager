@@ -118,6 +118,9 @@ class GodotApp:
 
     @selfcontain.setter
     def selfcontain(self,value):
+        if value == self.selfcontain: # nothing to do
+            return
+
         sc_file_path = os.path.join(self.dir, '._sc_')
         if value:
             # create empty ._sc_ file if it doesn't exist
