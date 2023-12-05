@@ -2,6 +2,7 @@ import sys
 import argparse
 import argcomplete
 import os
+import codecs
 
 from .completers import FilteredFilesCompleter, GodotReleasesCompleter, GodotVersionNumbersCompleter, InstalledVersionsCompleter
 
@@ -145,7 +146,12 @@ parser_up = subparsers.add_parser('upgrade', help='upgrade gdvm to latest releas
 
 
 def parse_args(*args,**kwargs):
-    argcomplete.autocomplete(main_parser)
+    output_stream = None
+    if "_ARGCOMPLETE_POWERSHELL" in os.environ:
+        output_stream = codecs.getwriter("utf-8")(sys.stdout.buffer)
+
+    argcomplete.autocomplete(main_parser, output_stream=output_stream)
+
     return main_parser.parse_args(*args,**kwargs)
 
 
