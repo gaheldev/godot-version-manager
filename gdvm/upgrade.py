@@ -41,7 +41,7 @@ def is_more_recent_than_current(version: str):
     class Version:
         def __init__(self, version):
             self.version = version
-            self.version_number = version[1:].split('-')[0] # remove 'v' and dev suffix
+            self.version_number = version[1:].split('-')[0].split(':')[0] # remove 'v', dev, and branch name suffix
             sub_versions = self.version_number.split('.')
             self.major = int(sub_versions[0])
             self.minor = int(sub_versions[1])
