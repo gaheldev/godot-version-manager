@@ -144,11 +144,13 @@ cd godot-version-manager
 We use virtualenv to create an environment with controlled python package versions. 
 
 
-```
+```bash
 pip install virtualenv
 virtualenv venv
+
 # for linux
 source venv/bin/activate
+
 # for windows
 .\venv\Scripts\activate
 ```
@@ -161,6 +163,12 @@ Run `deactivate` to deactivate the virtualenv.
 ```
 make install
 ```
+
+
+#### Activate autocompletion on windows
+
+First you'll need to run `activate-global-python-argcomplete` to activate argcomplete on your system. Then run `. .\activate_argcomplete.ps1` to register gdvm as autocompletable.
+
 
 #### Git hooks
 
