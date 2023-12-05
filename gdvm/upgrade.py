@@ -7,7 +7,7 @@ import re
 
 from .paths import TMP_DIR
 from . import __version__
-from .helpers import platform, download
+from .helpers import platform, download, urlbasename
 
 
 
@@ -63,7 +63,7 @@ def is_more_recent_than_current(version: str):
 
 def upgrade(version: str):
     link = release_link(version)
-    archive = os.path.join(TMP_DIR, os.path.basename(link))
+    archive = os.path.join(TMP_DIR, urlbasename(link))
     download(link, out=archive)
 
     unpack_archive(archive, TMP_DIR)
