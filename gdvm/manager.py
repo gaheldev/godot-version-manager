@@ -155,26 +155,23 @@ class AppManager:
         print(f'{Fore.YELLOW}Installing {os.path.basename(godot_exe)}...{Style.RESET_ALL}')
 
         # add to the list of managed versions
-        if os.path.isfile(godot_path):
-            output_exe = os.path.join(APP_DIR, tmp_app.short_version, basename(godot_exe))
-            output_dir = os.path.dirname(output_exe)
-            os.makedirs(output_dir, exist_ok=True)
-            print(f'Saving a copy to {output_dir}')
-            if flag_archive:
-                os.rename(godot_exe, output_exe)
-            else:
-                shutil.copy2(godot_exe, output_exe)
-            new_app = GodotApp(output_exe)
-        else:
-            output_path = os.path.join(APP_DIR, tmp_app.short_version)
-            os.makedirs(output_path, exist_ok=True)
-            print(f'Saving a copy to {output_path}')
-            if flag_archive:
-                os.rename(godot_path, output_path)
-            else:
-                shutil.copy2(godot_path, output_path)
-            new_app = GodotApp(output_path)
+        output_exe = os.path.join(APP_DIR, tmp_app.short_version, basename(godot_exe))
+        output_dir = os.path.dirname(output_exe)
+        print(f'Saving a copy to {output_dir}')
 
+        if os.path.isfile(godot_path):
+            os.makedirs(output_dir, exist_ok=True)
+            if flag_archive:
+                os.rename(godot_exe, output_exe) # gets rid of the extracted archive in TMP
+            else:
+                shutil.copy2(godot_exe, output_exe) # copy with permissions, keep the original
+        else:
+            if flag_archive:
+                os.rename(godot_path, output_dir)
+            else:
+                shutil.copy2(godot_path, output_dir)
+
+        new_app = GodotApp(output_exe)
         self.apps.append(new_app)
         return new_app
 
