@@ -143,10 +143,18 @@ class AppManager:
             print(f'{Fore.RED}{godot_path} is not valid{Style.RESET_ALL}')
             abort()
 
+        tmp_app = GodotApp(godot_exe)
+
+        if tmp_app.short_version in self.versions:
+            match input(f'{Fore.RED}{tmp_app.short_version} is already installed, reinstall? (all config of this version will be lost) [y/N]: {Style.RESET_ALL}').lower():
+                case 'y' | 'yes':
+                    self[tmp_app.short_version].remove()
+                case _:
+                    abort()
+
         print(f'{Fore.YELLOW}Installing {os.path.basename(godot_exe)}...{Style.RESET_ALL}')
 
         # add to the list of managed versions
-        tmp_app = GodotApp(godot_exe)
         if os.path.isfile(godot_path):
             output_exe = os.path.join(APP_DIR, tmp_app.short_version, basename(godot_exe))
             output_dir = os.path.dirname(output_exe)
