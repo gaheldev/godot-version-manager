@@ -14,4 +14,7 @@ release/
 # bash completion file
 *.completion
 
+# vscode project config files
+.vscode/
+
 __pycache__/
