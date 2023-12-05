@@ -160,6 +160,9 @@ def main():
                         case _:
                             abort()
 
+                case _:
+                    parser.print_help(args.subparser_name)
+
         except KeyboardInterrupt:
             print()
             abort()

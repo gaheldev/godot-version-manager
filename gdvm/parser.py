@@ -149,8 +149,13 @@ def parse_args(*args,**kwargs):
     return main_parser.parse_args(*args,**kwargs)
 
 
-def print_help():
-    main_parser.print_help()
+def print_help(subparser_name: str=''):
+    if not subparser_name:
+        main_parser.print_help()
+        return
+
+    main_parser.parse_args([subparser_name, '--help'])
+
 
 
 def has_arguments() -> bool:
