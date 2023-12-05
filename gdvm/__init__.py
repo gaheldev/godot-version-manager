@@ -219,7 +219,7 @@ def main():
             version = args.version
         else:
             versions = list(dl.version_numbers())
-            version = cli.pick(versions, versions[-1])
+            version = cli.pick(versions, versions[0])
 
         if release == 'latest':
             release = dl.latest_release(version)
