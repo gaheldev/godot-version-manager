@@ -183,7 +183,8 @@ class AppManager:
 
     @property
     def project_version(self) -> str:
-        return short_version(self.project_long_version)
+        v = self.project_long_version
+        return short_version(v) if v else ''
 
 
     @property
