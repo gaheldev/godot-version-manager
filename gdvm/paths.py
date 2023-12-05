@@ -13,5 +13,15 @@ match platform():
         LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
         TMP_DIR = '/tmp/'
 
+    case 'windows':
+        # TODO: use os.getenv('LOCALAPPDATA') or expandvars('r%LOCALAPPDAT%\path\to\stuff\')
+        INSTALL_PATH = expanduser('~/AppData/Roaming/Python/Python311/Scripts')
+        DESKTOP_PATH = expanduser('~/Desktop')
+        APP_DIR = expanduser('~/AppData/Roaming/Local/gdvm/apps/')
+        CACHE_DIR = expanduser('~/AppData/Roaming/Local/gdvm/cache/')
+        VERSIONS_PATH = join(CACHE_DIR, 'available_versions.yml')
+        LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
+        TMP_DIR = expanduser('~/AppData/Local/Temp')
+
     case _ as platform_name:
         raise NotImplementedError(f'Unsupported platform: {platform_name}')
