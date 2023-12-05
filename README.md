@@ -33,7 +33,7 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 <br/>
 
 * [x] linux 🐧
-* [ ] windows 🪟 (incoming)
+* [x] windows 🪟
 * [ ] macos 🍎
 
 <br></br>
@@ -120,6 +120,8 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 > `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
 <br/>
 
+Set up for windows users will be done using powershell. Also you'll need WSL2 to run bash scripts. You can follow these instructions : https://learn.microsoft.com/fr-fr/windows/wsl/install.
+
 <!--- Seems unnecessary 
 The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
 
@@ -145,10 +147,13 @@ We use virtualenv to create an environment with controlled python package versio
 ```
 pip install virtualenv
 virtualenv venv
+# for linux
 source venv/bin/activate
+# for windows
+.\venv\Scripts\activate
 ```
 
-Make sure to run `source venv/bin/activate` before working on the project. <br>
+Make sure to run `source venv/bin/activate` (`.\venv\Scripts\activate` on Windows) before working on the project. <br>
 Run `deactivate` to deactivate the virtualenv.
 
 #### Install gdvm on your system
