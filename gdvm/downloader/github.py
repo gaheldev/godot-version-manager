@@ -1,11 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
-import os
 from typing import Generator
 import re
 
 from ..paths import VERSIONS_PATH
-from ..helpers import urljoin
+from ..helpers import urljoin, urlbasename
 from .godotwebsite import VersionParser
 from .abstractremote import AbstractRemote
 
@@ -89,7 +88,7 @@ class GithubRemote(AbstractRemote):
 
         hrefs_tags = soup.find_all('a', {'href': re.compile(r'Godot.*\.zip')})
 
-        release_names = [os.path.basename(tag.get('href')) for tag in hrefs_tags]
+        release_names = [urlbasename(tag.get('href')) for tag in hrefs_tags]
 
         app_links = [ self.download_link(release_name, version_number, release)
                      for release_name in release_names

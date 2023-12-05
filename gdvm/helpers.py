@@ -131,6 +131,14 @@ def urljoin(*args):
     return '/'.join(arg.rstrip('/') for arg in args)
 
 
+
+def urlbasename(url):
+    """ Basic path basename for urls that works on both windows and unix
+    """
+    return url.rstrip('/').split('/')[-1]
+
+
+
 def download(link, out=None):
     """ wget wrapper with some safety net
 
