@@ -97,8 +97,9 @@ class GodotApp:
 
         else:
             # define as app for the current directory
-            with open('.godotversion', 'w') as version_file:
-                version_file.write(f'{self.version}\n')
+            with open('.godotversion', 'wb') as version_file:
+                encoded_version = f'{self.version}\n'.encode('UTF-8') # encode to binary literals to write \n
+                version_file.write(encoded_version)
             print(f'Using {self.version} in project folder {os.getcwd()}')
 
     def run(self):
