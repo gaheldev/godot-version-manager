@@ -187,3 +187,17 @@ make patch-release
 make minor-release
 make major-release
 ```
+
+## Profiling
+
+For a detailed profiling, use cProfile on main.py from the root directory, for example:
+
+```
+python -m cProfile main.py list > profiling.txt
+```
+
+For a basic profiling you can use the `time` utility:
+
+```
+time gdvm list
+```
