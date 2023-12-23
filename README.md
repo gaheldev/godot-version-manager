@@ -67,7 +67,7 @@ Run ```gdvm -h``` for advanced usage
 gdvm download VERSION_NUMBER
 gdvm use VERSION
 ```
-Gvm supports autocompletion of all arguments including all possible versions. 
+Gdvm supports autocompletion of all arguments including all possible versions. 
 
 Alternatively you can use the interactive mode:
 ```
