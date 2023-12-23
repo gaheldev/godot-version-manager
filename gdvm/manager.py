@@ -4,6 +4,7 @@ from os.path import basename
 from typing import Generator
 from colorama import Fore, Style
 import shutil
+from functools import cached_property
 
 from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version, short_version
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project, wildcard_match
@@ -186,18 +187,18 @@ class AppManager:
         return [app.short_version for app in self.apps]
 
 
-    @property
+    @cached_property
     def project_version(self) -> str:
         v = self.project_long_version
         return short_version(v) if v else ''
 
 
-    @property
+    @cached_property
     def current_project(self) -> str | None:
         return current_local_project()
 
 
-    @property
+    @cached_property
     def project_long_version(self) -> str:
         local_version = ''
         if self.current_project:
@@ -207,7 +208,7 @@ class AppManager:
         return local_version
 
 
-    @property
+    @cached_property
     def system_version(self) -> str:
         return current_system_version()
 
@@ -260,5 +261,43 @@ class AppManager:
         if self.project_version:
             project_app = self[self.project_version]
             project_app.run()
+
+
+    def _display_prefix(self, app: GodotApp) -> str:
+        if not self.system_version and not self.project_version:
+            return ''
+
+        default_version = self.project_version or self.system_version
+
+        if default_version == app.short_version:
+            style = ''
+            if default_version == self.project_version:
+                style = Fore.YELLOW
+            elif default_version == self.system_version:
+                style = Fore.RED
+
+            return style + '-> '
+        else:
+            return '   '
+
+
+    def _display_suffix(self, app: GodotApp) -> str:
+        suffix = Style.RESET_ALL
+        if app.short_version == self.project_version:
+            suffix += f'{Fore.YELLOW} Local'
+        if app.short_version == self.system_version:
+            suffix += f'{Fore.RED} System'
+        if app.selfcontain:
+            suffix += f'{Fore.BLUE} self-contained'
+        if suffix:
+            suffix += f'{Style.RESET_ALL}'
+        return suffix
+
+
+    def display_versions(self) -> None:
+        """List existing Godot applications"""
+        lines = [f'{self._display_prefix(app)}{app.short_version} {self._display_suffix(app)}'
+                 for app in self.apps]
+        print('\n'.join(lines))
 
 

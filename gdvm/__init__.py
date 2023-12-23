@@ -65,15 +65,7 @@ def main():
 
 
     if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
-        if current_local_project():
-            cli.display_versions(app_manager.versions,
-                                 system=app_manager.system_version,
-                                 local=app_manager.project_version
-                                 )
-        else:
-            cli.display_versions(app_manager.versions,
-                                 system=app_manager.system_version
-                                 )
+        app_manager.display_versions()
         exit()
 
 
