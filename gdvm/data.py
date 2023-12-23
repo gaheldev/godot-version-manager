@@ -118,7 +118,7 @@ class GodotApp:
         return False
 
     @selfcontain.setter
-    def selfcontain(self,value):
+    def selfcontain(self, value):
         if value == self.selfcontain: # nothing to do
             return
 
