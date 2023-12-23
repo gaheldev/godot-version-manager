@@ -276,7 +276,7 @@ class AppManager:
             elif default_version == self.system_version:
                 style = Fore.RED
 
-            return style + '-> '
+            return f'{style}-> '
         else:
             return '   '
 
