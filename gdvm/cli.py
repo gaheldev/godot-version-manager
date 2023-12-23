@@ -1,5 +1,6 @@
 from collections import namedtuple
 from colorama import Fore, Style
+from sys import exit
 
 from .helpers import abort
 
