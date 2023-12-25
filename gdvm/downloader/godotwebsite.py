@@ -55,6 +55,10 @@ class Version():
     def prereleases(self) -> Generator[str, None, None]:
         if not self.is_stable:
             yield self.latest
+
+        if not 'releases' in self.dic:
+            return
+
         for r in self.dic['releases']:
             yield r['name']
 
