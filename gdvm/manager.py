@@ -10,6 +10,7 @@ from .data import GodotApp, get_mono_app, app_path_from, version, current_system
 from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project, wildcard_match
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
+from . import cli
 
 
 
@@ -263,24 +264,6 @@ class AppManager:
             project_app.run()
 
 
-    def _display_prefix(self, app: GodotApp) -> str:
-        if not self.system_version and not self.project_version:
-            return ''
-
-        default_version = self.project_version or self.system_version
-
-        if default_version == app.short_version:
-            style = ''
-            if default_version == self.project_version:
-                style = Fore.YELLOW
-            elif default_version == self.system_version:
-                style = Fore.RED
-
-            return f'{style}-> '
-        else:
-            return '   '
-
-
     def _display_suffix(self, app: GodotApp) -> str:
         suffix = Style.RESET_ALL
         if app.short_version == self.project_version:
@@ -294,10 +277,52 @@ class AppManager:
         return suffix
 
 
-    def display_versions(self) -> None:
+    def display_versions(self, no_default=False, hilight=True, numbered=False) -> None:
         """List existing Godot applications"""
-        lines = [f'{self._display_prefix(app)}{app.short_version} {self._display_suffix(app)}'
-                 for app in self.apps]
-        print('\n'.join(lines))
+        padding = True
+        if not self.system_version and not self.project_version:
+            padding = False
+
+        default_version = self.project_version or self.system_version
+
+        for i, app in enumerate(self.apps):
+            selected = app.short_version == default_version
+
+            if no_default:
+                padding = False
+                selected = False
+
+            repr = cli.item_repr(app.short_version,
+                                 number=(i if numbered else None),
+                                 padding=padding,
+                                 selected=selected)
+
+            style = ''
+            if selected and hilight:
+                if default_version == self.project_version:
+                    style = Fore.YELLOW
+                elif default_version == self.system_version:
+                    style = Fore.RED
+
+            print(f'{style}{repr}{self._display_suffix(app)}')
 
 
+    def pick_version(self, default:str = '') -> str|None:
+        """Pick a managed version from the command line"""
+        if len(self.apps) == 0:
+            print('No installed versions found, please use gdvm download or gdvm add')
+            abort()
+
+        self.display_versions(no_default=(default == ''),
+                              hilight=False,
+                              numbered=True)
+
+        choices = [cli.Choice(i, app.short_version)
+                   for i, app in enumerate(self.apps)]
+
+        if not default:
+            return cli.pick_choice(choices).display or ''
+
+        for c in choices:
+            if c.display == default:
+                return cli.pick_choice(choices, default=c).display

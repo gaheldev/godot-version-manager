@@ -56,11 +56,7 @@ def main():
         else:
             default = ''
 
-        return cli.pick(app_manager.versions,
-                        default_item=default,
-                        system=app_manager.system_version,
-                        local=app_manager.project_version
-                        )
+        return app_manager.pick_version(default=default)
 
 
 
