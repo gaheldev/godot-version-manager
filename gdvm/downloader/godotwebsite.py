@@ -48,7 +48,8 @@ class Version():
     def releases(self) -> Generator[str, None, None]:
         yield self.latest
         for r in self.prereleases:
-            yield r
+            if r != self.latest:
+                yield r
 
     @property
     def prereleases(self) -> Generator[str, None, None]:
