@@ -273,7 +273,7 @@ class AppManager:
         if app.short_version == self.system_version:
             suffix += f'{Fore.RED} System'
         if app.selfcontain:
-            suffix += f'{Fore.BLUE} self-contained'
+            suffix += f'{Fore.BLUE} sc'
         if suffix:
             suffix += f'{Style.RESET_ALL}'
         return suffix
