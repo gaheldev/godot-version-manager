@@ -115,11 +115,11 @@ contain_group.add_argument('--share-container',
 
 
 # Download godot version
-parser_dl = subparsers.add_parser('download', help='download a Godot version (add to managed if compatible with system)')
+parser_dl = subparsers.add_parser('download', help='download Godot versions (add to managed if compatible with system)')
 
-parser_dl.add_argument('version', metavar='VERSION',
-                       nargs='?',
-                       help='Godot version to download (e.g. 3.4, 4.1.1, ...)')\
+parser_dl.add_argument('versions', metavar='VERSION',
+                       nargs='+',
+                       help='Godot versions to download (e.g. 3.4, 4.1.1, 4.2.*, ...)')\
          .completer = GodotVersionNumbersCompleter()
 
 parser_dl.add_argument('--system',
@@ -135,7 +135,7 @@ parser_dl.add_argument('--mono', action='store_true', help='mono build')
 
 parser_dl.add_argument('--release',
                        default='latest', metavar=('RELEASE'),
-                       help='stable (default), alpha, beta, rc or dev release')\
+                       help='latest (default), stable, alpha, beta, rc or dev release')\
          .completer = GodotReleasesCompleter()
 
 

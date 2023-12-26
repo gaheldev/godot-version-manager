@@ -161,9 +161,19 @@ def main():
     if args.subparser_name == 'add':
         if isinstance(args.file, list):
             for f in args.file:
-                app_manager.add(f)
+                try:
+                    app_manager.add(f)
+                except KeyboardInterrupt:
+                    abort()
+                except:
+                    print(f'installation cancelled')
         else:
-            app_manager.add(args.file)
+            try:
+                app_manager.add(args.file)
+            except KeyboardInterrupt:
+                abort()
+            except:
+                print(f'installation cancelled')
 
 
     if args.subparser_name == 'remove':
@@ -206,30 +216,39 @@ def main():
                 add_to_manage = False
             arch = args.arch
 
-        if args.version:
-            version = args.version
+        remote_versions = list(dl.version_numbers())
+        if args.versions:
+            versions = args.versions
         else:
-            versions = list(dl.version_numbers())
-            version = cli.pick(versions, versions[0])
+            versions = cli.pick(remote_versions, remote_versions[0])
 
-        if release == 'latest':
-            release = dl.latest_release(version)
+        for version in expand_pattern(versions, targets=remote_versions):
+            if release == 'latest':
+                release = dl.latest_release(version)
 
-        releases = list(dl.release_names(version))
-        if (not args.version) or (release not in releases):
-            default_release = 'stable' if 'stable' in releases else releases[-1]
-            release = cli.pick(releases, default_release)
+            releases = list(dl.release_names(version))
+            if (not args.versions) or (release not in releases):
+                default_release = 'stable' if 'stable' in releases else releases[-1]
+                release = cli.pick(releases, default_release)
 
-        dl_file = dl.download_app(version,
-                                  system=system,
-                                  architecture=arch,
-                                  mono=args.mono,
-                                  release=release)
+            try:
+                dl_file = dl.download_app(version,
+                                          system=system,
+                                          architecture=arch,
+                                          mono=args.mono,
+                                          release=release)
+            except KeyboardInterrupt:
+                abort()
 
-        if add_to_manage:
-            app_manager.add(dl_file)
-        else:
-            print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
+            if add_to_manage:
+                try:
+                    app_manager.add(dl_file)
+                except KeyboardInterrupt:
+                    abort()
+                except:
+                    print(f'installation cancelled')
+            else:
+                print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
 
 
     if args.subparser_name == 'config':
