@@ -126,8 +126,10 @@ class GodotApp:
         if value:
             # create empty ._sc_ file if it doesn't exist
             open(sc_file_path, 'a').close()
+            print(f'self contained {self.short_version}')
         else:
             os.remove(sc_file_path)
+            print(f'shared config of {self.short_version}')
 
 
     def __gt__(self, other):
