@@ -120,7 +120,7 @@ contain_group.add_argument('--no-self-contain',
 parser_dl = subparsers.add_parser('download', help='download Godot versions (add to managed if compatible with system)')
 
 parser_dl.add_argument('versions', metavar='VERSION',
-                       nargs='+',
+                       nargs='*',
                        help='Godot versions to download (e.g. 3.4, 4.1.1, 4.2.*, ...)')\
          .completer = GodotVersionNumbersCompleter()
 
