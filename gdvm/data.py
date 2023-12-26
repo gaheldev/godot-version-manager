@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 
 from . import desktop
 from .paths import INSTALL_PATH, CACHE_DIR
-from .helpers import persist_to_file, parse_version
+from .helpers import persist_to_file, parse_version, parse_version_number
 
 
 
@@ -76,13 +76,21 @@ class GodotApp:
         self.dir = os.path.dirname(self.path)
         self.version = self._version()
         self.short_version = short_version(self.version)
+
         number, release, mono = parse_version(self.version)
         self.version_number = number
         self.release = release
         self.mono = mono
 
+        major, minor, patch = parse_version_number(number)
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+
+
     def _version(self) -> str:
         return version(self.path)
+
 
     def install(self, system=False):
         """Make app the system Godot (from CLI and desktop)"""
@@ -102,12 +110,15 @@ class GodotApp:
                 version_file.write(encoded_version)
             print(f'Using {self.version} in project folder {os.getcwd()}')
 
+
     def run(self):
         print(f'Launching {self.version}')
         sp.Popen([self.path, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
+
     def remove(self):
         shutil.rmtree(os.path.dirname(self.path))
+
 
     @property
     def selfcontain(self):
@@ -116,6 +127,7 @@ class GodotApp:
             if f.name == '._sc_' or f.name == '_sc_':
                     return True
         return False
+
 
     @selfcontain.setter
     def selfcontain(self, value):
@@ -133,13 +145,16 @@ class GodotApp:
 
 
     def __gt__(self, other):
-        return self.version > other.version
+        return (self.major, self.minor, self.patch) > (other.major, other.minor, other.patch)
+
 
     def __lt__(self, other):
-        return self.version < other.version
+        return (self.major, self.minor, self.patch) < (other.major, other.minor, other.patch)
+
 
     def __eq__(self, other):
-        return self.version == other.version
+        return (self.major, self.minor, self.patch) == (other.major, other.minor, other.patch)
+
 
     def __ne__(self, other):
-        return self.version != other.version
+        return (self.major, self.minor, self.patch) != (other.major, other.minor, other.patch)

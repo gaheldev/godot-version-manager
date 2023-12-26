@@ -100,6 +100,15 @@ def parse_version(version: str) -> Tuple[str, str, bool]:
 
 
 
+def parse_version_number(version_number: str) -> Tuple[int, int, int]:
+    numbers = version_number.split('.')
+    major = numbers[0]
+    minor = numbers[1]
+    patch = numbers[2] if len(numbers) == 3 else 0
+    return int(major), int(minor), int(patch)
+
+
+
 def wildcard_match(pattern:str, target:str):
     return re.fullmatch(re.escape(pattern).replace('\*','.*'), target)
 
