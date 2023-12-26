@@ -110,6 +110,20 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 <br><br/>
 
 
+## Wildcards
+
+`gdvm` supports wildcards to handle multiple versions at once. For example to remove all versions starting with 4.1:
+
+```
+gdvm remove "4.1*"
+```
+
+While the "" may not always be necessary, they're recommended to avoid clashing with bash wildcard. Alternatively it is also possible to escape it with `\*`. For example to self-contain all installed versions:
+
+```
+gdvm config --self-contain \*
+```
+
 ---
 
 # ⌨️ Development
