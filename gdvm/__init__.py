@@ -255,7 +255,7 @@ def main():
         # self_contain version can be nested in case of wildcard use
         for version in expand_pattern(args.self_contain):
             app_manager[version].selfcontain = True
-        for version in expand_pattern(args.share_container):
+        for version in expand_pattern(args.no_self_contain):
             app_manager[version].selfcontain = False
 
 

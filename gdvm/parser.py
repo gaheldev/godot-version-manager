@@ -105,13 +105,15 @@ contain_group.add_argument('--self-contain',
                            default='', metavar=('VERSION'),
                            nargs='+',
                            help='self contain chosen Godot versions')\
-             .completer = InstalledVersionsCompleter(argument='self_contain')
+             .completer = InstalledVersionsCompleter(argument='self_contain',
+                                                     filter=lambda app: not app.selfcontain)
 
-contain_group.add_argument('--share-container',
+contain_group.add_argument('--no-self-contain',
                            default='', metavar=('VERSION'),
                            nargs='+',
                            help='use shared config for chosen Godot versions')\
-             .completer = InstalledVersionsCompleter(argument='share_container')
+             .completer = InstalledVersionsCompleter(argument='no_self_contain',
+                                                     filter=lambda app: app.selfcontain)
 
 
 # Download godot version

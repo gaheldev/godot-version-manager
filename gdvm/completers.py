@@ -1,9 +1,11 @@
 import os
 from argcomplete.completers import ChoicesCompleter
+from typing import Callable
 
 from .downloader import downloader
 from . import manager
 from .helpers import FILE_SEP
+from .data import GodotApp
 
 
 
@@ -66,14 +68,22 @@ class GodotReleasesCompleter:
 
 
 class InstalledVersionsCompleter():
-    def __init__(self, argument:str=''):
-        self.installed = manager.installed_versions()
-        self.argument = argument
+    def __init__(self,
+                 argument:str='',
+                 filter:Callable[[GodotApp], bool]=(lambda x: True),
+                 ):
+        self.installed = manager.installed_apps()
+        self.argument = argument # parsed_args argument to complete for
+        self.filter = filter # returns a boolean to filter which version are completed
 
     def __call__(self, prefix, parsed_args, **kwargs):
         for target in self.installed:
+            if not self.filter(target):
+                continue
+
             if self.argument:
-                if target in vars(parsed_args)[self.argument]:
+                if target.short_version in vars(parsed_args)[self.argument]:
                     continue
-            if target.startswith(prefix):
-                yield target
+
+            if target.short_version.startswith(prefix):
+                yield target.short_version
