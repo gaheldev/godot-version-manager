@@ -37,7 +37,9 @@ def installed_versions() -> Generator[str, None, None]:
 
 
 
-def expand_pattern(versions: str | list[str] | Generator[str, None, None]) -> Generator[str, None, None]:
+def expand_pattern(versions: str | list[str] | Generator[str, None, None],
+                   targets:list=list(installed_versions()),
+                   ) -> Generator[str, None, None]:
     if not versions:
         return # empty generator
 
@@ -54,7 +56,7 @@ def expand_pattern(versions: str | list[str] | Generator[str, None, None]) -> Ge
             cache.add(version)
             continue
 
-        for target in installed_versions():
+        for target in targets:
             if wildcard_match(version, target):
                 if not target in cache:
                     yield target
@@ -152,7 +154,7 @@ class AppManager:
                 case 'y' | 'yes':
                     self[tmp_app.short_version].remove()
                 case _:
-                    abort()
+                    raise Exception('Installation cancelled')
 
         print(f'{Fore.YELLOW}Installing {os.path.basename(godot_exe)}...{Style.RESET_ALL}')
 

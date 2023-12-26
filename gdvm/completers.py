@@ -47,7 +47,20 @@ class GodotVersionNumbersCompleter(ChoicesCompleter):
 
 class GodotReleasesCompleter:
     def __call__(self, prefix, parsed_args, **kwargs):
-        for name in downloader.release_names(parsed_args.version):
+        if not parsed_args.versions:
+            return
+
+        if len(parsed_args.versions) > 1:
+            yield 'latest'
+            return
+
+        version = parsed_args.versions[0]
+
+        if '*' in version or (prefix != '' and 'latest'.startswith(prefix)):
+            yield 'latest'
+            return
+
+        for name in downloader.release_names(version):
             yield name
 
 
