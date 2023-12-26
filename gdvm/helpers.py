@@ -143,7 +143,6 @@ def download(link, out=None):
             wget.download(link, out=out)
         else:
             wget.download(link)
-        print() # newline after wget
 
     except KeyboardInterrupt:
         import sys

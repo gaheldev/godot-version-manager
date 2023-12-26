@@ -20,6 +20,7 @@ REMOTE_VERSIONS_FILE = 'https://raw.githubusercontent.com/godotengine/godot-webs
 def sync():
     print('Getting available Godot releases...')
     download(REMOTE_VERSIONS_FILE, out=VERSIONS_PATH)
+    print()
 
     with open(LAST_SYNCED_PATH, 'w') as f:
         f.write(date.today().isoformat())

@@ -54,8 +54,8 @@ class AbstractRemote:
         print(f'Downloading {link}')
 
         download(link, out=download_path)
-
         print()
+
         return download_path
 
 

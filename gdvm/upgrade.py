@@ -65,6 +65,7 @@ def upgrade(version: str):
     link = release_link(version)
     archive = os.path.join(TMP_DIR, os.path.basename(link))
     download(link, out=archive)
+    print()
 
     unpack_archive(archive, TMP_DIR)
     extracted = os.path.join(TMP_DIR, 'gdvm')
