@@ -107,7 +107,7 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
   
 * `gdvm run --system` to run the system's default
 
-<br><br/>
+<br/>
 
 
 ## Wildcards
@@ -123,6 +123,7 @@ While the "" may not always be necessary, they're recommended to avoid clashing 
 ```
 gdvm config --self-contain \*
 ```
+<br><br/>
 
 ---
 
