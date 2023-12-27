@@ -60,7 +60,7 @@ def main():
 
 
 
-    if (args.subparser_name is None and args.list) or args.subparser_name == 'list':
+    if args.subparser_name == 'list':
         app_manager.display_versions()
         exit()
 
