@@ -29,6 +29,12 @@ class AbstractRemote:
         pass
 
 
+    def latest_stable_version_number(self) -> str:
+        for v in self.version_numbers:
+            if self.latest_release(v) == 'stable':
+                return v
+
+
 
     def download_app(self,
                      version_number: str,

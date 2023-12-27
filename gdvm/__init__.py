@@ -220,7 +220,7 @@ def main():
         if args.versions:
             versions = args.versions
         else:
-            versions = cli.pick(remote_versions, remote_versions[0])
+            versions = cli.pick(remote_versions, dl.latest_stable_version_number())
 
         for version in expand_pattern(versions, targets=remote_versions):
             if release == 'latest':

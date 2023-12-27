@@ -30,6 +30,11 @@ def release_names(version: str) -> Generator[str, None, None]:
 
 
 
+def latest_stable_version_number() -> str:
+    return remote.latest_stable_version_number()
+
+
+
 def download_app(version_number: str,
                  system='linux',
                  architecture='64',
