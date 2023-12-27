@@ -79,18 +79,19 @@ main_parser.add_argument('-v', '--version', action='store_true',
 
 # Start Godot
 parser_run = subparsers.add_parser('run',
-                                   help='launch godot (defaults to --local if .godotversion file exists in current working directory)')
+                                   help='launch godot (defaults to --local if a project version is defined)')
 
-parser_run.add_argument('version', metavar='VERSION',
-                        nargs='?',
-                        help='Godot version to run (e.g. 3.4, 4.1.1, ...)')\
-          .completer = InstalledVersionsCompleter()
+run_group = parser_run.add_mutually_exclusive_group()
+run_group.add_argument('version', metavar='VERSION',
+                       nargs='?',
+                       help='Godot version to run (e.g. 3.4, 4.1.1, ...)')\
+         .completer = InstalledVersionsCompleter()
 
-parser_run.add_argument('--system', action='store_true',
-                        help='run system Godot version')
+run_group.add_argument('--system', action='store_true',
+                       help='run system Godot version')
 
-parser_run.add_argument('--local', action='store_true',
-                        help='launch local Godot version from current working directory .godotversion file')
+run_group.add_argument('--local', action='store_true',
+                       help='launch local Godot version from current working directory .godotversion file')
 
 
 # Get list of available versions
