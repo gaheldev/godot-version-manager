@@ -32,7 +32,7 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 * set a system's default version of Godot, with desktop shortcut
 * autocompletion
 * interactive prompt
-* colors ❇️
+* colors 🎉
 
 <br/>
 
