@@ -29,6 +29,8 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 * download any release of Godot > 3.0 from the command line
 * use a Godot version per project and track it with git
 * set a system's default version of Godot, with desktop shortcut
+* autocompletion
+* interactive prompt
 
 <br/>
 
