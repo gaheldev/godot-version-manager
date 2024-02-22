@@ -31,7 +31,7 @@ release : build
 	@echo not implemented for Windows
 
 hook :
-	@echo not implemented for Windows
+	@.\scripts\windows\pre-commit-hook.ps1
 
 patch-version : hook
 	@echo not implemented for Windows
