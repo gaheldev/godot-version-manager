@@ -17,6 +17,11 @@ ARCHIVE_REPO = 'https://github.com/gaheldev/godot-version-manager/releases/lates
 match platform():
     case 'linux':
         release_zip = 'gdvm_linux.zip'
+
+    case 'windows':
+        # TODO : make sure this is ok
+        release_zip = 'gdvm_windows.zip'
+        
     case _ as platform_name:
         raise NotImplementedError(f'Unsupported platform: {platform_name}')
 
