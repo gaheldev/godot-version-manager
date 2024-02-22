@@ -222,3 +222,9 @@ For a basic profiling you can use the `time` utility:
 ```
 time gdvm list
 ```
+
+## Windows extra steps
+
+Install make for windows (https://gnuwin32.sourceforge.net/packages/make.htm) and add C:\Program Files (x86)\GnuWin32\bin to path
+
+Install PyYAML pip install PyYAML (out of venv)
