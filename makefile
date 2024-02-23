@@ -22,7 +22,7 @@ tests :
 ifeq ($(platform), Windows)
 
 build :
-	@echo not implemented for Windows
+	@.\scripts\windows\build.ps1
 
 install : build
 	@echo not implemented for Windows
