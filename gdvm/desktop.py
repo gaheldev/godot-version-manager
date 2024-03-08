@@ -28,7 +28,7 @@ Categories=Development;"""
                 sp.run(['xdg-desktop-menu', 'install', '--novendor', f'{DESKTOP_PATH}'])
         
         case 'windows':
-            # TODO : actually implement
+            # TODO WIN : actually implement
             print('Creating shortcut')
                 
 

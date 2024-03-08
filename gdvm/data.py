@@ -93,7 +93,7 @@ class GodotApp:
 
 
     def install(self, system=False):
-        # TODO : Make it work for windows (Access to desktop is denied)
+        # TODO WIN : Make it work for windows (Access to desktop is denied)
         """Make app the system Godot (from CLI and desktop)"""
         if system:
             # install as system app

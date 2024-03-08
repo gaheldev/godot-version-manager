@@ -1,7 +1,7 @@
 #!powershell
 
 
-# TODO: add ~/.local/bin to path if it's not in it
+# TODO WIN : add ~/.local/bin to path if it's not in it
 $BinDir = ($env:USERPROFILE + '/.local/bin/')
 $BinPath = ($BinDir + 'gdvm')
 New-Item -Path $BinDir -ItemType Directory -Force

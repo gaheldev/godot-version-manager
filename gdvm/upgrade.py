@@ -19,7 +19,7 @@ match platform():
         release_zip = 'gdvm_linux.zip'
 
     case 'windows':
-        # TODO : Create a windows archive on new releases
+        # TODO WIN : Create a windows archive on new releases
         release_zip = 'gdvm_windows.zip'
         
     case _ as platform_name:

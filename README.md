@@ -189,7 +189,7 @@ To automatically run tests before commits we use a pre-commit hook:
 make hook
 ```
 
-TODO : Update when working
+TODO WIN : Update when working
 > [!WARNING]
 > DOES NOT WORK YET ON WINDOWS => WIP
 
@@ -229,7 +229,7 @@ time gdvm list
 
 ## Windows extra steps
 
-TODO : Update
+TODO WIN : Update
 
 Install make for windows (https://gnuwin32.sourceforge.net/packages/make.htm) and add C:\Program Files (x86)\GnuWin32\bin to path
 
