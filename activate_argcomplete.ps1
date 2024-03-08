@@ -1,7 +1,7 @@
-$GvmPythonCommand = "./dist/gvm.exe"
-$GvmCommandAlias = "gvm"
+$GvmPythonCommand = ".\dist\gdvm\gdvm.exe"
+$GvmCommandAlias = "gdvm"
 
-Function gvm {
+Function gdvm {
     Invoke-Expression "$GvmPythonCommand $args"
 }
 
