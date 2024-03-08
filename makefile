@@ -25,7 +25,7 @@ build :
 	@.\scripts\windows\build.ps1
 
 install : build
-	@echo not implemented for Windows
+	@.\scripts\windows\install.ps1
 
 release : build
 	@echo not implemented for Windows
