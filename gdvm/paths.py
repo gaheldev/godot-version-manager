@@ -14,10 +14,10 @@ match platform():
         TMP_DIR = '/tmp/'
 
     case 'windows':
-        INSTALL_PATH = expanduser('~/AppData/Roaming/Python/Python311/Scripts')
+        INSTALL_PATH = expanduser('~/AppData/Local/Programs/Godot')
         DESKTOP_PATH = expanduser('~/Desktop')
-        APP_DIR = expanduser('~/AppData/Roaming/Local/godot-version-manager/apps/')
-        CACHE_DIR = expanduser('~/AppData/Roaming/Local/godot-version-manager/cache/')
+        APP_DIR = expanduser('~/AppData/Local/Programs/godot-version-manager/apps/')
+        CACHE_DIR = expanduser('~/AppData/Local/Programs/godot-version-manager/cache/')
         VERSIONS_PATH = join(CACHE_DIR, 'available_versions.yml')
         LAST_SYNCED_PATH = join(CACHE_DIR, 'last_synced')
         TMP_DIR = expanduser('~/AppData/Local/Temp')
