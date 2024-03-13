@@ -1,6 +1,6 @@
-#!powershell
+#!pwsh
 
-Remove-Item .\build -Recurse -Force *> $null 
-Remove-Item .\dist -Recurse -Force *> $null
-Remove-Item .\*.completion -Force *> $null
-Remove-Item .\*.spec -Force *> $null
+Remove-Item -Path .\build -Recurse -Force *> $null 
+Remove-Item -Path .\dist -Recurse -Force *> $null
+Remove-Item -Path .\*.completion -Force *> $null
+Remove-Item -Path .\*.spec -Force *> $null

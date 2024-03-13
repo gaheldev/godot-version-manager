@@ -1,6 +1,6 @@
-#!powershell
+#!pwsh
 
-echo "#!powershell
+echo "#!pwsh
 
 # run tests
 pytest -v --online
