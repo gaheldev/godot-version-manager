@@ -25,7 +25,7 @@ install : build
 	@.\scripts\windows\install.ps1
 
 release : build
-	@echo not implemented for Windows
+	@.\scripts\windows\release.ps1
 
 hook :
 	@.\scripts\windows\pre-commit-hook.ps1
