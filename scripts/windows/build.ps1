@@ -16,13 +16,13 @@ Switch ($Branch)
 	}
 }
 
-echo ('# DO NOT EDIT: automatically generated during build
+('# DO NOT EDIT: automatically generated during build
 
 __version__ = "' + $Version + '"
-') > gdvm/version.py
+') > .\gdvm\version.py
 
 
-echo ('Building gdvm: version ' + $Version)
+Write-Output ('Building gdvm: version ' + $Version)
 pyinstaller -D main.py -n gdvm --noconfirm
 Wait-Process -Name pyinstaller -Timeout 600 2> $null
 
@@ -30,4 +30,4 @@ Wait-Process -Name pyinstaller -Timeout 600 2> $null
 # TODO WIN : Register argcomplete for windows
 #register-python-argcomplete gdvm > ../../gdvm.completion
 #cd ../..
-rm gdvm/version.py
+Remove-Item gdvm/version.py -Force
