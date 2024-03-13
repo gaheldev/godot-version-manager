@@ -1,103 +1,81 @@
 #!powershell
 
-# TODO WIN : Add comments
+# Bin directory: where we create a wrapper script for gdvm to be in path
+$BinDir = ($env:USERPROFILE + '\AppData\Local\bin\')
+# Files directory: where we install gdvm files
+$FilesDir = ($env:USERPROFILE + '\AppData\Local\Programs\godot-version-manager\libs\')
+# Icon directory: where we copy the legacy godot icon for our godot versions installs
+$LegacyIconDir = ($env:USERPROFILE + '\AppData\Local\Programs\Godot\')
+# Cache directory: used for gdvm cache
+$CacheDir = ($env:USERPROFILE + '\AppData\Local\Programs\godot-version-manager\cache\')
 
-# TODO WIN : Move this function to another file
-function Test-File-Available {
-    param (
-          [string] $Path = $null
-      )
+# Wrapper script path
+$BinPath = ($BinDir + 'gdvm.ps1')
+# Real gdvm binary path
+$RealBin = ($FilesDir + 'gdvm.exe')
+# Leagcy icon path
+$LegacyIcon = ($LegacyIconDir + 'godot.png')
 
-    if (($Path -eq -$null) -or (-Not (Test-Path -Path $Path))) {
-        # File does not exist
-        return $false
-    }
-
-    try {
-        $oFile = New-Object System.IO.FileInfo $Path
-        $oStream = $oFile.Open(
-            [System.IO.FileMode]::Open,
-            [System.IO.FileAccess]::ReadWrite,
-            [System.IO.FileShare]::None
-        )
-
-        if ($oStream) {
-            $oStream.Close()
-        }
-
-        return $true
-    } catch {
-      # File is locked by a process.
-      return $false
-    }
+# Parse arguments
+if ($args[0] -eq '--force') {
+	$Force = $true
 }
 
-$BinDir = ($env:USERPROFILE + '\AppData\Local\bin\')
-$BinPath = ($BinDir + 'gdvm.ps1')
+# Create directories if they're not already existing
 New-Item -Path $BinDir -ItemType Directory -Force | Out-Null
+New-Item -Path $FilesDir -ItemType Directory -Force | Out-Null
+New-Item -Path $LegacyIconDir -ItemType Directory -Force | Out-Null
 
+# Add BinDir to user's PATH if it's not already there
 $CurrentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
 if (-not (($CurrentPath -split [IO.Path]::PathSeparator).TrimEnd('\') -contains $BinDir.TrimEnd('\'))) {
 	$NewPath = $CurrentPath.TrimEnd([IO.Path]::PathSeparator) + [IO.Path]::PathSeparator + $BinDir
 	[Environment]::SetEnvironmentVariable( "PATH", $NewPath, "User" )
 }
 
-$FilesDir = ($env:USERPROFILE + '\AppData\Local\Programs\godot-version-manager\libs\')
-$RealBin = ($FilesDir + 'gdvm.exe')
-New-Item -Path $FilesDir -ItemType Directory -Force | Out-Null
-
-
-
-if ($args[0] -eq '--force') {
-	$Force = $true
-}
-
-
-
-$LegacyIconDir = ($env:USERPROFILE + '\AppData\Local\Programs\Godot\')
-$LegacyIcon = ($LegacyIconDir + 'godot.png')
-
 if (-not $Force) {
-	if (Test-Path $LegacyIcon | Out-Null) {
+    # Remove previous LegacyIcon if it exists
+	if (Test-Path $LegacyIcon) {
 		Write-Output ('Deleting ' + $LegacyIcon + ' from a previous installation')
 		Remove-Item -Path $LegacyIcon -Force | Out-Null
 	}
 }
 
-
-# When autoupgrading, gdvm bin might still be busy, let's wait for gdvm to be done
-Start-Sleep -Seconds 0.5
 Write-Output 'Installing gdvm'
-while ((Test-File-Available $BinPath) | Out-Null) {
-	Write-Host -NoNewline '.'
-	Start-Sleep -Seconds 0.5
-}
-Write-Output ''
 
-# Remove previous BIN if it exists
+# When autoupgrading, gdvm might still be busy
+# Let's wait for gdvm to be done
+Wait-Process -Name gdvm -Timeout 300 2> $null
+
+# Remove previous wrapper script if it exists
 if (Test-Path $BinPath) {
 	Remove-Item -Path $BinPath -Force | Out-Null
 }
 
+# Copying gdvm files to installation directory
 Copy-Item -Path 'dist\gdvm\*' -Destination $FilesDir -Recurse -Force | Out-Null
+
 # Create powershell wrapper script
 ('#!powershell
 Start-Process -FilePath ' + $RealBin + ' -ArgumentList $args -NoNewWindow'
 ) > $BinPath
 
-$CacheDir = ($env:USERPROFILE + '\AppData\Local\Programs\godot-version-manager\cache\')
-
-New-Item -Path $LegacyIconDir -ItemType Directory -Force | Out-Null
+# Copying the godot legacy icon
 Copy-Item -Path '.\godot.png' -Destination $LegacyIcon -Recurse -Force | Out-Null
+
+# Removing old cache  directory
 ((Remove-Item $CacheDir -Recurse -Force) -or $true) | Out-Null
 
 Write-Output ('Installed gdvm to ' + $BinDir)
 
+# Getting available Godot releases
 gdvm sync
-Wait-Process -Name pwsh -Timeout 300 2> $null
+Wait-Process -Name gdvm -Timeout 300 2> $null
 
 Write-Output '
 =============================
 Press ENTER to quit installer
 '
+
+# Wait for user ENTER input
 Read-Host | Out-Null
