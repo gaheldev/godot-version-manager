@@ -30,4 +30,6 @@ Wait-Process -Name pyinstaller -Timeout 600 2> $null
 # TODO WIN : Register argcomplete for windows
 #register-python-argcomplete gdvm > ../../gdvm.completion
 #cd ../..
+# At the moment we create a false .completion file
+"" > .\gdvm.completion
 Remove-Item gdvm/version.py -Force
