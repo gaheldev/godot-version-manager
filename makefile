@@ -7,12 +7,6 @@ endif
 
 .PHONY : clean build install release tests hook patch-release minor-release major-release
 
-clean :
-	rm -r build
-	rm -r dist
-	rm *.completion
-	rm *.spec
-
 tests :
 	pytest -v --runslow --online
 
@@ -20,6 +14,9 @@ tests :
 ######### Windows ########
 
 ifeq ($(platform), Windows)
+
+clean :
+	@.\scripts\windows\clean.ps1
 
 build :
 	@.\scripts\windows\build.ps1
@@ -49,6 +46,11 @@ endif
 #########   OSX   ########
 
 ifeq ($(platform), Darwin)
+
+clean :
+	@echo not implemented for OSX
+	# implement in unix script
+	# ./scripts/unix/clean
 
 build :
 	@echo not implemented for OSX
@@ -88,6 +90,9 @@ endif
 #########  Linux  ########
 
 ifeq ($(platform), Linux)
+
+clean :
+	@./scripts/unix/clean
 
 build :
 	@./scripts/unix/build

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -r build
+rm -r dist
+rm *.completion
+rm *.spec
