@@ -37,7 +37,7 @@ if (-not $Force) {
     # Remove previous LegacyIcon if it exists
 	if (Test-Path $LegacyIcon) {
 		Write-Output ('Deleting ' + $LegacyIcon + ' from a previous installation')
-		Remove-Item -Path $LegacyIcon -Force | Out-Null
+		Remove-Item -Path $LegacyIcon -Force *> $null
 	}
 }
 
@@ -49,7 +49,7 @@ Wait-Process -Name gdvm -Timeout 300 2> $null
 
 # Remove previous wrapper script if it exists
 if (Test-Path $BinPath) {
-	Remove-Item -Path $BinPath -Force | Out-Null
+	Remove-Item -Path $BinPath -Force *> $null
 }
 
 # Copying gdvm files to installation directory
@@ -64,7 +64,7 @@ Start-Process -FilePath ' + $RealBin + ' -ArgumentList $args -NoNewWindow'
 Copy-Item -Path '.\godot.png' -Destination $LegacyIcon -Recurse -Force | Out-Null
 
 # Removing old cache  directory
-((Remove-Item $CacheDir -Recurse -Force) -or $true) | Out-Null
+Remove-Item $CacheDir -Recurse -Force *> $null
 
 Write-Output ('Installed gdvm to ' + $BinDir)
 

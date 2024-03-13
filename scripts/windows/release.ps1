@@ -7,7 +7,7 @@ $Dir = ".\release\$System\gdvm"
 New-Item -Path "$Dir\dist" -ItemType Directory -Force | Out-Null
 
 
-((Remove-Item "$Dir\dist\gdvm" -Recurse -Force) -or $true) | Out-Null
+Remove-Item "$Dir\dist\gdvm" -Recurse -Force *> $null
 Copy-Item -Path .\dist\gdvm -Destination "$Dir\dist" -Recurse | Out-Null
 Copy-Item -Path .\gdvm.completion -Destination $Dir | Out-Null
 Copy-Item -Path .\godot.png -Destination $Dir | Out-Null

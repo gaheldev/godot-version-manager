@@ -32,4 +32,4 @@ Wait-Process -Name pyinstaller -Timeout 600 2> $null
 #cd ../..
 # At the moment we create a false .completion file
 "" > .\gdvm.completion
-Remove-Item gdvm/version.py -Force
+Remove-Item gdvm/version.py -Force *> $null
