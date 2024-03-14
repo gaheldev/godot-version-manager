@@ -4,8 +4,6 @@
 $BinDir = Join-Path $env:USERPROFILE \AppData\Local\bin\
 # Files directory: where we install gdvm files
 $FilesDir = Join-Path $env:USERPROFILE \AppData\Local\Programs\godot-version-manager\libs\
-# Icon directory: where we copy the legacy godot icon for our godot versions installs
-$LegacyIconDir = Join-Path $env:USERPROFILE \AppData\Local\Programs\Godot\
 # Cache directory: used for gdvm cache
 $CacheDir = Join-Path $env:USERPROFILE \AppData\Local\Programs\godot-version-manager\cache\
 
@@ -13,18 +11,16 @@ $CacheDir = Join-Path $env:USERPROFILE \AppData\Local\Programs\godot-version-man
 $BinPath = Join-Path $BinDir gdvm.ps1
 # Real gdvm binary path
 $RealBin = Join-Path $FilesDir gdvm.exe
-# Leagcy icon path
-$LegacyIcon = Join-Path $LegacyIconDir godot.png
 
 # Parse arguments
 if ($args[0] -eq '--force') {
+	# Kept for compatibility with linux implementation
 	$Force = $true
 }
 
 # Create directories if they're not already existing
 New-Item -Path $BinDir -ItemType Directory -Force | Out-Null
 New-Item -Path $FilesDir -ItemType Directory -Force | Out-Null
-New-Item -Path $LegacyIconDir -ItemType Directory -Force | Out-Null
 
 # Add BinDir to user's PATH if it's not already there
 $CurrentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
@@ -34,14 +30,6 @@ if (-not (($CurrentPath -split [IO.Path]::PathSeparator).TrimEnd('\') -contains 
 			$BinDir
 		) -join [IO.Path]::PathSeparator
 	[Environment]::SetEnvironmentVariable("PATH", $NewPath, "User" ) | Out-Null
-}
-
-if (-not $Force) {
-    # Remove previous LegacyIcon if it exists
-	if (Test-Path $LegacyIcon) {
-		Write-Output "Deleting $LegacyIcon from a previous installation"
-		Remove-Item -Path $LegacyIcon -Force *> $null
-	}
 }
 
 Write-Output 'Installing gdvm'
@@ -62,9 +50,6 @@ Copy-Item -Path .\dist\gdvm\* -Destination $FilesDir -Recurse -Force | Out-Null
 "#!pwsh
 Start-Process -FilePath $RealBin -ArgumentList `$args -NoNewWindow
 " > $BinPath
-
-# Copying the godot legacy icon
-Copy-Item -Path .\godot.png -Destination $LegacyIcon -Recurse -Force | Out-Null
 
 # Removing old cache  directory
 Remove-Item -Path $CacheDir -Recurse -Force *> $null
