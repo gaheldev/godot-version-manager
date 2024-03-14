@@ -75,6 +75,7 @@ Write-Output "Installed gdvm to $BinDir"
 gdvm sync
 Wait-Process -Name gdvm -Timeout 300 2> $null
 
+# TODO WIN: Test 'gdmv upgrade' command when a version is available
 Write-Output '
 =============================
 Press ENTER to quit installer
