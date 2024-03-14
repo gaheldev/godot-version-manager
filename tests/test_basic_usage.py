@@ -6,7 +6,16 @@ import os
 
 app_manager = m.AppManager()
 
-fake_godot_zip = os.path.join('tests', 'fake_godot.zip')
+fake_godot_zip = ''
+match platform():
+    case 'linux':
+        fake_godot_zip = os.path.join('tests', 'fake_godot.zip')
+
+    case 'windows':
+        fake_godot_zip = os.path.join('tests', 'fake_godot.ps1.zip')
+
+    case _ as platform_name:
+        raise NotImplementedError(f'Unsupported platform: {platform_name}')
 
 try:
     app = app_manager.add(fake_godot_zip)
@@ -17,12 +26,6 @@ except:
 
 
 def test_add_from_zip():
-    # Skip this test on windows:
-    # data._version : fake_godot bash script isn't run properly and ruins the test
-    # but we suspect a real godot executable works fine
-    if platform() == 'windows':
-        return
-    
     assert isinstance(app, m.GodotApp) == True
 
     if isinstance(app, m.GodotApp):
@@ -31,12 +34,6 @@ def test_add_from_zip():
 
 
 def test_list():
-    # Skip this test on windows:
-    # data._version : fake_godot bash script isn't run properly and ruins the test
-    # but we suspect a real godot executable works fine
-    if platform() == 'windows':
-        return
-    
     assert ('3.42.7-stable' in app_manager.versions) == True
     assert ('not_a_version' in app_manager.versions) == False
 

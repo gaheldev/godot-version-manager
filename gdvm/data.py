@@ -5,16 +5,27 @@ from dataclasses import dataclass, field
 
 from . import desktop
 from .paths import INSTALL_PATH, CACHE_DIR
-from .helpers import persist_to_file, parse_version, parse_version_number
+from .helpers import persist_to_file, parse_version, parse_version_number, platform
 
 
 
 
 def _version(app_path: str):
+    sp_run_arguments = []
+    match platform():
+        case 'linux':
+            sp_run_arguments = [app_path, '--version']
+
+        case 'windows':
+            sp_run_arguments = ['pwsh', '-C', app_path, '--version']
+
+        case _ as platform_name:
+            raise NotImplementedError(f'Unsupported platform: {platform_name}')
+    
     # check=True to check for exit error
-    return sp.run([app_path, '--version'], check=False, stdout=sp.PIPE).stdout\
-             .decode('utf-8')\
-             .strip()
+    return sp.run(sp_run_arguments, check=False, stdout=sp.PIPE).stdout\
+            .decode('utf-8')\
+            .strip()
 
 
 def short_version(long_version: str) -> str:
