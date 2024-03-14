@@ -1,4 +1,5 @@
 import subprocess as sp
+import os
 
 from .helpers import platform
 from .paths import DESKTOP_PATH
@@ -28,8 +29,13 @@ Categories=Development;"""
                 sp.run(['xdg-desktop-menu', 'install', '--novendor', f'{DESKTOP_PATH}'])
         
         case 'windows':
-            # TODO WIN : actually implement
-            print('Creating shortcut')
-                
+            if os.path.isfile(DESKTOP_PATH):
+                os.remove(DESKTOP_PATH)
 
-
+            create_shortcut_command = f"""#!pwsh
+                $shell = New-Object -comObject WScript.Shell
+                $shortcut = $shell.CreateShortcut("{DESKTOP_PATH}")
+                $shortcut.TargetPath = "{path}"
+                $shortcut.Save()
+            """
+            sp.run(['pwsh', '-C', create_shortcut_command])

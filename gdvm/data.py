@@ -112,7 +112,14 @@ class GodotApp:
                 os.remove(INSTALL_PATH)
 
             os.symlink(self.path, INSTALL_PATH)
-            desktop.create_shortcut(INSTALL_PATH)
+
+            shortcut_target = INSTALL_PATH
+            # TODO : Test if self.path can be used as target on other platforms
+            if platform() == 'windows':
+                shortcut_target = self.path
+            desktop.create_shortcut(shortcut_target)
+
+            desktop.create_shortcut(self.path)
             print(f'Using {self.version} ({INSTALL_PATH})')
 
         else:

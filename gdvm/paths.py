@@ -1,3 +1,4 @@
+import subprocess as sp
 from os.path import expanduser, join
 from .helpers import platform
 
@@ -14,8 +15,14 @@ match platform():
         TMP_DIR = '/tmp/'
 
     case 'windows':
-        INSTALL_PATH = expanduser('~/AppData/Local/Programs/Godot')
-        DESKTOP_PATH = expanduser('~/Desktop')
+        # Needed because expanduser('~/Desktop') is not always desktop on windows
+        user_desktop_path = sp.run(
+            ['pwsh', '-C',
+            '[System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)'],
+            check=False, stdout=sp.PIPE).stdout.decode('utf-8').strip()
+
+        INSTALL_PATH = expanduser('~/AppData/Local/bin/godot')
+        DESKTOP_PATH = join(user_desktop_path, 'Godot.lnk')
         APP_DIR = expanduser('~/AppData/Local/Programs/godot-version-manager/apps/')
         CACHE_DIR = expanduser('~/AppData/Local/Programs/godot-version-manager/cache/')
         VERSIONS_PATH = join(CACHE_DIR, 'available_versions.yml')
