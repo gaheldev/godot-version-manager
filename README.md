@@ -37,7 +37,8 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 <br/>
 
 * [x] linux 🐧
-* [ ] windows 🪟 (incoming)
+* [x] windows WSL 🪟 (cannot create desktop shortcuts)
+* [ ] windows PowerShell 🪟 (incoming)
 * [ ] macos 🍎
 
 <br></br>
