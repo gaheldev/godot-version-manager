@@ -10,6 +10,8 @@ FILES_DIR=${HOME}/.local/share/gdvm/libs/
 REAL_BIN="${FILES_DIR}gdvm"
 mkdir -p $FILES_DIR
 
+ICONS_DIR=${HOME}/.local/share/icons/
+mkdir -p $ICONS_DIR
 
 case $1 in
 	'--force')
@@ -55,7 +57,7 @@ ln -s $REAL_BIN $BIN_PATH
 mkdir -p ~/.local/share/bash-completion/completions
 cp gdvm.completion ~/.local/share/bash-completion/completions/gdvm
 
-cp godot.png ~/.local/share/icons/
+cp godot.png $ICONS_DIR
 rm -r ~/.cache/gdvm 2> /dev/null || true
 
 echo Installed gdvm to $BIN_DIR
