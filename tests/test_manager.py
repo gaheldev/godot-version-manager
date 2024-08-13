@@ -13,13 +13,13 @@ def test_expand_pattern():
 
     version = installed[0]
     assert (version in list(m.expand_pattern(version))) == True
-    assert (version in list(m.expand_pattern(version[:4] + '*'))) == True
+    assert (version in list(m.expand_pattern(version[:4] + 'x'))) == True
 
     assert ('another' in list(m.expand_pattern(version)) + ['another']) == True
     assert (version in list(m.expand_pattern(version)) + ['another']) == True
-    assert ('nope' in list(m.expand_pattern(version[:4] + '*'))) == False
+    assert ('nope' in list(m.expand_pattern(version[:4] + 'x'))) == False
 
     if len(installed) < 2:
         return
-    assert (installed[1] in list(m.expand_pattern([version[:4] + '*',  installed[1][:4] + '*']))) == True
+    assert (installed[1] in list(m.expand_pattern([version[:4] + 'x',  installed[1][:4] + 'x']))) == True
 
