@@ -120,7 +120,7 @@ parser_dl = subparsers.add_parser('download', help='download Godot versions (add
 
 parser_dl.add_argument('versions', metavar='VERSION',
                        nargs='*',
-                       help='Godot versions to download (e.g. 3.4, 4.1.1, 4.2.*, ...)')\
+                       help='Godot versions to download (e.g. 3.4, 4.1.x, 4.x.1-rcx, ...)')\
          .completer = GodotVersionsCompleter()
 
 parser_dl.add_argument('--system',
