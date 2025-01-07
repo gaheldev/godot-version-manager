@@ -15,6 +15,16 @@ def version_numbers() -> Generator[str, None, None]:
 
 
 
+def version_numbers_with_release() -> Generator[str, None, None]:
+    for version in remote.version_numbers:
+        yield f'{version}-{remote.latest_release(version)}'
+        for release in remote.release_names(version):
+            yield f'{version}-{release}'
+        for prerelease in remote.prerelease_names(version):
+            yield f'{version}-{prerelease}'
+
+
+
 def prerelease_names(version: str) -> Generator[str, None, None]:
     return remote.prerelease_names(version)
 

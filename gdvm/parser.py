@@ -3,7 +3,7 @@ import argparse
 import argcomplete
 import os
 
-from .completers import FilteredFilesCompleter, GodotReleasesCompleter, GodotVersionNumbersCompleter, InstalledVersionsCompleter
+from .completers import FilteredFilesCompleter, InstalledVersionsCompleter, GodotVersionsCompleter
 
 
 
@@ -121,7 +121,7 @@ parser_dl = subparsers.add_parser('download', help='download Godot versions (add
 parser_dl.add_argument('versions', metavar='VERSION',
                        nargs='*',
                        help='Godot versions to download (e.g. 3.4, 4.1.1, 4.2.*, ...)')\
-         .completer = GodotVersionNumbersCompleter()
+         .completer = GodotVersionsCompleter()
 
 parser_dl.add_argument('--system',
                        default='', choices=['linux', 'windows', 'osx'],
@@ -133,11 +133,6 @@ parser_dl.add_argument('--arch', metavar=('ARCH'),
                        help='system architecture ( 32 | 64 )')
 
 parser_dl.add_argument('--mono', action='store_true', help='mono build')
-
-parser_dl.add_argument('--release',
-                       default='latest', metavar=('RELEASE'),
-                       help='latest (default), stable, alpha, beta, rc or dev release')\
-         .completer = GodotReleasesCompleter()
 
 
 # Upgrade gdvm

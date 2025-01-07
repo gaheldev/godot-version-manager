@@ -203,7 +203,6 @@ def main():
 
         system = platform()
         arch = architecture()
-        release = args.release
         add_to_manage = True
 
         if args.system:
@@ -216,15 +215,38 @@ def main():
                 add_to_manage = False
             arch = args.arch
 
+        remote_versions_with_release = list(dl.version_numbers_with_release())
         remote_versions = list(dl.version_numbers())
+
+        version_numbers = []
+        subversions = []
         if args.versions:
             versions = args.versions
+            for v in versions:
+                if '-' in v:
+                    # match all releases of a version when x.x-x
+                    matched_versions = list(expand_pattern(v, remote_versions_with_release))
+                    version_numbers += [v.split('-',1)[0] for v in matched_versions]
+                    subversions += [v.split('-',1)[1] for v in matched_versions]
+                else:
+                    # match only version number when x.x
+                    matched_versions = list(expand_pattern(v, remote_versions))
+                    version_numbers += matched_versions
+                    subversions += ['latest' for _ in matched_versions]
         else:
-            versions = cli.pick(remote_versions, dl.latest_stable_version_number())
+            version_numbers = cli.pick(remote_versions, dl.latest_stable_version_number())
+            subversions = [None for _ in version_numbers]
 
-        for version in expand_pattern(versions, targets=remote_versions):
+        installed_versions = list(manager.installed_versions())
+        for version, release in zip(version_numbers, subversions):
             if release == 'latest':
                 release = dl.latest_release(version)
+
+            full_name = f'{version}-{release}'
+            if full_name in installed_versions:
+                print(f'skipping {Fore.YELLOW}{full_name}{Style.RESET_ALL}: \talready installed')
+                continue
+            # continue
 
             releases = list(dl.release_names(version))
             if (not args.versions) or (release not in releases):

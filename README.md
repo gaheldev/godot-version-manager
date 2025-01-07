@@ -80,9 +80,9 @@ gdvm download
 gdvm use
 ```
 
-If you'd like to use a release other than stable, such as `rc1` or `dev5`, you can use the `--release` argument:
+If you'd like to use a release other than stable, such as `rc1` or `dev5`, you can complete the version with `-rc1` or `-` and use autocompletion:
 ```
-gdvm download VERSION_NUMBER --release RELEASE
+gdvm download VERSION_NUMBER-RELEASE
 gdvm use VERSION
 ```
 
@@ -117,16 +117,10 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
 
 ## Wildcards
 
-`gdvm` supports wildcards to handle multiple versions at once. For example to remove all versions starting with 4.1:
+`gdvm` supports wildcards to handle multiple versions at once. For example to remove all rc releases of versions starting with 4.1:
 
 ```
-gdvm remove "4.1*"
-```
-
-While the "" may not always be necessary, they're recommended to avoid clashing with bash wildcard. Alternatively it is also possible to escape it with `\*`. For example to self-contain all installed versions:
-
-```
-gdvm config --self-contain \*
+gdvm remove "4.1x-rcx"
 ```
 <br><br/>
 
@@ -137,7 +131,7 @@ gdvm config --self-contain \*
 ## Set up the development environment
 
 >[!IMPORTANT]
-> `python > 3.11` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
+> `python >= 3.12` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
 <br/>
 
 <!--- Seems unnecessary 

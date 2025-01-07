@@ -51,7 +51,7 @@ def expand_pattern(versions: str | list[str] | Generator[str, None, None],
         if version in cache:
             continue
 
-        if not '*' in version:
+        if not 'x' in version:
             yield version
             cache.add(version)
             continue
