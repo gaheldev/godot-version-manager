@@ -47,6 +47,22 @@ class GodotVersionNumbersCompleter(ChoicesCompleter):
 
 
 
+class GodotVersionsCompleter(ChoicesCompleter):
+    def __init__(self):
+        self.versions = downloader.version_numbers()
+        self.versions_and_release = downloader.version_numbers_with_release()
+
+    def __call__(self, prefix, parsed_args, **kwargs):
+        versions = self.versions
+        if '-' in prefix:
+            versions = self.versions_and_release
+
+        for version in versions:
+            if version.startswith(prefix):
+                yield version
+
+
+
 class GodotReleasesCompleter:
     def __call__(self, prefix, parsed_args, **kwargs):
         if not parsed_args.versions:
