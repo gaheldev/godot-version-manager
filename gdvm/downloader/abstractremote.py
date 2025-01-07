@@ -1,6 +1,7 @@
 import os
 from typing import Generator
 from abc import abstractmethod
+from colorama import Fore, Style
 
 from ..helpers import download
 
@@ -57,7 +58,7 @@ class AbstractRemote:
         link = matching_links[0]
         download_path = os.path.join(save_path, os.path.basename(link))
 
-        print(f'Downloading {link}')
+        print(f'Downloading {Fore.YELLOW}{version_number}-{release}{Style.RESET_ALL} from {link}')
 
         download(link, out=download_path)
         print()

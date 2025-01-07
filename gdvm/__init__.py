@@ -237,9 +237,16 @@ def main():
             version_numbers = cli.pick(remote_versions, dl.latest_stable_version_number())
             subversions = [None for _ in version_numbers]
 
+        installed_versions = list(manager.installed_versions())
         for version, release in zip(version_numbers, subversions):
             if release == 'latest':
                 release = dl.latest_release(version)
+
+            full_name = f'{version}-{release}'
+            if full_name in installed_versions:
+                print(f'skipping {Fore.YELLOW}{full_name}{Style.RESET_ALL}: \talready installed')
+                continue
+            # continue
 
             releases = list(dl.release_names(version))
             if (not args.versions) or (release not in releases):
