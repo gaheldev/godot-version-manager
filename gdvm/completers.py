@@ -4,7 +4,7 @@ from typing import Callable
 
 from .downloader import downloader
 from . import manager
-from .helpers import FILE_SEP
+from .helpers import FILE_SEP, wildcard_match
 from .data import GodotApp
 
 
@@ -54,11 +54,18 @@ class GodotVersionsCompleter(ChoicesCompleter):
 
     def __call__(self, prefix, parsed_args, **kwargs):
         versions = self.versions
-        if '-' in prefix:
+        if 'x' in prefix or '-' in prefix:
             versions = self.versions_and_release
 
+        # TODO:
+        # if matching full prefix, yield matching version with release
         for version in versions:
-            if version.startswith(prefix):
+            if 'x' in prefix:
+                m = wildcard_match(prefix,version)
+                if m is not None:
+                    matched_string = m[0]
+                    yield prefix + version[len(matched_string):]
+            elif version.startswith(prefix):
                 yield version
 
 

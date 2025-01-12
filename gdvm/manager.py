@@ -7,7 +7,7 @@ import shutil
 from functools import cached_property
 
 from .data import GodotApp, get_mono_app, app_path_from, version, current_system_version, short_version
-from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project, wildcard_match
+from .helpers import extract_archive, abort, parse_version, platform, architecture, current_local_project, wildcard_fullmatch
 from .paths import CACHE_DIR, APP_DIR, TMP_DIR
 from .downloader.downloader import download_app
 from . import cli
@@ -57,7 +57,7 @@ def expand_pattern(versions: str | list[str] | Generator[str, None, None],
             continue
 
         for target in targets:
-            if wildcard_match(version, target):
+            if wildcard_fullmatch(version, target):
                 if not target in cache:
                     yield target
                     cache.add(version) # pattern

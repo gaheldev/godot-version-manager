@@ -109,8 +109,13 @@ def parse_version_number(version_number: str) -> Tuple[int, int, int]:
 
 
 
-def wildcard_match(pattern:str, target:str):
+def wildcard_fullmatch(pattern:str, target:str):
     return re.fullmatch(re.escape(pattern).replace('x','.*'), target)
+
+
+
+def wildcard_match(pattern:str, target:str):
+    return re.match(re.escape(pattern).replace('x','.*'), target)
 
 
 
