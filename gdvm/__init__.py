@@ -234,7 +234,7 @@ def main():
                     version_numbers += matched_versions
                     subversions += ['latest' for _ in matched_versions]
         else:
-            version_numbers = cli.pick(remote_versions, dl.latest_stable_version_number())
+            version_numbers = [ cli.pick(remote_versions, dl.latest_stable_version_number()) ]
             subversions = [None for _ in version_numbers]
 
         installed_versions = list(manager.installed_versions())
@@ -246,9 +246,14 @@ def main():
             if full_name in installed_versions:
                 print(f'skipping {Fore.YELLOW}{full_name}{Style.RESET_ALL}: \talready installed')
                 continue
-            # continue
 
-            releases = list(dl.release_names(version))
+            try:
+                releases = list(dl.release_names(version))
+            except LookupError:
+                from .paths import VERSIONS_PATH
+                print(f"Error: version {version} is not found in {VERSIONS_PATH}")
+                abort()
+
             if (not args.versions) or (release not in releases):
                 default_release = 'stable' if 'stable' in releases else releases[-1]
                 release = cli.pick(releases, default_release)
