@@ -35,16 +35,16 @@ if [ ! $force ]; then
 fi
 
 
-
-
 # When autoupgrading, gdvm bin might still be busy, let's wait for gdvm to be done
-sleep 0.5
-echo -n "Installing gdvm"
-while lsof ${BIN_PATH} 1>/dev/null; do
+sleep 0.2
+echo -n "Waiting for parent gdvm process to terminate..."
+while pidof ${BIN_PATH} &>/dev/null; do
 	echo -n "."
 	sleep 0.5
 done
 echo -ne "\n"
+
+echo "Installing gdvm"
 
 # remove previous BIN if it exists
 if [ -e $BIN_PATH ]; then
