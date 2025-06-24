@@ -165,15 +165,15 @@ def main():
                     app_manager.add(f)
                 except KeyboardInterrupt:
                     abort()
-                except:
-                    print(f'installation cancelled')
+                except Exception as e:
+                    print(f'installation cancelled: {e}')
         else:
             try:
                 app_manager.add(args.file)
             except KeyboardInterrupt:
                 abort()
-            except:
-                print(f'installation cancelled')
+            except Exception as e:
+                print(f'installation cancelled: {e}')
 
 
     if args.subparser_name == 'remove':
@@ -272,8 +272,8 @@ def main():
                     app_manager.add(dl_file)
                 except KeyboardInterrupt:
                     abort()
-                except:
-                    print(f'installation cancelled')
+                except Exception as e:
+                    print(f'installation cancelled: {e}')
             else:
                 print(f"Downloaded {dl_file} but didn't add it to managed apps because it doesn't fit your system")
 
