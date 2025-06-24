@@ -166,12 +166,12 @@ class AppManager:
         if os.path.isfile(godot_path):
             os.makedirs(output_dir, exist_ok=True)
             if flag_archive:
-                os.rename(godot_exe, output_exe) # gets rid of the extracted archive in TMP
+                shutil.move(godot_exe, output_exe) # gets rid of the extracted archive in TMP
             else:
                 shutil.copy2(godot_exe, output_exe) # copy with permissions, keep the original
         else:
             if flag_archive:
-                os.rename(godot_path, output_dir)
+                shutil.move(godot_exe, output_exe)
             else:
                 shutil.copy2(godot_path, output_dir)
 
