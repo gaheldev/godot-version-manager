@@ -59,7 +59,7 @@ def app_path_from(dir: str) -> str:
     if os.path.isfile(dir):
         return ''
     for f in os.scandir(dir):
-        if f.is_file() and ('Godot_v' in f.name):
+        if f.is_file():
             return f.path
     else:
         return ''
