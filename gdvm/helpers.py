@@ -92,6 +92,10 @@ def parse_version(version: str) -> Tuple[str, str, bool]:
 
     release = m.group('release')
 
+    if "custom_build" in version:
+        hash = version.split('.')[-1]
+        release += '.' + hash
+
     mono = False
     if 'mono' in version:
         mono = True

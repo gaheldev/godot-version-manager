@@ -59,8 +59,12 @@ def app_path_from(dir: str) -> str:
     if os.path.isfile(dir):
         return ''
     for f in os.scandir(dir):
-        if f.is_file() and ('Godot_v' in f.name):
+        # if f.is_file() and ('Godot_v' in f.name):
+        if f.is_file():
             return f.path
+        # FIXME: this introduces an error
+        # if f.is_file() and ('Godot_v' not in f.name) and ("-dev." in dir): # guess from dir name that it's a custom build with an undefined name
+            # return f.path
     else:
         return ''
 

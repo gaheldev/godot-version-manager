@@ -97,12 +97,16 @@ def main():
             try:
                 app_manager.run_project_version()
             except LookupError:
-                project_version = app_manager.project_version
-                if project_version:
-                    app_manager.add_version(project_version)
-                    app_manager.run_project_version()
+                long_version = app_manager.project_long_version
+                if "custom_build" in long_version:
+                    print(f"\n{Fore.RED}Project is using a custom build: {Style.RESET_ALL}{long_version}\n\n-> Get the custom build or compile it yourself and run:\n\n\tgdvm add path/to/custom/build/binary\n")
                 else:
-                    raise Exception(f'Project version {project_version} unrecognized')
+                    project_version = app_manager.project_version
+                    if project_version:
+                        app_manager.add_version(project_version)
+                        app_manager.run_project_version()
+                    else:
+                        raise Exception(f'Project version {project_version} unrecognized')
 
         else:
             version = pick_version()
@@ -238,6 +242,7 @@ def main():
             subversions = [None for _ in version_numbers]
 
         installed_versions = list(manager.installed_versions())
+        # FIXME: handle mono -> if non mono is installed, mono will be skipped
         for version, release in zip(version_numbers, subversions):
             if release == 'latest':
                 release = dl.latest_release(version)

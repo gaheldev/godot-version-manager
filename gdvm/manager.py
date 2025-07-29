@@ -51,14 +51,14 @@ def expand_pattern(versions: str | list[str] | Generator[str, None, None],
         if version in cache:
             continue
 
-        if not 'x' in version:
+        if 'x' not in version:
             yield version
             cache.add(version)
             continue
 
         for target in targets:
             if wildcard_fullmatch(version, target):
-                if not target in cache:
+                if target not in cache:
                     yield target
                     cache.add(version) # pattern
                     cache.add(target) # match
@@ -170,10 +170,8 @@ class AppManager:
             else:
                 shutil.copy2(godot_exe, output_exe) # copy with permissions, keep the original
         else:
-            if flag_archive:
-                shutil.move(godot_exe, output_exe)
-            else:
-                shutil.copy2(godot_path, output_dir)
+            # TODO: add pytests for all kind of archives supported
+            shutil.move(godot_path, output_dir)
 
         new_app = GodotApp(output_exe)
         self.apps.append(new_app)
@@ -238,6 +236,8 @@ class AppManager:
 
     def add_version(self, version: str):
         version_number, release, mono = parse_version(version)
+        if release == "dev":
+            raise LookupError("Project is using a custom build: cannot download from official builds")
         archive = download_app(version_number,
                                release=release,
                                system=platform(),
