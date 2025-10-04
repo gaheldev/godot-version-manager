@@ -130,9 +130,7 @@ gdvm remove "4.1x-rcx"
 
 ## Set up the development environment
 
->[!IMPORTANT]
-> `python >= 3.12` is required. If necessary, install it from your package manager as well as `pip` for Python 3.
-<br/>
+Dependencies are handled by `uv`, follow these [install instructions](https://docs.astral.sh/uv/#installation)
 
 <!--- Seems unnecessary 
 The package uses `argcomplete` to autocomplete arguments. Install it on your system using:
@@ -157,8 +155,7 @@ We use virtualenv to create an environment with controlled python package versio
 
 
 ```
-pip install virtualenv
-virtualenv venv
+uv venv
 source venv/bin/activate
 ```
 
