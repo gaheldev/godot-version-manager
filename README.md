@@ -30,6 +30,7 @@ https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-
 * define a Godot version for your project and track it with git
 * seamlessly download and run the correct Godot version accross projects and git commits
 * set a system's default version of Godot, with desktop shortcut
+* support for custom builds
 * autocompletion
 * interactive prompt
 * colors 🎉
