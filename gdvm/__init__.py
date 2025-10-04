@@ -9,7 +9,7 @@ just_fix_windows_console()
 
 from . import cli
 from . import parser
-from .manager import AppManager, expand_pattern
+from .manager import AppManager, expand_pattern, is_version_installed
 from .helpers import abort, current_local_project, platform, architecture
 from .paths import DESKTOP_PATH, INSTALL_PATH
 
@@ -241,14 +241,14 @@ def main():
             version_numbers = [ cli.pick(remote_versions, dl.latest_stable_version_number()) ]
             subversions = [None for _ in version_numbers]
 
-        installed_versions = list(manager.installed_versions())
-        # FIXME: handle mono -> if non mono is installed, mono will be skipped
         for version, release in zip(version_numbers, subversions):
             if release == 'latest':
                 release = dl.latest_release(version)
 
-            full_name = f'{version}-{release}'
-            if full_name in installed_versions:
+            if is_version_installed(version, release, args.mono):
+                full_name = f'{version}-{release}'
+                if args.mono:
+                    full_name += '.mono'
                 print(f'skipping {Fore.YELLOW}{full_name}{Style.RESET_ALL}: \talready installed')
                 continue
 

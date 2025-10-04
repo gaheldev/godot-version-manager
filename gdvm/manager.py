@@ -36,6 +36,13 @@ def installed_versions() -> Generator[str, None, None]:
         yield app.short_version
 
 
+def is_version_installed(version: str, release: str, is_mono: bool) -> bool:
+    for app in installed_apps():
+        if app.mono == is_mono and app.release == release and app.version == version:
+            return True
+    return False
+
+
 
 def expand_pattern(versions: str | list[str] | Generator[str, None, None],
                    targets:list=list(installed_versions()),
