@@ -16,6 +16,7 @@ jobs:
           - os: ubuntu-22.04 # for glibc compatibility with systems > 20.04
             TARGET: linux
             CMD_BUILD: |
+              source .venv/bin/activate
               make release
             OUT_FILE_NAME: release/gdvm_linux.zip
 # TEMPLATE FOR INSPIRATION :P
@@ -41,6 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
+          source .venv/bin/activate
           uv sync
       - name: Build with pyinstaller for ${{ matrix.TARGET }}
         run: ${{matrix.CMD_BUILD}}

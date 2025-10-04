@@ -19,7 +19,7 @@ __version__ = \"${VERSION}\"
 
 
 echo 'Building gdvm: version ${VERSION}'
-pyinstaller -D main.py -n gdvm
+python -m PyInstaller -D main.py -n gdvm
 
 (
 cd dist/gdvm/
