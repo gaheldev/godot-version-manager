@@ -17,9 +17,8 @@ A command line tool to download and manage Godot versions per project
 <br/>
 
 
-https://github.com/gaheldev/godot-version-manager/assets/78329601/886a3e13-cfba-417c-9473-98f12debcaa4
 
-
+https://github.com/user-attachments/assets/1b8cade6-fe7b-476b-aa5d-2729721922e6
 
 
 
