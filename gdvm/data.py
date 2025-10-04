@@ -96,7 +96,7 @@ class GodotApp:
         """Make app the system Godot (from CLI and desktop)"""
         if system:
             # install as system app
-            if os.path.isfile(INSTALL_PATH):
+            if os.path.islink(INSTALL_PATH):
                 os.remove(INSTALL_PATH)
 
             os.symlink(self.path, INSTALL_PATH)
