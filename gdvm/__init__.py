@@ -60,7 +60,7 @@ def main():
 
 
 
-    if args.subparser_name == 'list':
+    if args.subparser_name in ['list', 'ls']:
         app_manager.display_versions()
         exit()
 
@@ -180,7 +180,7 @@ def main():
                 print(f'installation cancelled: {e}')
 
 
-    if args.subparser_name == 'remove':
+    if args.subparser_name in ['remove', 'rm']:
         versions = args.version if args.version else [pick_version(default_item='')]
         versions = expand_pattern(versions)
 
@@ -200,7 +200,7 @@ def main():
                 abort()
 
 
-    if args.subparser_name == 'download':
+    if args.subparser_name in ['download', 'dl']:
         check_gdvm_release()
 
         from .downloader import downloader as dl

@@ -39,6 +39,7 @@ parser_add.add_argument('file', metavar='FILE',
 
 # Delete Godot version
 parser_del = subparsers.add_parser('remove',
+                                   aliases=['rm'],
                                    help='delete Godot version from managed versions')
 
 parser_del.add_argument('-f', '--force',
@@ -67,7 +68,7 @@ dac_subparsers.add_parser('local',
 
 
 # Optional listing of available Godot version
-parser_list = subparsers.add_parser('list', help=f'list managed Godot versions')
+parser_list = subparsers.add_parser('list', aliases=['ls'], help=f'list managed Godot versions')
 
 
 # Display current gdvm version
@@ -116,7 +117,7 @@ contain_group.add_argument('--no-self-contain',
 
 
 # Download godot version
-parser_dl = subparsers.add_parser('download', help='download Godot versions (add to managed if compatible with system)')
+parser_dl = subparsers.add_parser('download', aliases=['dl'], help='download Godot versions (add to managed if compatible with system)')
 
 parser_dl.add_argument('versions', metavar='VERSION',
                        nargs='*',
