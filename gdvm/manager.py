@@ -258,19 +258,19 @@ class AppManager:
         print(f'Removed {app.version}')
 
 
-    def run_system_version(self):
+    def run_system_version(self, godot_args=[]):
         version = self.system_version
         if version == '':
             print('System version is not defined')
             abort()
         system_app = self[version]
-        system_app.run()
+        system_app.run(godot_args)
 
 
-    def run_project_version(self):
+    def run_project_version(self, godot_args=[]):
         if self.project_version:
             project_app = self[self.project_version]
-            project_app.run()
+            project_app.run(godot_args)
 
 
     def _display_suffix(self, app: GodotApp) -> str:

@@ -111,9 +111,12 @@ class GodotApp:
             print(f'Using {self.version} in project folder {os.getcwd()}')
 
 
-    def run(self):
+    def run(self, godot_args=[]):
         print(f'Launching {self.version}')
-        sp.Popen([self.path, '-e'], stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
+        cmd = [self.path, '-e']
+        if godot_args:
+            cmd += godot_args
+        sp.Popen(cmd, stdin=sp.DEVNULL, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
 
 
     def remove(self):

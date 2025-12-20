@@ -112,6 +112,8 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
   
 * `gdvm run --system` to run the system's default
 
+* `gdvm run -- <godot-arguments>` to pass any list of arguments to the godot executable
+
 <br/>
 
 

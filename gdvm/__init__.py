@@ -2,7 +2,7 @@
 # PYTHON_ARGCOMPLETE_OK
 
 
-from sys import exit, stderr
+from sys import exit, stderr, argv
 from colorama import Fore, Style
 from colorama import just_fix_windows_console
 just_fix_windows_console()
@@ -32,10 +32,23 @@ except:
         __version__ = 'version not found'
 
 
+def  split_gdvm_and_godot_args() -> tuple[list[str], list[str]]:
+    gdvm_args = argv[1:]
+    godot_args = []
+    if '--' in argv:
+        split_index = argv.index('--')
+        gdvm_args = argv[1:split_index]
+        godot_args = argv[split_index + 1:]
+    return gdvm_args, godot_args
+
+
 def main():
 
+    # Split arguments at '--', anything before is parsed by gdvm, the rest is passed to godot
+    gdvm_args, godot_args = split_gdvm_and_godot_args()
+
     # Parse arguments
-    args = parser.parse_args()
+    args = parser.parse_args(gdvm_args)
 
     # Display help message when no args are passed.
     if not parser.has_arguments():
@@ -83,19 +96,19 @@ def main():
 
     if args.subparser_name == 'run':
         if args.version:
-            app_manager[args.version].run()
+            app_manager[args.version].run(godot_args)
             exit()
 
         local_project = current_local_project()
 
         if args.system:
-            app_manager.run_system_version()
+            app_manager.run_system_version(godot_args)
         elif local_project or args.local:
             if local_project:
                 print(f'{Fore.YELLOW}Found project with local version: {local_project}{Style.RESET_ALL}')
 
             try:
-                app_manager.run_project_version()
+                app_manager.run_project_version(godot_args)
             except LookupError:
                 long_version = app_manager.project_long_version
                 if "custom_build" in long_version:
@@ -104,13 +117,13 @@ def main():
                     project_version = app_manager.project_version
                     if project_version:
                         app_manager.add_version(project_version)
-                        app_manager.run_project_version()
+                        app_manager.run_project_version(godot_args)
                     else:
                         raise Exception(f'Project version {project_version} unrecognized')
 
         else:
             version = pick_version()
-            app_manager[version].run()
+            app_manager[version].run(godot_args)
 
 
     if args.subparser_name == 'use':
