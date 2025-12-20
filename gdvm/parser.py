@@ -80,6 +80,9 @@ main_parser.add_argument('-v', '--version', action='store_true',
 parser_run = subparsers.add_parser('run',
                                    help='launch godot (defaults to --local if a project version is defined)')
 
+parser_run.add_argument('-v', '--verbose', action='store_true',
+                       help='Let Godot print output to terminal')
+
 run_group = parser_run.add_mutually_exclusive_group()
 run_group.add_argument('version', metavar='VERSION',
                        nargs='?',

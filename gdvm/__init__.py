@@ -96,19 +96,19 @@ def main():
 
     if args.subparser_name == 'run':
         if args.version:
-            app_manager[args.version].run(godot_args)
+            app_manager[args.version].run(args.verbose, godot_args)
             exit()
 
         local_project = current_local_project()
 
         if args.system:
-            app_manager.run_system_version(godot_args)
+            app_manager.run_system_version(args.verbose, godot_args)
         elif local_project or args.local:
             if local_project:
                 print(f'{Fore.YELLOW}Found project with local version: {local_project}{Style.RESET_ALL}')
 
             try:
-                app_manager.run_project_version(godot_args)
+                app_manager.run_project_version(args.verbose, godot_args)
             except LookupError:
                 long_version = app_manager.project_long_version
                 if "custom_build" in long_version:
@@ -117,13 +117,14 @@ def main():
                     project_version = app_manager.project_version
                     if project_version:
                         app_manager.add_version(project_version)
-                        app_manager.run_project_version(godot_args)
+                        app_manager.run_project_version(args.verbose, godot_args)
                     else:
                         raise Exception(f'Project version {project_version} unrecognized')
 
         else:
             version = pick_version()
-            app_manager[version].run(godot_args)
+            if version:
+                app_manager[version].run(args.verbose, godot_args)
 
 
     if args.subparser_name == 'use':

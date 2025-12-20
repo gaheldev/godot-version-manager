@@ -110,7 +110,7 @@ Both running ```godot``` in the terminal or opening Godot's desktop application 
   
 * `gdvm run VERSION` to run a specific version
   
-* `gdvm run --system` to run the system's default
+* `gdvm run -v --system` to run the system's default and let godot print its output to terminal
 
 * `gdvm run -- <godot-arguments>` to pass any list of arguments to the godot executable
 
