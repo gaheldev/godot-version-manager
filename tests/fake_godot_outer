@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fake_version='3.3.92.dev1.official.098635476'
+
+case "$1" in
+	'-v' | '--version')
+		echo $fake_version
+		;;
+	*)
+		;;
+esac

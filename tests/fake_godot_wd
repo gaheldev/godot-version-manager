@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fake_version='4.12.stable.custom_build.2345298a'
+
+case "$1" in
+	'-v' | '--version')
+		echo $fake_version
+		;;
+	*)
+		;;
+esac

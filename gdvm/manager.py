@@ -119,7 +119,8 @@ class AppManager:
     def add(self, godot_path: str) -> GodotApp:
         # TODO: 
         #       - support multiple kind of arguments (version, version number ...)
-        #       - check app is already managed
+        # convert path to absolute path
+        godot_path = os.path.abspath(godot_path)
         return self._add_archive(godot_path)
 
 
@@ -142,7 +143,7 @@ class AppManager:
         elif os.path.isdir(godot_path):
             godot_exe = get_mono_app(godot_path)
         else:
-            print(f'{Fore.RED}{godot_path} is not valid{Style.RESET_ALL}')
+            print(f'{Fore.RED}{godot_path} is not a valid file or directory{Style.RESET_ALL}')
             abort()
 
         # make sure the file is executable
@@ -151,7 +152,7 @@ class AppManager:
         if not is_valid_app(godot_exe):
             if flag_archive:
                 os.remove(godot_path)
-            print(f'{Fore.RED}{godot_path} is not valid{Style.RESET_ALL}')
+            print(f'{Fore.RED}{godot_path} is not a compatible godot binary{Style.RESET_ALL}')
             abort()
 
         tmp_app = GodotApp(godot_exe)
